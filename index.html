@@ -3,131 +3,1246 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Farm Fresh Chicken Market</title>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:Arial,Helvetica,sans-serif;background:#fffaf5;color:#1d1d1d;line-height:1.5}
-header{position:sticky;top:0;z-index:20;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.08)}
-.nav{max-width:1100px;margin:auto;padding:14px 18px;display:flex;align-items:center;justify-content:space-between}
-.logo{font-weight:800;font-size:18px}.logo span{display:block;font-size:11px;font-weight:500;color:#777}
-nav a{text-decoration:none;color:#222;margin-left:16px;font-size:14px;font-weight:600}
-.hero{background:linear-gradient(135deg,#fff1df,#ffe3c2);padding:72px 20px 60px;text-align:center}
-.badge{display:inline-block;background:#fff;border-radius:999px;padding:7px 13px;font-size:12px;font-weight:700;margin-bottom:18px}
-.hero h1{font-size:clamp(36px,8vw,68px);line-height:1.02;margin-bottom:14px}
-.hero h1 span{color:#d9481e}
-.hero p{max-width:560px;margin:0 auto 25px;color:#555}
-.btn{display:inline-block;padding:13px 20px;border-radius:12px;text-decoration:none;font-weight:800;border:0;cursor:pointer;font-size:14px}
-.primary{background:#d9481e;color:#fff}.secondary{background:#fff;color:#222;margin-left:8px}
-section{max-width:1100px;margin:auto;padding:58px 20px}
-.section-title{text-align:center;margin-bottom:28px}
-.section-title h2{font-size:30px}.section-title p{color:#777;margin-top:6px}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.card{background:#fff;border:1px solid #eee;border-radius:18px;padding:20px;box-shadow:0 5px 20px rgba(0,0,0,.05)}
-.icon{font-size:34px;margin-bottom:10px}.card h3{font-size:17px}.price{color:#d9481e;font-weight:800;margin:8px 0 14px}
-.card input{width:100%;padding:10px;border:1px solid #ddd;border-radius:10px;margin-bottom:10px}
-.add{width:100%;background:#222;color:#fff}
-.order{background:#1f1f1f;color:#fff;border-radius:24px;padding:32px}
-.order p{color:#ccc;margin:6px 0 20px}
-.form{display:grid;grid-template-columns:1fr 1fr;gap:12px}.form input,.form textarea,.form select{width:100%;padding:13px;border-radius:10px;border:0;font-size:14px}.form textarea{grid-column:1/-1;min-height:90px}
-.form button{grid-column:1/-1}
-.contact{display:grid;grid-template-columns:1fr 1fr;gap:18px}.contact-box{background:#fff;padding:24px;border-radius:18px;border:1px solid #eee}.contact-box h3{margin-bottom:8px}.contact-box p{color:#666}
-footer{text-align:center;padding:25px;background:#111;color:#bbb;font-size:13px}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:12px 18px;border-radius:999px;display:none;z-index:50}
-@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}.contact{grid-template-columns:1fr}}
-@media(max-width:560px){nav{display:none}.hero{padding-top:52px}.grid{grid-template-columns:1fr 1fr}.card{padding:15px}.form{grid-template-columns:1fr}.form textarea,.form button{grid-column:auto}.secondary{margin-left:4px}}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#fffaf5;
+  color:#1d1d1d;
+  line-height:1.5;
+}
+
+/* HEADER */
+
+header{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:#fff;
+  box-shadow:0 2px 12px rgba(0,0,0,.08);
+}
+
+.nav{
+  max-width:1100px;
+  margin:auto;
+  padding:14px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.logo{
+  font-weight:800;
+  font-size:18px;
+}
+
+.logo span{
+  display:block;
+  font-size:11px;
+  font-weight:500;
+  color:#777;
+}
+
+nav a{
+  text-decoration:none;
+  color:#222;
+  margin-left:16px;
+  font-size:14px;
+  font-weight:600;
+}
+
+/* HERO */
+
+.hero{
+  background:linear-gradient(135deg,#fff1df,#ffe3c2);
+  padding:72px 20px 60px;
+  text-align:center;
+}
+
+.badge{
+  display:inline-block;
+  background:#fff;
+  border-radius:999px;
+  padding:7px 13px;
+  font-size:12px;
+  font-weight:700;
+  margin-bottom:18px;
+}
+
+.hero h1{
+  font-size:clamp(36px,8vw,68px);
+  line-height:1.02;
+  margin-bottom:14px;
+}
+
+.hero h1 span{
+  color:#d9481e;
+}
+
+.hero p{
+  max-width:560px;
+  margin:0 auto 25px;
+  color:#555;
+}
+
+/* BUTTONS */
+
+.btn{
+  display:inline-block;
+  padding:13px 20px;
+  border-radius:12px;
+  text-decoration:none;
+  font-weight:800;
+  border:0;
+  cursor:pointer;
+  font-size:14px;
+}
+
+.primary{
+  background:#d9481e;
+  color:#fff;
+}
+
+.secondary{
+  background:#fff;
+  color:#222;
+  margin-left:8px;
+}
+
+/* SECTIONS */
+
+section{
+  max-width:1100px;
+  margin:auto;
+  padding:58px 20px;
+}
+
+.section-title{
+  text-align:center;
+  margin-bottom:28px;
+}
+
+.section-title h2{
+  font-size:30px;
+}
+
+.section-title p{
+  color:#777;
+  margin-top:6px;
+}
+
+/* PRODUCTS */
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+}
+
+.card{
+  background:#fff;
+  border:1px solid #eee;
+  border-radius:18px;
+  padding:20px;
+  box-shadow:0 5px 20px rgba(0,0,0,.05);
+}
+
+.icon{
+  font-size:34px;
+  margin-bottom:10px;
+}
+
+.card h3{
+  font-size:17px;
+}
+
+.price{
+  color:#d9481e;
+  font-weight:800;
+  margin:8px 0 14px;
+}
+
+.add{
+  width:100%;
+  background:#222;
+  color:#fff;
+}
+
+/* ORDER */
+
+.order{
+  background:#1f1f1f;
+  color:#fff;
+  border-radius:24px;
+  padding:32px;
+}
+
+.order p{
+  color:#ccc;
+  margin:6px 0 20px;
+}
+
+.form{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.form input,
+.form textarea,
+.form select{
+  width:100%;
+  padding:13px;
+  border-radius:10px;
+  border:0;
+  font-size:14px;
+}
+
+.form textarea{
+  grid-column:1/-1;
+  min-height:90px;
+}
+
+.form button{
+  grid-column:1/-1;
+}
+
+/* LOCATION */
+
+.location-section{
+  padding-top:20px;
+}
+
+.location-container{
+  background:#fff;
+  border:1px solid #eee;
+  border-radius:22px;
+  padding:30px;
+  text-align:center;
+  box-shadow:0 5px 20px rgba(0,0,0,.05);
+}
+
+.location-container h2{
+  margin-bottom:15px;
+}
+
+.location-container h3{
+  margin-bottom:8px;
+}
+
+.location-container p{
+  color:#666;
+  margin-bottom:20px;
+}
+
+.directions-btn{
+  display:inline-block;
+  background:#d9481e;
+  color:#fff;
+  text-decoration:none;
+  padding:13px 20px;
+  border-radius:12px;
+  font-weight:800;
+}
+
+/* CONTACT */
+
+.contact{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.contact-box{
+  background:#fff;
+  padding:24px;
+  border-radius:18px;
+  border:1px solid #eee;
+}
+
+.contact-box h3{
+  margin-bottom:8px;
+}
+
+.contact-box p{
+  color:#666;
+}
+
+.contact-box a{
+  color:#d9481e;
+}
+
+/* FOOTER */
+
+footer{
+  text-align:center;
+  padding:25px;
+  background:#111;
+  color:#bbb;
+  font-size:13px;
+}
+
+/* TOAST */
+
+.toast{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#222;
+  color:#fff;
+  padding:12px 18px;
+  border-radius:999px;
+  display:none;
+  z-index:50;
+}
+
+/* MOBILE */
+
+@media(max-width:800px){
+
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .contact{
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media(max-width:560px){
+
+  nav{
+    display:none;
+  }
+
+  .hero{
+    padding-top:52px;
+  }
+
+  .grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .card{
+    padding:15px;
+  }
+
+  .form{
+    grid-template-columns:1fr;
+  }
+
+  .form textarea,
+  .form button{
+    grid-column:auto;
+  }
+
+  .secondary{
+    margin-left:4px;
+  }
+
+}
+
 </style>
 </head>
+
 <body>
+
+<!-- HEADER -->
+
 <header>
+
   <div class="nav">
-    <div class="logo">🍗 Farm Fresh Chicken Market<span>Fresh • Tender • Quality You Can Trust</span></div>
-    <nav><a href="#home">Home</a><a href="#products">Products</a><a href="#order">Order</a><a href="#contact">Contact</a></nav>
+
+    <div class="logo">
+      🍗 Farm Fresh Chicken Market
+      <span>Fresh • Tender • Quality You Can Trust</span>
+    </div>
+
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#products">Products</a>
+      <a href="#order">Order</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
   </div>
+
 </header>
 
+
 <main>
+
+<!-- HOME -->
+
 <section class="hero" id="home">
-  <div class="badge">🐔 Fresh every day</div>
-  <h1>Farm Fresh<br><span>Chicken Market</span></h1>
-  <p>Freshness you can taste. Tenderness you’ll love.</p>
-  <a class="btn primary" href="#products">Order Fresh Chicken →</a>
-  <a class="btn secondary" href="tel:8121321120">Call Us</a>
+
+  <div class="badge">
+    🐔 Fresh every day
+  </div>
+
+  <h1>
+    Farm Fresh<br>
+    <span>Chicken Market</span>
+  </h1>
+
+  <p>
+    Freshness you can taste. Tenderness you’ll love.
+  </p>
+
+  <a class="btn primary" href="#products">
+    Order Fresh Chicken →
+  </a>
+
+  <a class="btn secondary" href="tel:8121321120">
+    Call Us
+  </a>
+
 </section>
+
+
+<!-- PRODUCTS -->
 
 <section id="products">
-  <div class="section-title"><h2>Our Fresh Products</h2><p>Choose your favorite cut and add your own price later.</p></div>
-  <div class="grid">
-    <div class="card"><div class="icon">🐔</div><h3>Live Chicken</h3><div class="price">₹ 160/ kg</div><button class="btn add" onclick="add('Live Chicken')">Add to Order</button></div>
-    <div class="card"><div class="icon">🍗</div><h3>Dressed Chicken</h3><div class="price">₹ 220 / kg</div><button class="btn add" onclick="add('Dressed Chicken')">Add to Order</button></div>
-    <div class="card"><div class="icon">✨</div><h3>Skinless Chicken</h3><div class="price">₹ 240/ kg</div><button class="btn add" onclick="add('Skinless Chicken')">Add to Order</button></div>
-    <div class="card"><div class="icon">🥩</div><h3>Boneless Chicken</h3><div class="price">₹ 420/ kg</div><button class="btn add" onclick="add('Boneless Chicken')">Add to Order</button></div>
-    <div class="card"><div class="icon">🍗</div><h3>Drumsticks</h3><div class="price">₹ 300/ kg</div><button class="btn add" onclick="add('Drumsticks')">Add to Order</button></div>
-    <div class="card"><div class="icon">🍗</div><h3>Chicken Lollipops</h3><div class="price">₹ 300/ kg</div><button class="btn add" onclick="add('Chicken Lollipops')">Add to Order</button></div>
-    <div class="card"><div class="icon">🍗</div><h3>Legs &amp; Breast</h3><div class="price">₹ 280/ kg</div><button class="btn add" onclick="add('Legs & Breast')">Add to Order</button></div>
-    <div class="card"><div class="icon">❤️</div><h3>Chicken Liver</h3><div class="price">₹ 140 / kg</div><button class="btn add" onclick="add('Chicken Liver')">Add to Order</button></div>
+
+  <div class="section-title">
+
+    <h2>Our Fresh Products</h2>
+
+    <p>
+      Choose your favorite chicken cut and place your order.
+    </p>
+
   </div>
+
+
+  <div class="grid">
+
+
+    <!-- LIVE -->
+
+    <div class="card">
+
+      <div class="icon">🐔</div>
+
+      <h3>
+        Live Chicken
+      </h3>
+
+      <div class="price">
+        ₹ 160 / kg
+      </div>
+
+      <button
+        class="btn add"
+        onclick="add('Live Chicken')">
+        Add to Order
+      </button>
+
+    </div>
+
+
+    <!-- DRESSED -->
+
+    <div class="card">
+
+      <div class="icon">🍗</div>
+
+      <h3>
+        Dressed Chicken
+      </h3>
+
+      <div class="price">
+        ₹ 220 / kg
+      </div>
+
+      <button
+        class="btn add"
+        onclick="add('Dressed Chicken')">
+        Add to Order
+      </button>
+
+    </div>
+
+
+    <!-- SKINLESS -->
+
+    <div class="card">
+
+      <div class="icon">✨</div>
+
+      <h3>
+        Skinless Chicken
+      </h3>
+
+      <div class="price">
+        ₹ 240 / kg
+      </div>
+
+      <button
+        class="btn add"
+        onclick="add('Skinless Chicken')">
+        Add to Order
+      </button>
+
+    </div>
+
+
+    <!-- BONELESS -->
+
+    <div class="card">
+
+      <div class="icon">🥩</div>
+
+      <h3>
+        Boneless Chicken
+      </h3>
+
+      <div class="price">
+        ₹ 420 / kg
+      </div>
+
+      <button
+        class="btn add"
+        onclick="add('Boneless Chicken')">
+        Add to Order
+      </button>
+
+    </div>
+
+
+    <!-- DRUMSTICKS -->
+
+    <div class="card">
+
+      <div class="icon">🍗</div>
+
+      <h3>
+        Drumsticks
+      </h3>
+
+      <div class="price">
+        ₹ 300 / kg
+      </div>
+
+      <button
+        class="btn add"
+        onclick="add('Drumsticks')">
+        Add to Order
+      </button>
+
+    </div>
+
+
+    <!-- LOLLIPOPS -->
+
+    <div class="card">
+
+      <div class="icon">🍗</div>
+
+      <h3>
+        Chicken Lollipops
+      </h3>
+
+      <div class="price">
+        ₹ 300 / kg
+      </div>
+
+      <button
+        class="btn add"
+        onclick="add('Chicken Lollipops')">
+        Add to Order
+      </button>
+
+    </div>
+
+
+    <!-- LEGS & BREAST -->
+
+    <div class="card">
+
+      <div class="icon">🍗</div>
+
+      <h3>
+        Legs &amp; Breast
+      </h3>
+
+      <div class="price">
+        ₹ 280 / kg
+      </div>
+
+      <button
+        class="btn add"
+        onclick="add('Legs & Breast')">
+        Add to Order
+      </button>
+
+    </div>
+
+
+    <!-- LIVER -->
+
+    <div class="card">
+
+      <div class="icon">❤️</div>
+
+      <h3>
+        Chicken Liver
+      </h3>
+
+      <div class="price">
+        ₹ 140 / kg
+      </div>
+
+      <button
+        class="btn add"
+        onclick="add('Chicken Liver')">
+        Add to Order
+      </button>
+
+    </div>
+
+
+  </div>
+
 </section>
+
+
+<!-- ORDER -->
 
 <section id="order">
+
   <div class="order">
-    <h2>📦 Place Your Order</h2>
-    <p>Select a product above or type your order below.</p>
+
+    <h2>
+      📦 Place Your Order
+    </h2>
+
+    <p>
+      Select a product above or type your order below.
+    </p>
+
+
     <div class="form">
-      <input id="name" placeholder="Your name">
-      <input id="phone" placeholder="Phone number">
-      <select id="product"><option value="">Select product</option>
-        <option>Live Chicken</option><option>Dressed Chicken</option><option>Skinless Chicken</option><option>Boneless Chicken</option><option>Drumsticks</option><option>Chicken Lollipops</option><option>Legs & Breast</option><option>Chicken Liver</option>
+
+
+      <input
+        id="name"
+        type="text"
+        placeholder="Your name"
+      >
+
+
+      <input
+        id="phone"
+        type="tel"
+        placeholder="Phone number"
+      >
+
+
+      <select id="product">
+
+        <option value="">
+          Select product
+        </option>
+
+        <option>
+          Live Chicken
+        </option>
+
+        <option>
+          Dressed Chicken
+        </option>
+
+        <option>
+          Skinless Chicken
+        </option>
+
+        <option>
+          Boneless Chicken
+        </option>
+
+        <option>
+          Drumsticks
+        </option>
+
+        <option>
+          Chicken Lollipops
+        </option>
+
+        <option>
+          Legs & Breast
+        </option>
+
+        <option>
+          Chicken Liver
+        </option>
+
       </select>
-      <input id="qty" placeholder="Quantity (e.g. 2 kg)">
-      <textarea id="address" placeholder="Delivery address / pickup note"></textarea>
-      <button class="btn primary" onclick="sendOrder()">Send Order on WhatsApp →</button>
+
+
+      <input
+        id="qty"
+        type="text"
+        placeholder="Quantity (e.g. 2 kg)"
+      >
+
+
+      <textarea
+        id="address"
+        placeholder="Delivery address / pickup note"
+      ></textarea>
+
+
+      <!-- MAIN ORDER BUTTON -->
+
+      <button
+        class="btn primary"
+        onclick="sendOrder()">
+
+        Send Order on WhatsApp →
+
+      </button>
+
+
     </div>
+
   </div>
+
 </section>
+
+
+<!-- LOCATION -->
+
+<section
+  id="location"
+  class="location-section"
+>
+
+  <div class="location-container">
+
+    <h2>
+      📍 Our Location
+    </h2>
+
+    <h3>
+      Farm Fresh Chicken Market
+    </h3>
+
+    <p>
+
+      High-Tension Line Rd, Kondapur,<br>
+
+      Hanuman Nagar, Raghavendra Colony,<br>
+
+      Gachibowli, Hyderabad,<br>
+
+      Telangana – 500084
+
+    </p>
+
+
+    <a
+      href="https://maps.app.goo.gl/FEYic1oimazVzHEh7?g_st=ac"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="directions-btn"
+    >
+
+      📍 Get Directions
+
+    </a>
+
+  </div>
+
+</section>
+
+
+<!-- CONTACT -->
 
 <section id="contact">
-  <div class="section-title"><h2>Visit or Contact Us</h2><p>We’re ready for your fresh chicken order.</p></div>
-  <div class="contact">
-    <div class="contact-box"><h3>📍 Shop Location</h3><p>Kondapur, Raghavendra Colony,<br>Near 1st Pole, Hyderabad</p></div>
-    <div class="contact-box"><h3>📞 Call / WhatsApp</h3><p><a href="tel:8121321120">8121321120</a></p><br><a class="btn primary" href="https://wa.me/918121321120">WhatsApp Us</a></div>
+
+  <div class="section-title">
+
+    <h2>
+      Visit or Contact Us
+    </h2>
+
+    <p>
+      We’re ready for your fresh chicken order.
+    </p>
+
   </div>
+
+
+  <div class="contact">
+
+
+    <div class="contact-box">
+
+      <h3>
+        📍 Shop Location
+      </h3>
+
+      <p>
+
+        Kondapur, Raghavendra Colony,<br>
+
+        Near 1st Pole, Hyderabad
+
+      </p>
+
+    </div>
+
+
+    <div class="contact-box">
+
+      <h3>
+        📞 Call / WhatsApp
+      </h3>
+
+      <p>
+
+        <a href="tel:8121321120">
+          8121321120
+        </a>
+
+      </p>
+
+      <br>
+
+
+      <a
+        class="btn primary"
+        href="https://wa.me/918121321120"
+        target="_blank"
+      >
+
+        WhatsApp Us
+
+      </a>
+
+    </div>
+
+
+  </div>
+
 </section>
+
 </main>
 
-<footer>© 2026 Farm Fresh Chicken Market • Fresh • Tender • Quality You Can Trust</footer>
-<div class="toast" id="toast"></div>
+
+<!-- FOOTER -->
+
+<footer>
+
+  © 2026 Farm Fresh Chicken Market
+  • Fresh • Tender • Quality You Can Trust
+
+</footer>
+
+
+<!-- TOAST -->
+
+<div
+  class="toast"
+  id="toast"
+></div>
+
+
+<!-- JAVASCRIPT -->
 
 <script>
-let selected='';
+
+
+/* SELECTED PRODUCT */
+
+let selected = "";
+
+
+/* ADD PRODUCT TO ORDER */
+
 function add(product){
-  selected=product;
-  document.getElementById('product').value=product;
-  document.getElementById('order').scrollIntoView({behavior:'smooth'});
-  show(product+' added to your order');
+
+  selected = product;
+
+  document.getElementById("product").value = product;
+
+  document
+    .getElementById("order")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+  show(
+    product + " added to your order"
+  );
+
 }
+
+
+/* TOAST MESSAGE */
+
 function show(msg){
-  const t=document.getElementById('toast'); t.textContent=msg; t.style.display='block';
-  setTimeout(()=>t.style.display='none',1800);
+
+  const toast =
+    document.getElementById("toast");
+
+  toast.textContent = msg;
+
+  toast.style.display = "block";
+
+  setTimeout(
+    () => {
+      toast.style.display = "none";
+    },
+    2000
+  );
+
 }
+
+
+/* CALCULATE DISTANCE */
+
+function calculateDistance(
+  lat1,
+  lon1,
+  lat2,
+  lon2
+){
+
+  const earthRadius = 6371;
+
+
+  const dLat =
+    (lat2 - lat1) *
+    Math.PI / 180;
+
+
+  const dLon =
+    (lon2 - lon1) *
+    Math.PI / 180;
+
+
+  const a =
+
+    Math.sin(dLat / 2) *
+    Math.sin(dLat / 2)
+
+    +
+
+    Math.cos(lat1 * Math.PI / 180) *
+
+    Math.cos(lat2 * Math.PI / 180) *
+
+    Math.sin(dLon / 2) *
+
+    Math.sin(dLon / 2);
+
+
+  const c =
+
+    2 *
+    Math.atan2(
+      Math.sqrt(a),
+      Math.sqrt(1 - a)
+    );
+
+
+  return earthRadius * c;
+
+}
+
+
+/* SEND ORDER */
+
 function sendOrder(){
-  const name=document.getElementById('name').value.trim();
-  const phone=document.getElementById('phone').value.trim();
-  const product=document.getElementById('product').value;
-  const qty=document.getElementById('qty').value.trim();
-  const address=document.getElementById('address').value.trim();
-  if(!name||!phone||!product||!qty){show('Please fill name, phone, product and quantity');return;}
-  const msg=`Hello Farm Fresh Chicken Market!%0A%0AName: ${encodeURIComponent(name)}%0APhone: ${encodeURIComponent(phone)}%0AProduct: ${encodeURIComponent(product)}%0AQuantity: ${encodeURIComponent(qty)}%0AAddress/Note: ${encodeURIComponent(address||'Pickup')}`;
-  window.open('https://wa.me/918121321120?text='+msg,'_blank');
+
+
+  /* GET FORM VALUES */
+
+  const name =
+    document
+      .getElementById("name")
+      .value
+      .trim();
+
+
+  const phone =
+    document
+      .getElementById("phone")
+      .value
+      .trim();
+
+
+  const product =
+    document
+      .getElementById("product")
+      .value;
+
+
+  const qty =
+    document
+      .getElementById("qty")
+      .value
+      .trim();
+
+
+  const address =
+    document
+      .getElementById("address")
+      .value
+      .trim();
+
+
+  /* CHECK REQUIRED FIELDS */
+
+  if(
+    !name ||
+    !phone ||
+    !product ||
+    !qty
+  ){
+
+    show(
+      "Please fill name, phone, product and quantity"
+    );
+
+    return;
+
+  }
+
+
+  /* CHECK LOCATION SUPPORT */
+
+  if(
+    !navigator.geolocation
+  ){
+
+    alert(
+      "❌ Your browser does not support location access."
+    );
+
+    return;
+
+  }
+
+
+  /* SHOW CHECKING MESSAGE */
+
+  show(
+    "📍 Checking your location..."
+  );
+
+
+  /* GET CUSTOMER LOCATION */
+
+  navigator.geolocation.getCurrentPosition(
+
+    function(position){
+
+
+      /* CUSTOMER LOCATION */
+
+      const customerLatitude =
+        position.coords.latitude;
+
+
+      const customerLongitude =
+        position.coords.longitude;
+
+
+      /* FARM FRESH CHICKEN MARKET */
+
+      const shopLatitude =
+        17.470028;
+
+
+      const shopLongitude =
+        78.364139;
+
+
+      /* CALCULATE DISTANCE */
+
+      const distance =
+        calculateDistance(
+
+          customerLatitude,
+          customerLongitude,
+
+          shopLatitude,
+          shopLongitude
+
+        );
+
+
+      /* 2 KM CHECK */
+
+      if(
+        distance <= 2
+      ){
+
+
+        /* DELIVERY AVAILABLE */
+
+        const msg =
+
+          "Hello Farm Fresh Chicken Market!%0A%0A" +
+
+          "Name: " +
+          encodeURIComponent(name) +
+
+          "%0A" +
+
+          "Phone: " +
+          encodeURIComponent(phone) +
+
+          "%0A" +
+
+          "Product: " +
+          encodeURIComponent(product) +
+
+          "%0A" +
+
+          "Quantity: " +
+          encodeURIComponent(qty) +
+
+          "%0A" +
+
+          "Address/Note: " +
+          encodeURIComponent(
+            address || "Pickup"
+          ) +
+
+          "%0A%0A" +
+
+          "Distance from shop: " +
+          distance.toFixed(2) +
+          " km";
+
+
+        /* SUCCESS MESSAGE */
+
+        show(
+          "✅ Delivery available! Opening WhatsApp..."
+        );
+
+
+        /* OPEN WHATSAPP */
+
+        setTimeout(
+          function(){
+
+            window.location.href =
+              "https://wa.me/918121321120?text=" +
+              msg;
+
+          },
+          700
+        );
+
+
+      }
+
+      else{
+
+
+        /* DELIVERY NOT AVAILABLE */
+
+        alert(
+
+          "❌ Delivery Not Available\n\n" +
+
+          "You are approximately " +
+          distance.toFixed(2) +
+          " km from our Kondapur branch.\n\n" +
+
+          "🚚 We currently deliver only within 2 km."
+
+        );
+
+      }
+
+    },
+
+
+    /* LOCATION ERROR */
+
+    function(error){
+
+      if(
+        error.code === 1
+      ){
+
+        alert(
+          "⚠️ Location permission is required to place an order.\n\nPlease allow location access and try again."
+        );
+
+      }
+
+      else if(
+        error.code === 2
+      ){
+
+        alert(
+          "❌ Your location could not be detected.\n\nPlease check your phone's location/GPS and try again."
+        );
+
+      }
+
+      else if(
+        error.code === 3
+      ){
+
+        alert(
+          "❌ Location request timed out.\n\nPlease try again."
+        );
+
+      }
+
+      else{
+
+        alert(
+          "❌ Unable to get your location.\n\nPlease try again."
+        );
+
+      }
+
+    },
+
+
+    /* LOCATION SETTINGS */
+
+    {
+
+      enableHighAccuracy:true,
+
+      timeout:10000,
+
+      maximumAge:0
+
+    }
+
+  );
+
 }
+
 </script>
-  <!-- LOCATION SECTION --><section id="location" class="location-section">
-  <div class="location-container"><h2>📍 Our Location</h2>
 
-<h3>Farm Fresh Chicken Market</h3>
 
-<p>
-  High-Tension Line Rd, Kondapur,<br>
-  Hanuman Nagar, Raghavendra Colony,<br>
-  Gachibowli, Hyderabad, Telangana – 500084
-  
+</body>
+</html>
