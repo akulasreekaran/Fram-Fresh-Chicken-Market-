@@ -145,4 +145,156 @@ function sendOrder(){
 </section>
 <!-- END LOCATION SECTION -->
 </body>
+  <!-- AUTOMATIC 2 KM DELIVERY CHECK --><section id="delivery-check" class="delivery-check">  <h2>📍 Check Delivery Availability</h2>  <p>
+    We currently deliver within <strong>2 km</strong> of our
+    <strong>Kondapur branch</strong>.
+  </p>  <button onclick="checkDelivery()">
+    📍 Check My Location
+  </button>  <div id="delivery-result"></div></section><script>
+
+function calculateDistance(lat1, lon1, lat2, lon2) {
+
+  const earthRadius = 6371; // Kilometres
+
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * Math.PI / 180) *
+    Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+  const c =
+    2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  return earthRadius * c;
+}
+
+
+function checkDelivery() {
+
+  const result = document.getElementById("delivery-result");
+
+  if (!navigator.geolocation) {
+
+    result.innerHTML =
+      "<p>❌ Location is not supported by your browser.</p>";
+
+    return;
+  }
+
+  result.innerHTML =
+    "<p>📍 Checking your location...</p>";
+
+
+  navigator.geolocation.getCurrentPosition(
+
+    function(position) {
+
+      const customerLatitude =
+        position.coords.latitude;
+
+      const customerLongitude =
+        position.coords.longitude;
+
+
+      // FARM FRESH CHICKEN MARKET - KONDAPUR
+      const shopLatitude = 17.470028;
+      const shopLongitude = 78.364139;
+
+
+      const distance = calculateDistance(
+        customerLatitude,
+        customerLongitude,
+        shopLatitude,
+        shopLongitude
+      );
+
+
+      if (distance <= 2) {
+
+        result.innerHTML = `
+          <div class="delivery-available">
+
+            <h3>✅ Delivery Available!</h3>
+
+            <p>
+              You are approximately
+              <strong>${distance.toFixed(2)} km</strong>
+              from our Kondapur branch.
+            </p>
+
+            <p>
+              🎉 Great! You can place your order.
+            </p>
+
+            <button onclick="placeOrder()">
+              🛒 Order Now
+            </button>
+
+          </div>
+        `;
+
+      } else {
+
+        result.innerHTML = `
+          <div class="delivery-unavailable">
+
+            <h3>❌ Delivery Not Available</h3>
+
+            <p>
+              You are approximately
+              <strong>${distance.toFixed(2)} km</strong>
+              from our Kondapur branch.
+            </p>
+
+            <p>
+              🚚 We currently deliver only within
+              <strong>2 km</strong>.
+            </p>
+
+          </div>
+        `;
+
+      }
+
+    },
+
+    function(error) {
+
+      if (error.code === 1) {
+
+        result.innerHTML =
+          "<p>⚠️ Please allow location access to check delivery availability.</p>";
+
+      } else {
+
+        result.innerHTML =
+          "<p>❌ Unable to get your location. Please try again.</p>";
+
+      }
+
+    },
+
+    {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 0
+    }
+
+  );
+
+}
+
+
+function placeOrder() {
+
+  // We'll connect this to your actual order system later.
+
+  alert("✅ You can place your order!");
+
+}
+
+</script><!-- END AUTOMATIC 2 KM DELIVERY CHECK -->
 </html>
