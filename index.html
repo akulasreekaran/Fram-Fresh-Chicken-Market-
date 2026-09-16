@@ -1831,8 +1831,11 @@
 <!-- ================================= -->
 
 <script>
-
 let locationVerified = false;
+
+let customerLatitude = null;
+let customerLongitude = null;
+let distanceFromShop = null;
 
 const SHOP_LATITUDE = 17.470218;
 const SHOP_LONGITUDE = 78.364172;
@@ -2260,6 +2263,9 @@ async function checkRecipientAddress() {
         SHOP_LATITUDE,
         SHOP_LONGITUDE
       );
+    customerLatitude = latitude;
+customerLongitude = longitude;
+distanceFromShop = distance;
 
 
     if (
@@ -2880,85 +2886,189 @@ function showCustomerConfirmation() {
 /* CONFIRM ORDER */
 /* ================================= */
 
-function confirmOrder() {
+async function confirmOrder() {
 
   const message =
-    document.getElementById(
-      "confirmationMessage"
-    );
-
+    document.getElementById("confirmationMessage");
 
   /* Check cart */
-
   if (
     typeof cart === "undefined" ||
     cart.length === 0
   ) {
-
     message.innerText =
       "❌ Please add products to your cart.";
-
     message.style.color = "red";
-
     return;
   }
-
 
   /* Check location */
-
   if (locationVerified !== true) {
-
     message.innerText =
       "❌ Please verify that your location is within 2 km of our shop.";
-
     message.style.color = "red";
-
     return;
   }
-
 
   /* Check customer details */
-
   const name =
-    document.getElementById("customerName")
-      .value.trim();
+    document.getElementById("customerName").value.trim();
 
   const phone =
-    document.getElementById("customerPhone")
-      .value.trim();
+    document.getElementById("customerPhone").value.trim();
 
   const address =
-    document.getElementById("customerAddress")
-      .value.trim();
+    document.getElementById("customerAddress").value.trim();
 
   const landmark =
-    document.getElementById("customerLandmark")
-      .value.trim();
-
+    document.getElementById("customerLandmark").value.trim();
 
   if (!name || !phone || !address || !landmark) {
-
     message.innerText =
       "❌ Please complete all customer details.";
-
     message.style.color = "red";
-
     return;
   }
 
+  /* Calculate total */
+  let total = 0;
 
-  /* Everything is ready */
+  const items = cart.map(function(item) {
 
-  message.innerText =
-    "✅ Order details confirmed!";
+    const itemTotal =
+      item.price * item.quantity;
 
-  message.style.color =
-    "green";
+    total += itemTotal;
 
+    return {
+      product: item.name,
+      quantity: item.quantity,
+      price: item.price
+    };
 
-  showOrderConfirmation();
+  });
 
-  showCustomerConfirmation();
+  /* Save order to Firebase */
+  try {
+
+    message.innerText =
+      "⏳ Confirming your order...";
+
+    message.style.color = "#222";
+
+    const orderData = {
+
+      name: name,
+      phone: phone,
+
+      deliveryAddress: address,
+      landmark: landmark,
+
+      items: items,
+      total: total,
+  customerLatitude:
+  customerLatitude,
+
+customerLongitude:
+  customerLongitude,
+
+distance:
+  distanceFromShop,
+
+      status: "new",
+
+      createdAt:
+        new Date().toISOString()
+
+    };
+
+    await window.saveOrderToFirebase(
+      orderData
+    );
+
+    /* Success */
+    message.innerText =
+      "✅ Order confirmed successfully!";
+
+    message.style.color =
+      "green";
+
+    /* 5-second confirmation beep */
+    try {
+
+      const AudioContext =
+        window.AudioContext ||
+        window.webkitAudioContext;
+
+      if (AudioContext) {
+
+        const audioContext =
+          new AudioContext();
+
+        await audioContext.resume();
+
+        const oscillator =
+          audioContext.createOscillator();
+
+        const gainNode =
+          audioContext.createGain();
+
+        oscillator.type = "sine";
+
+        oscillator.frequency.value =
+          800;
+
+        gainNode.gain.value =
+          0.25;
+
+        oscillator.connect(gainNode);
+
+        gainNode.connect(
+          audioContext.destination
+        );
+
+        oscillator.start();
+
+        oscillator.stop(
+          audioContext.currentTime + 5
+        );
+
+        oscillator.onended =
+          function() {
+            audioContext.close();
+          };
+
+      }
+
+    } catch (soundError) {
+
+      console.log(
+        "Confirmation sound could not play:",
+        soundError
+      );
+
+    }
+
+    showOrderConfirmation();
+
+    showCustomerConfirmation();
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Firebase order error:",
+      error
+    );
+
+    message.innerText =
+      "❌ Order could not be saved. Please try again.";
+
+    message.style.color =
+      "red";
+
+  }
 
 }
 
