@@ -1670,6 +1670,15 @@
 <!-- PART 9 - CUSTOMER DETAILS -->
 <!-- ================================= -->
 
+
+
+      
+
+  
+<!-- ================================= -->
+<!-- PART 9 - CUSTOMER DETAILS -->
+<!-- ================================= -->
+
 <section id="customer-details" class="customer-section">
 
   <div class="customer-container">
@@ -1780,9 +1789,8 @@
           of our Kondapur shop.
         </p>
 
-        <p>
-          If you are ordering for someone else,
-          we check the delivery location.
+        <p id="locationHelpText">
+          Click below to verify your delivery location.
         </p>
 
         <button
@@ -1860,9 +1868,6 @@
   resize: vertical;
 }
 
-
-/* ORDER TYPE */
-
 .order-type-box {
   display: flex;
   gap: 15px;
@@ -1882,9 +1887,6 @@
   width: auto !important;
   margin: 0 8px 0 0 !important;
 }
-
-
-/* LOCATION */
 
 .location-check-box {
   background: #fff8f0;
@@ -1914,6 +1916,12 @@
   color: white;
   font-weight: bold;
   font-size: 15px;
+  cursor: pointer;
+}
+
+#checkLocationButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .location-status {
@@ -1921,9 +1929,6 @@
   font-weight: bold;
   text-align: center;
 }
-
-
-/* CONTINUE */
 
 .continue-order-button {
   width: 100%;
@@ -1934,6 +1939,7 @@
   color: #222;
   font-weight: bold;
   font-size: 16px;
+  cursor: pointer;
 }
 
 @media (max-width: 600px) {
@@ -1953,8 +1959,6 @@
 }
 
 </style>
-
-<!-- ============================= -->
 
 <!-- ================================= -->
 <!-- PART 10 - DELIVERY LOCATION CHECK -->
