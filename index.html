@@ -4422,3 +4422,68 @@ document.addEventListener(
 );
 
 </script>
+  <script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+
+import {
+  getDatabase,
+  ref,
+  push,
+  set
+}
+from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
+
+
+const firebaseConfig = {
+
+  apiKey:
+    "AIzaSyCcKIDaVUTCzin0tP6oN16ABrexjGOS50M",
+
+  authDomain:
+    "farm-fresh-chicken-market.firebaseapp.com",
+
+  databaseURL:
+    "https://farm-fresh-chicken-market-default-rtdb.firebaseio.com",
+
+  projectId:
+    "farm-fresh-chicken-market",
+
+  storageBucket:
+    "farm-fresh-chicken-market.firebasestorage.app",
+
+  messagingSenderId:
+    "184530252526",
+
+  appId:
+    "1:184530252526:web:f7427c6a46eb76201df9ff"
+
+};
+
+
+const app =
+  initializeApp(firebaseConfig);
+
+const database =
+  getDatabase(app);
+
+
+window.saveOrderToFirebase =
+  async function(orderData) {
+
+    const ordersRef =
+      ref(database, "orders");
+
+    const newOrderRef =
+      push(ordersRef);
+
+    await set(
+      newOrderRef,
+      orderData
+    );
+
+    return newOrderRef.key;
+  };
+
+  </script>
