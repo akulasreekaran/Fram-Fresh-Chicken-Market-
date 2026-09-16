@@ -1525,155 +1525,6 @@
 
 </style>
 <!-- ============================= -->
-<!-- PART 9 — CUSTOMER DETAILS -->
-<!-- ============================= -->
-
-<section
-  id="customer-details"
-  class="customer-section"
->
-
-  <div class="customer-container">
-
-    <h2 class="section-title">
-      👤 Customer Details
-    </h2>
-
-    <p class="section-subtitle">
-      Enter your details for delivery.
-    </p>
-
-
-    <div class="customer-box">
-
-
-      <!-- NAME -->
-
-      <label for="customerName">
-        Name
-      </label>
-
-      <input
-        id="customerName"
-        type="text"
-        placeholder="Enter your name"
-        autocomplete="name"
-      >
-
-
-      <!-- MOBILE NUMBER -->
-
-      <label for="customerPhone">
-        Mobile Number
-      </label>
-
-      <input
-        id="customerPhone"
-        type="tel"
-        maxlength="10"
-        inputmode="numeric"
-        placeholder="Enter 10-digit mobile number"
-        autocomplete="tel"
-      >
-
-
-      <!-- DELIVERY ADDRESS -->
-
-      <label for="customerAddress">
-        Delivery Address
-      </label>
-
-      <textarea
-        id="customerAddress"
-        rows="4"
-        placeholder="Enter your complete delivery address"
-        autocomplete="street-address"
-      ></textarea>
-
-
-      <!-- LANDMARK -->
-
-      <label for="customerLandmark">
-        Landmark
-      </label>
-
-      <input
-        id="customerLandmark"
-        type="text"
-        placeholder="Enter nearby landmark"
-      >
-
-
-      <!-- LOCATION CHECK AREA -->
-
-      <div class="location-check-box">
-
-        <h3>
-          📍 Delivery Location
-        </h3>
-
-        <p>
-          Delivery is currently available within
-          2 km of our Kondapur shop.
-        </p>
-
-        <button
-          type="button"
-          id="checkLocationButton"
-          onclick="checkCustomerLocation()"
-        >
-          📍 Check My Location
-        </button>
-
-        <div
-          id="locationStatus"
-          class="location-status"
-        >
-        </div>
-
-      </div>
-
-
-      <!-- CONTINUE BUTTON -->
-
-      <button
-        type="button"
-        class="continue-order-button"
-        onclick="validateCustomerDetails()"
-      >
-        ✅ Continue Order
-      </button>
-
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ============================= -->
-<!-- PART 9 — CUSTOMER CSS -->
-<!-- ============================= -->
-
-<style>
-
-  .customer-section {
-
-    padding: 55px 20px;
-
-    background: #ffffff;
-
-  }
-
-
-  .customer-container {
-
-    max-width: 900px;
-
-    margin: auto;
-
-  }
 
 
   .customer-box {
@@ -1872,194 +1723,297 @@
 
 </style>
 <!-- ============================= -->
-<!-- CUSTOMER DETAILS JAVASCRIPT -->
-<!-- ============================= -->
-
-<script>
-
-function validateCustomerDetails() {
-
-  const name =
-    document.getElementById("customerName").value.trim();
-
-  const phone =
-    document.getElementById("customerPhone").value.trim();
-
-  const address =
-    document.getElementById("customerAddress").value.trim();
-
-  const landmark =
-    document.getElementById("customerLandmark").value.trim();
 
 
-  if (name === "") {
+    
+<!-- ================================= -->
+<!-- PART 9 - CUSTOMER DETAILS -->
+<!-- ================================= -->
 
-    alert("Please enter your name.");
+<section id="customer-details" class="customer-section">
 
-    document.getElementById("customerName").focus();
+  <div class="customer-container">
 
-    return;
+    <h2 class="section-title">👤 Customer Details</h2>
 
-  }
+    <p class="section-subtitle">
+      Enter the details of the person receiving the order.
+    </p>
+
+    <div class="customer-box">
+
+      <!-- ORDER TYPE -->
+
+      <label>Who is receiving the order?</label>
+
+      <div class="order-type-box">
+
+        <label class="radio-option">
+          <input
+            type="radio"
+            name="orderType"
+            value="myself"
+            checked
+            onchange="changeOrderType()"
+          >
+          👤 Myself
+        </label>
+
+        <label class="radio-option">
+          <input
+            type="radio"
+            name="orderType"
+            value="someone"
+            onchange="changeOrderType()"
+          >
+          🎁 Someone Else
+        </label>
+
+      </div>
 
 
-  if (!/^[0-9]{10}$/.test(phone)) {
+      <!-- NAME -->
 
-    alert("Please enter a valid 10-digit mobile number.");
+      <label for="customerName">
+        Recipient Name
+      </label>
 
-    document.getElementById("customerPhone").focus();
-
-    return;
-
-  }
-
-
-  if (address === "") {
-
-    alert("Please enter your delivery address.");
-
-    document.getElementById("customerAddress").focus();
-
-    return;
-
-  }
+      <input
+        id="customerName"
+        type="text"
+        placeholder="Enter recipient name"
+        autocomplete="name"
+      >
 
 
-  if (landmark === "") {
+      <!-- PHONE -->
 
-    alert("Please enter a nearby landmark.");
+      <label for="customerPhone">
+        Recipient Mobile Number
+      </label>
 
-    document.getElementById("customerLandmark").focus();
+      <input
+        id="customerPhone"
+        type="tel"
+        maxlength="10"
+        inputmode="numeric"
+        placeholder="Enter 10-digit mobile number"
+        autocomplete="tel"
+      >
 
-    return;
 
-  }
+      <!-- ADDRESS -->
+
+      <label for="customerAddress">
+        Delivery Address
+      </label>
+
+      <textarea
+        id="customerAddress"
+        rows="4"
+        placeholder="Enter complete delivery address"
+        autocomplete="street-address"
+      ></textarea>
 
 
-  alert(
-    "Customer details are valid! ✅\n\n" +
-    "Next step: confirm your order."
-  );
+      <!-- LANDMARK -->
 
+      <label for="customerLandmark">
+        Landmark
+      </label>
+
+      <input
+        id="customerLandmark"
+        type="text"
+        placeholder="Enter nearby landmark"
+      >
+
+
+      <!-- DELIVERY LOCATION -->
+
+      <div class="location-check-box">
+
+        <h3>📍 Delivery Location</h3>
+
+        <p>
+          Delivery is available within 2 km
+          of our Kondapur shop.
+        </p>
+
+        <p>
+          If you are ordering for someone else,
+          we check the delivery location.
+        </p>
+
+        <button
+          type="button"
+          id="checkLocationButton"
+          onclick="checkDeliveryLocation()"
+        >
+          📍 Check Delivery Location
+        </button>
+
+        <div
+          id="locationStatus"
+          class="location-status"
+        ></div>
+
+      </div>
+
+
+      <!-- CONTINUE -->
+
+      <button
+        type="button"
+        class="continue-order-button"
+        onclick="continueToConfirmation()"
+      >
+        ✅ Continue Order
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<style>
+
+.customer-section {
+  padding: 55px 20px;
+  background: #fff;
+}
+
+.customer-container {
+  max-width: 900px;
+  margin: auto;
+}
+
+.customer-box {
+  background: white;
+  padding: 28px;
+  border-radius: 15px;
+  box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+  border: 1px solid #eee;
+}
+
+.customer-box label {
+  display: block;
+  margin-bottom: 7px;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.customer-box input,
+.customer-box textarea {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 18px;
+  font-size: 16px;
+  outline: none;
+}
+
+.customer-box textarea {
+  resize: vertical;
 }
 
 
-function checkCustomerLocation() {
+/* ORDER TYPE */
 
-  const status =
-    document.getElementById("locationStatus");
+.order-type-box {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
 
-  const button =
-    document.getElementById("checkLocationButton");
+.radio-option {
+  flex: 1;
+  background: #fff8f0;
+  border: 1px solid #f0dfc8;
+  border-radius: 10px;
+  padding: 15px !important;
+  cursor: pointer;
+}
+
+.radio-option input {
+  width: auto !important;
+  margin: 0 8px 0 0 !important;
+}
 
 
-  if (!navigator.geolocation) {
+/* LOCATION */
 
-    status.innerHTML =
-      "❌ Location is not supported by this browser.";
+.location-check-box {
+  background: #fff8f0;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  border: 1px solid #f0dfc8;
+}
 
-    return;
+.location-check-box h3 {
+  margin-bottom: 6px;
+  font-size: 19px;
+}
 
+.location-check-box p {
+  color: #666;
+  margin-bottom: 10px;
+}
+
+#checkLocationButton {
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: 9px;
+  background: #222;
+  color: white;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.location-status {
+  margin-top: 12px;
+  font-weight: bold;
+  text-align: center;
+}
+
+
+/* CONTINUE */
+
+.continue-order-button {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  background: #ffcc00;
+  color: #222;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+@media (max-width: 600px) {
+
+  .customer-section {
+    padding: 40px 15px;
   }
 
+  .customer-box {
+    padding: 20px 15px;
+  }
 
-  status.innerHTML =
-    "📍 Checking your location...";
-
-
-  button.disabled = true;
-
-  button.innerText =
-    "Checking Location...";
-
-
-  navigator.geolocation.getCurrentPosition(
-
-    function(position) {
-
-      const latitude =
-        position.coords.latitude;
-
-      const longitude =
-        position.coords.longitude;
-
-
-      status.innerHTML =
-        "📍 Location detected successfully! ✅";
-
-
-      button.disabled = false;
-
-      button.innerText =
-        "📍 Location Checked";
-
-
-      console.log(
-        "Customer Latitude:",
-        latitude
-      );
-
-      console.log(
-        "Customer Longitude:",
-        longitude
-      );
-
-    },
-
-
-    function(error) {
-
-      button.disabled = false;
-
-      button.innerText =
-        "📍 Check My Location";
-
-
-      if (error.code === 1) {
-
-        status.innerHTML =
-          "❌ Location permission was denied. Please allow location access.";
-
-      }
-
-      else if (error.code === 2) {
-
-        status.innerHTML =
-          "❌ Unable to detect your location.";
-
-      }
-
-      else if (error.code === 3) {
-
-        status.innerHTML =
-          "❌ Location request timed out.";
-
-      }
-
-      else {
-
-        status.innerHTML =
-          "❌ Could not check your location.";
-
-      }
-
-    },
-
-    {
-
-      enableHighAccuracy: true,
-
-      timeout: 15000,
-
-      maximumAge: 0
-
-    }
-
-  );
+  .order-type-box {
+    flex-direction: column;
+  }
 
 }
 
-</script>
+</style>
+
 <!-- ============================= -->
 <!-- PART 10 - 2 KM LOCATION CHECK -->
 <!-- ============================= -->
