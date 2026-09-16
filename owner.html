@@ -891,398 +891,470 @@
 
 
 
-  /* DISPLAY ORDER */
 
-  function displayOrder(
-    id,
-    order
+           /* DISPLAY ORDER */
+
+function displayOrder(
+  id,
+  order
+) {
+
+  const container =
+    document.getElementById(
+      "orders"
+    );
+
+
+  const empty =
+    container.querySelector(
+      ".empty"
+    );
+
+
+  if (empty)
+    empty.remove();
+
+
+  const div =
+    document.createElement(
+      "div"
+    );
+
+
+  const status =
+    String(
+      order.status || "new"
+    ).toLowerCase();
+
+
+  div.className =
+    "order " +
+    (
+      status === "new"
+      ? "new-order"
+      : ""
+    );
+
+
+  /* CUSTOMER DETAILS */
+
+  const name =
+    escapeHTML(
+      order.name || "-"
+    );
+
+
+  const phone =
+    escapeHTML(
+      order.phone || "-"
+    );
+
+
+  const address =
+    escapeHTML(
+      order.deliveryAddress ||
+      "Not provided"
+    );
+
+
+  const landmark =
+    escapeHTML(
+      order.landmark ||
+      "Not provided"
+    );
+
+
+  /* DISTANCE */
+
+  const distance =
+    order.distance ??
+    order.distanceFromShop;
+
+
+  let distanceText =
+    "N/A";
+
+
+  if (
+    distance !== undefined &&
+    distance !== null
   ) {
 
-    const container =
-      document.getElementById(
-        "orders"
-      );
+    distanceText =
+      Number(distance).toFixed(2) +
+      " km";
+  }
 
 
-    const empty =
-      container.querySelector(
-        ".empty"
-      );
+  /* ORDER TOTAL */
+
+  const orderTotal =
+    Number(
+      order.total || 0
+    );
 
 
-    if (empty)
-      empty.remove();
+  /* ORDER TIME */
+
+  let timeText = "";
 
 
-    const div =
-      document.createElement(
-        "div"
-      );
+  if (order.createdAt) {
+
+    try {
+
+      timeText =
+        new Date(
+          order.createdAt
+        ).toLocaleString();
+
+    } catch (e) {}
+
+  }
 
 
-    const status =
-      String(
-        order.status || "new"
-      ).toLowerCase();
+  /* PRODUCTS */
+
+  let productsHTML = "";
 
 
-    div.className =
-      "order " +
-      (
-        status === "new"
-        ? "new-order"
-        : ""
-      );
+  if (
+    Array.isArray(order.items) &&
+    order.items.length > 0
+  ) {
+
+    productsHTML =
+      order.items.map(item => {
+
+        const product =
+          escapeHTML(
+            item.product || "Chicken"
+          );
 
 
-    const name =
-      escapeHTML(
-        order.name || ""
-      );
+        const quantity =
+          Number(
+            item.quantity || 0
+          );
 
 
-    const phone =
-      escapeHTML(
-        order.phone || ""
-      );
+        const price =
+          Number(
+            item.price || 0
+          );
 
 
-    const address =
-      escapeHTML(
-        order.deliveryAddress ||
-        "Not provided"
-      );
+        const itemTotal =
+          quantity * price;
 
 
-    const landmark =
-      escapeHTML(
-        order.landmark ||
-        "Not provided"
-      );
+        return `
+
+          <div class="item">
+
+            🐔
+
+            <strong>
+              ${product}
+            </strong>
+
+            <br>
+
+            Quantity:
+            ${quantity}
+
+            ×
+
+            ₹${price}
+
+            =
+
+            <strong>
+              ₹${itemTotal}
+            </strong>
+
+          </div>
+
+        `;
+
+      }).join("");
 
 
-    const distance =
-      order.distance ??
-      order.distanceFromShop;
+  } else {
 
+    productsHTML = `
 
-    let distanceText =
-      "N/A";
+      <div class="item">
 
+        🐔
 
-    if (
-      distance !== undefined &&
-      distance !== null
-    ) {
-
-      distanceText =
-        Number(distance).toFixed(2) +
-        " km";
-    }
-
-
-    let timeText = "";
-
-
-    if (order.createdAt) {
-
-      try {
-
-        timeText =
-          new Date(
-            order.createdAt
-          ).toLocaleString();
-
-      } catch (e) {}
-    }
-
-
-
-    /* PRODUCTS */
-
-    let productsHTML = "";
-
-
-    if (
-      Array.isArray(order.items) &&
-      order.items.length > 0
-    ) {
-
-      productsHTML =
-        order.items.map(item => {
-
-          const product =
-            escapeHTML(
-              item.product || ""
-            );
-
-
-          const quantity =
-            escapeHTML(
-              String(
-                item.quantity || ""
-              )
-            );
-
-
-          const price =
-            Number(
-              item.price || 0
-            );
-
-
-          return `
-
-            <div class="item">
-
-              🐔
-
-              <strong>
-                ${product}
-              </strong>
-
-              —
-
-              ${quantity}
-
-              ${
-                price > 0
-                ? " kg"
-                : ""
-              }
-
-              ${
-                price > 0
-                ? `<br><small>₹${price}/kg</small>`
-                : `<br><small>Price at shop</small>`
-              }
-
-            </div>
-          `;
-
-        }).join("");
-
-
-    } else {
-
-      productsHTML = `
-
-        <div class="item">
-
-          🐔
-
-          <strong>
-            ${escapeHTML(
-              order.product || ""
-            )}
-          </strong>
-
-          —
-
+        <strong>
           ${escapeHTML(
-            String(
-              order.quantity ||
-              order.qty ||
-              ""
-            )
+            order.product ||
+            "Chicken"
           )}
+        </strong>
 
-        </div>
-      `;
-    }
+        —
 
+        ${escapeHTML(
+          String(
+            order.quantity ||
+            order.qty ||
+            ""
+          )
+        )}
 
+      </div>
 
-    /* CUSTOMER MAP */
+    `;
 
-    let mapButton = "";
-
-
-    if (
-      order.customerMapLink
-    ) {
-
-      mapButton = `
-
-        <button
-          class="map-btn"
-          onclick="openMap(
-            '${escapeHTML(
-              order.customerMapLink
-            )}'
-          )"
-        >
-          📍 Open Customer GPS
-        </button>
-
-      `;
-
-    } else if (
-      order.customerLatitude &&
-      order.customerLongitude
-    ) {
-
-      const mapLink =
-        `https://www.google.com/maps?q=${
-          order.customerLatitude
-        },${
-          order.customerLongitude
-        }`;
+  }
 
 
-      mapButton = `
+  /* CUSTOMER MAP */
 
-        <button
-          class="map-btn"
-          onclick="openMap(
-            '${mapLink}'
-          )"
-        >
-          📍 Open Customer GPS
-        </button>
-
-      `;
-    }
+  let mapButton = "";
 
 
+  if (
+    order.customerMapLink
+  ) {
 
-    /* ORDER HTML */
+    mapButton = `
 
-    div.innerHTML = `
+      <button
+        class="map-btn"
+        onclick="openMap(
+          '${escapeHTML(
+            order.customerMapLink
+          )}'
+        )"
+      >
+        📍 Open Customer GPS
+      </button>
 
-      <h3>
+    `;
 
-        🐔 Delivery Order
+  } else if (
+    order.customerLatitude &&
+    order.customerLongitude
+  ) {
 
-        ${
-          status === "new"
-          ? `
-            <span class="new-badge">
-              NEW
-            </span>
-          `
-          : ""
-        }
+    const mapLink =
+      `https://www.google.com/maps?q=${
+        order.customerLatitude
+      },${
+        order.customerLongitude
+      }`;
 
-      </h3>
 
+    mapButton = `
+
+      <button
+        class="map-btn"
+        onclick="openMap(
+          '${mapLink}'
+        )"
+      >
+        📍 Open Customer GPS
+      </button>
+
+    `;
+
+  }
+
+
+  /* ORDER HTML */
+
+  div.innerHTML = `
+
+    <h3>
+
+      🐔 Delivery Order
 
       ${
-        timeText
+        status === "new"
         ? `
-          <p class="order-time">
-            🕒 ${escapeHTML(timeText)}
-          </p>
+          <span class="new-badge">
+            NEW
+          </span>
         `
         : ""
       }
 
+    </h3>
+
+
+    ${
+      timeText
+      ? `
+        <p class="order-time">
+          🕒 ${escapeHTML(timeText)}
+        </p>
+      `
+      : ""
+    }
+
+
+    <!-- CUSTOMER -->
+
+    <p>
+
+      <strong>
+        👤 Customer:
+      </strong>
+
+      ${name}
+
+    </p>
+
+
+    <p>
+
+      <strong>
+        📞 Phone:
+      </strong>
+
+      ${phone}
+
+    </p>
+
+
+    <!-- PRODUCTS -->
+
+    <p>
+
+      <strong>
+        🛒 Products:
+      </strong>
+
+    </p>
+
+
+    ${productsHTML}
+
+
+    <!-- DELIVERY DETAILS -->
+
+    <div class="delivery-box">
+
+      <strong>
+        🚚 DELIVERY DETAILS
+      </strong>
+
 
       <p>
+
         <strong>
-          👤 Customer:
+          🏠 Address:
         </strong>
 
-        ${name}
       </p>
 
 
-      <p>
-        <strong>
-          📞 Phone:
-        </strong>
+      <div class="address">
 
-        ${phone}
-      </p>
-
-
-      <p>
-        <strong>
-          🛒 Products:
-        </strong>
-      </p>
-
-
-      ${productsHTML}
-
-
-      <div class="delivery-box">
-
-        <strong>
-          🚚 DELIVERY DETAILS
-        </strong>
-
-
-        <p>
-          <strong>
-            🏠 Address:
-          </strong>
-        </p>
-
-
-        <div class="address">
-          ${address}
-        </div>
-
-
-        <p>
-          <strong>
-            📌 Landmark:
-          </strong>
-
-          ${landmark}
-        </p>
-
-
-        <p>
-          <strong>
-            📏 Distance:
-          </strong>
-
-          ${distanceText}
-        </p>
+        ${address}
 
       </div>
 
 
-      <p class="status">
+      <p>
 
-        Status:
-        ${status.toUpperCase()}
+        <strong>
+          📌 Landmark:
+        </strong>
+
+        ${landmark}
 
       </p>
 
 
-      ${
-        status === "new"
-        ? `
-          <button
-            class="done-btn"
-            onclick="markDone('${id}')"
-          >
-            ✅ Mark Delivered / Done
-          </button>
-        `
-        : ""
-      }
+      <p>
+
+        <strong>
+          📏 Distance:
+        </strong>
+
+        ${distanceText}
+
+      </p>
+
+    </div>
 
 
-      <button
-        class="call-btn"
-        onclick="callCustomer('${phone}')"
-      >
-        📞 Call Customer
-      </button>
+    <!-- ORDER TOTAL -->
+
+    <div class="delivery-box">
+
+      <strong>
+        💰 ORDER TOTAL
+      </strong>
 
 
-      ${mapButton}
+      <p style="
+        font-size:22px;
+        font-weight:bold;
+        margin:10px 0;
+      ">
 
-    `;
+        ₹${orderTotal}
+
+      </p>
+
+    </div>
 
 
-    container.prepend(div);
-  }
+    <!-- STATUS -->
 
+    <p class="status">
+
+      Status:
+      ${status.toUpperCase()}
+
+    </p>
+
+
+    <!-- DONE BUTTON -->
+
+    ${
+      status === "new"
+      ? `
+        <button
+          class="done-btn"
+          onclick="markDone('${id}')"
+        >
+          ✅ Mark Delivered / Done
+        </button>
+      `
+      : ""
+    }
+
+
+    <!-- CALL CUSTOMER -->
+
+    <button
+      class="call-btn"
+      onclick="callCustomer('${phone}')"
+    >
+
+      📞 Call Customer
+
+    </button>
+
+
+    <!-- CUSTOMER GPS -->
+
+    ${mapButton}
+
+  `;
+
+
+  container.prepend(div);
+
+}   
+    
 
 
   /* CALL */
