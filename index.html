@@ -1,669 +1,979 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
-<meta charset="UTF-8">
+  <meta charset="UTF-8">
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-<title>Farm Fresh Chicken Market</title>
+  <title>
+    Farm Fresh Chicken Market
+  </title>
 
-<style>
+  <meta
+    name="description"
+    content="Farm Fresh Chicken Market - Fresh quality chicken in Kondapur, Hyderabad."
+  >
 
-* {
-  box-sizing: border-box;
-}
+  <style>
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #fffaf5;
-  color: #222;
-}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-header {
-  background: #b71c1c;
-  color: white;
-  padding: 20px;
-  text-align: center;
-}
+    html {
+      scroll-behavior: smooth;
+    }
 
-header h1 {
-  margin: 0;
-  font-size: 30px;
-}
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #222;
+      line-height: 1.6;
+    }
 
-header p {
-  margin: 8px 0 0;
-  font-size: 15px;
-}
+    a {
+      text-decoration: none;
+    }
 
-nav {
-  background: #8e0000;
-  padding: 12px;
-  text-align: center;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
+    img {
+      max-width: 100%;
+      display: block;
+    }
 
-nav a {
-  color: white;
-  text-decoration: none;
-  margin: 0 10px;
-  font-weight: bold;
-}
+    button {
+      font-family: inherit;
+    }
 
-.hero {
-  padding: 55px 20px;
-  text-align: center;
-  background: linear-gradient(
-    rgba(0,0,0,0.55),
-    rgba(0,0,0,0.55)
-  ),
-  url("images/4811bcd4c11d9bffbd6b0453c955913c.png");
+    /* HEADER */
 
-  background-size: cover;
-  background-position: center;
-  color: white;
-}
+    header {
+      background: #222;
+      color: white;
+      padding: 15px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
 
-.hero h2 {
-  font-size: 38px;
-  margin: 0 0 12px;
-}
+    .header-container {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
 
-.hero p {
-  font-size: 19px;
-  margin: 8px;
-}
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: white;
+    }
 
-.tender {
-  display: inline-block;
-  margin-top: 15px;
-  background: #ffca28;
-  color: #222;
-  padding: 10px 20px;
-  border-radius: 25px;
-  font-weight: bold;
-}
+    nav {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
 
-section {
-  padding: 45px 20px;
-}
+    nav a {
+      color: white;
+      font-weight: bold;
+      font-size: 15px;
+    }
 
-.section-title {
-  text-align: center;
-  font-size: 30px;
-  margin-bottom: 30px;
-}
+    nav a:hover {
+      color: #ffcc00;
+    }
 
-.products {
-  max-width: 1100px;
-  margin: auto;
-  display: grid;
-  grid-template-columns:
-    repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-}
+    /* GENERAL SECTIONS */
 
-.product {
-  background: white;
-  border-radius: 15px;
-  padding: 15px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.12);
-  text-align: center;
-}
+    section {
+      width: 100%;
+    }
 
-.product img {
-  width: 100%;
-  height: 190px;
-  object-fit: cover;
-  border-radius: 12px;
-}
+    .section-container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 50px 20px;
+    }
 
-.product h3 {
-  margin: 12px 0 6px;
-}
+    .section-title {
+      text-align: center;
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
 
-.price {
-  font-size: 18px;
-  font-weight: bold;
-  color: #b71c1c;
-}
+    .section-subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+    }
 
-.product button {
-  margin-top: 12px;
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
-  background: #b71c1c;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-}
+    /* MOBILE */
 
-.product button:hover {
-  background: #8e0000;
-}
+    @media (max-width: 700px) {
 
-.gallery {
-  max-width: 1100px;
-  margin: auto;
-  display: grid;
-  grid-template-columns:
-    repeat(auto-fit, minmax(220px, 1fr));
-  gap: 15px;
-}
+      .header-container {
+        flex-direction: column;
+      }
 
-.gallery img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  border-radius: 12px;
-}
+      nav {
+        gap: 10px;
+      }
 
-.location-box {
-  max-width: 800px;
-  margin: auto;
-  background: white;
-  padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  text-align: center;
-}
+      nav a {
+        font-size: 14px;
+      }
 
-.location-button {
-  display: inline-block;
-  margin-top: 15px;
-  background: #1976d2;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: bold;
-}
+      .section-title {
+        font-size: 27px;
+      }
 
-.order-box {
-  max-width: 700px;
-  margin: auto;
-  background: white;
-  padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.12);
-}
+    }
 
-.order-box input,
-.order-box textarea {
-  width: 100%;
-  padding: 13px;
-  margin: 8px 0;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 16px;
-}
-
-.order-box textarea {
-  min-height: 90px;
-  resize: vertical;
-}
-
-#cart {
-  margin-top: 15px;
-}
-
-.cart-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  padding: 12px;
-  margin: 8px 0;
-  background: #fff3e0;
-  border-radius: 10px;
-}
-
-.cart-name {
-  font-weight: bold;
-}
-
-.cart-name small {
-  color: #666;
-  font-weight: normal;
-}
-
-.quantity-controls {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.quantity-controls button {
-  border: none;
-  background: #b71c1c;
-  color: white;
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-  font-size: 18px;
-  cursor: pointer;
-}
-
-.quantity {
-  min-width: 25px;
-  text-align: center;
-  font-weight: bold;
-}
-
-.quantity-controls .remove-btn {
-  background: #555;
-}
-
-#cartTotal {
-  text-align: right;
-  font-size: 20px;
-  font-weight: bold;
-  margin-top: 15px;
-}
-
-.location-check {
-  margin-top: 20px;
-  padding: 20px;
-  background: #f5f5f5;
-  border-radius: 12px;
-  text-align: center;
-}
-
-#locationStatus {
-  margin: 15px 0;
-  font-weight: bold;
-  line-height: 1.6;
-}
-
-.check-location-button {
-  padding: 12px 20px;
-  border: none;
-  border-radius: 8px;
-  background: #1976d2;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-#sendOrderButton {
-  width: 100%;
-  margin-top: 20px;
-  padding: 15px;
-  border: none;
-  border-radius: 10px;
-  background: #25d366;
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-#sendOrderButton:disabled {
-  background: #aaa;
-  cursor: not-allowed;
-}
-
-.qr-section {
-  padding: 45px 20px;
-  text-align: center;
-  background: #fff3e0;
-}
-
-.qr-box {
-  display: inline-block;
-  background: white;
-  padding: 15px;
-  border-radius: 15px;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.12);
-}
-
-.download-qr {
-  margin-top: 15px;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 8px;
-  background: #222;
-  color: white;
-  font-size: 15px;
-  cursor: pointer;
-}
-
-footer {
-  background: #222;
-  color: white;
-  text-align: center;
-  padding: 25px;
-}
-
-@media (max-width: 600px) {
-
-  header h1 {
-    font-size: 24px;
-  }
-
-  .hero h2 {
-    font-size: 30px;
-  }
-
-  nav a {
-    margin: 0 5px;
-    font-size: 14px;
-  }
-
-  .cart-item {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .quantity-controls {
-    justify-content: center;
-  }
-
-}
-
-</style>
+  </style>
 
 </head>
-
 
 <body>
 
 
-<!-- =========================
-     HEADER
-========================= -->
+<!-- ============================= -->
+<!-- HEADER -->
+<!-- ============================= -->
 
 <header>
 
-  <h1>🐔 Farm Fresh Chicken Market</h1>
+  <div class="header-container">
 
-  <p>Fresh • Clean • Quality Chicken</p>
+    <div class="logo">
+      🍗 Farm Fresh Chicken Market
+    </div>
+
+    <nav>
+
+      <a href="#home">
+        Home
+      </a>
+
+      <a href="#products">
+        Products
+      </a>
+
+      <a href="#order">
+        Order
+      </a>
+
+      <a href="#location">
+        Location
+      </a>
+
+      <a href="#shop-photos">
+        Shop Photos
+      </a>
+
+      <a href="#website-qr">
+        QR Code
+      </a>
+
+    </nav>
+
+  </div>
 
 </header>
+<!-- ============================= -->
+<!-- HOME SECTION -->
+<!-- ============================= -->
+
+<section
+  id="home"
+  style="
+    background:
+      linear-gradient(
+        rgba(0,0,0,0.55),
+        rgba(0,0,0,0.55)
+      ),
+      url('images/4811bcd4c11d9bffbd6b0453c955913c.png')
+      center/cover no-repeat;
+    min-height:520px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    color:white;
+    padding:60px 20px;
+  "
+>
+
+  <div style="
+    max-width:800px;
+    margin:auto;
+  ">
+
+    <div style="
+      display:inline-block;
+      background:#ffcc00;
+      color:#222;
+      padding:8px 18px;
+      border-radius:30px;
+      font-weight:bold;
+      margin-bottom:18px;
+      font-size:16px;
+    ">
+      🔥 Fresh • Clean • Quality
+    </div>
 
 
-<!-- =========================
-     NAVIGATION
-========================= -->
-
-<nav>
-
-  <a href="#home">Home</a>
-
-  <a href="#products">Products</a>
-
-  <a href="#gallery">Photos</a>
-
-  <a href="#location">Location</a>
-
-  <a href="#order">Order</a>
-
-</nav>
+    <h1 style="
+      font-size:48px;
+      margin-bottom:15px;
+      line-height:1.2;
+    ">
+      Farm Fresh Chicken Market
+    </h1>
 
 
-<!-- =========================
-     HOME
-========================= -->
+    <h2 style="
+      font-size:26px;
+      margin-bottom:15px;
+      color:#ffcc00;
+    ">
+      Tender Chicken, Fresh Every Day 🍗
+    </h2>
 
-<section id="home" class="hero">
 
-  <h2>Fresh Chicken Delivered</h2>
+    <p style="
+      font-size:18px;
+      margin-bottom:25px;
+      color:#f5f5f5;
+    ">
+      Fresh and quality chicken products
+      available in Kondapur, Hyderabad.
+    </p>
 
-  <p>
-    Quality chicken from Farm Fresh Chicken Market
-  </p>
 
-  <div class="tender">
-    🐔 Fresh & Tender Chicken
+    <div style="
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      flex-wrap:wrap;
+    ">
+
+      <a
+        href="#products"
+        style="
+          display:inline-block;
+          background:#ffcc00;
+          color:#222;
+          padding:14px 25px;
+          border-radius:10px;
+          font-weight:bold;
+          font-size:16px;
+        "
+      >
+        🛒 View Products
+      </a>
+
+
+      <a
+        href="#location"
+        style="
+          display:inline-block;
+          background:white;
+          color:#222;
+          padding:14px 25px;
+          border-radius:10px;
+          font-weight:bold;
+          font-size:16px;
+        "
+      >
+        📍 Find Our Shop
+      </a>
+
+    </div>
+
   </div>
 
 </section>
 
 
-<!-- =========================
-     PRODUCTS
-========================= -->
+<!-- ============================= -->
+<!-- ABOUT / HIGHLIGHTS -->
+<!-- ============================= -->
 
-<section id="products">
+<section style="
+  background:#fff8f0;
+  padding:45px 20px;
+">
+
+  <div style="
+    max-width:1100px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:
+      repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+  ">
+
+
+    <div style="
+      background:white;
+      padding:25px 20px;
+      border-radius:15px;
+      text-align:center;
+      box-shadow:
+        0 5px 18px rgba(0,0,0,0.08);
+    ">
+
+      <div style="
+        font-size:38px;
+        margin-bottom:10px;
+      ">
+        🍗
+      </div>
+
+      <h3>
+        Fresh Chicken
+      </h3>
+
+      <p style="
+        color:#666;
+        margin-top:8px;
+      ">
+        Fresh chicken prepared
+        with care every day.
+      </p>
+
+    </div>
+
+
+    <div style="
+      background:white;
+      padding:25px 20px;
+      border-radius:15px;
+      text-align:center;
+      box-shadow:
+        0 5px 18px rgba(0,0,0,0.08);
+    ">
+
+      <div style="
+        font-size:38px;
+        margin-bottom:10px;
+      ">
+        ✨
+      </div>
+
+      <h3>
+        Quality Products
+      </h3>
+
+      <p style="
+        color:#666;
+        margin-top:8px;
+      ">
+        Multiple chicken cuts
+        for your cooking needs.
+      </p>
+
+    </div>
+
+
+    <div style="
+      background:white;
+      padding:25px 20px;
+      border-radius:15px;
+      text-align:center;
+      box-shadow:
+        0 5px 18px rgba(0,0,0,0.08);
+    ">
+
+      <div style="
+        font-size:38px;
+        margin-bottom:10px;
+      ">
+        📍
+      </div>
+
+      <h3>
+        Kondapur
+      </h3>
+
+      <p style="
+        color:#666;
+        margin-top:8px;
+      ">
+        Serving customers within
+        a 2 km radius.
+      </p>
+
+    </div>
+
+
+    <div style="
+      background:white;
+      padding:25px 20px;
+      border-radius:15px;
+      text-align:center;
+      box-shadow:
+        0 5px 18px rgba(0,0,0,0.08);
+    ">
+
+      <div style="
+        font-size:38px;
+        margin-bottom:10px;
+      ">
+        🛒
+      </div>
+
+      <h3>
+        Easy Ordering
+      </h3>
+
+      <p style="
+        color:#666;
+        margin-top:8px;
+      ">
+        Select your products
+        and place your order online.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ============================= -->
+<!-- PRODUCTS SECTION -->
+<!-- ============================= -->
+
+<section
+  id="products"
+  style="
+    padding:55px 20px;
+    background:#ffffff;
+  "
+>
 
   <h2 class="section-title">
-    Our Products
+    🍗 Our Products
   </h2>
 
+  <p class="section-subtitle">
+    Fresh chicken products available at
+    Farm Fresh Chicken Market
+  </p>
 
-  <div class="products">
+
+  <div style="
+    max-width:1200px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:
+      repeat(auto-fit,minmax(220px,1fr));
+    gap:22px;
+  ">
 
 
     <!-- LIVE -->
 
-    <div class="product">
+    <div style="
+      background:#fff;
+      border:1px solid #eee;
+      border-radius:15px;
+      overflow:hidden;
+      box-shadow:
+        0 5px 18px rgba(0,0,0,0.08);
+    ">
 
       <img
         src="images/Live%20500x500%20%281%29.jpg"
         alt="Live Chicken"
-        onclick="addToCart('Live',160)"
+        style="
+          width:100%;
+          height:210px;
+          object-fit:cover;
+        "
       >
 
-      <h3>Live</h3>
+      <div style="padding:18px;">
 
-      <div class="price">
-        ₹160 / kg
+        <h3>
+          Live Chicken
+        </h3>
+
+        <p style="
+          color:#666;
+          margin:8px 0;
+        ">
+          ₹160 / kg
+        </p>
+
+        <button
+          onclick="addToCart('Live Chicken',160)"
+          style="
+            width:100%;
+            padding:12px;
+            border:none;
+            border-radius:9px;
+            background:#222;
+            color:white;
+            font-weight:bold;
+            cursor:pointer;
+          "
+        >
+          🛒 Add to Order
+        </button>
+
       </div>
-
-      <button
-        onclick="addToCart('Live',160)"
-      >
-        Add to Order
-      </button>
 
     </div>
 
 
     <!-- DRESSED -->
 
-    <div class="product">
+    <div style="
+      background:#fff;
+      border:1px solid #eee;
+      border-radius:15px;
+      overflow:hidden;
+      box-shadow:
+        0 5px 18px rgba(0,0,0,0.08);
+    ">
 
       <img
         src="images/Dressed.jpg"
         alt="Dressed Chicken"
-        onclick="addToCart('Dressed',220)"
+        style="
+          width:100%;
+          height:210px;
+          object-fit:cover;
+        "
       >
 
-      <h3>Dressed</h3>
+      <div style="padding:18px;">
 
-      <div class="price">
-        ₹220 / kg
+        <h3>
+          Dressed Chicken
+        </h3>
+
+        <p style="
+          color:#666;
+          margin:8px 0;
+        ">
+          ₹220 / kg
+        </p>
+
+        <button
+          onclick="addToCart('Dressed Chicken',220)"
+          style="
+            width:100%;
+            padding:12px;
+            border:none;
+            border-radius:9px;
+            background:#222;
+            color:white;
+            font-weight:bold;
+            cursor:pointer;
+          "
+        >
+          🛒 Add to Order
+        </button>
+
       </div>
-
-      <button
-        onclick="addToCart('Dressed',220)"
-      >
-        Add to Order
-      </button>
 
     </div>
 
 
     <!-- SKINLESS -->
 
-    <div class="product">
+    <div style="
+      background:#fff;
+      border:1px solid #eee;
+      border-radius:15px;
+      overflow:hidden;
+      box-shadow:
+        0 5px 18px rgba(0,0,0,0.08);
+    ">
 
       <img
         src="images/Skinless.jpg"
         alt="Skinless Chicken"
-        onclick="addToCart('Skinless',240)"
+        style="
+          width:100%;
+          height:210px;
+          object-fit:cover;
+        "
       >
 
-      <h3>Skinless</h3>
+      <div style="padding:18px;">
 
-      <div class="price">
-        ₹240 / kg
+        <h3>
+          Skinless Chicken
+        </h3>
+
+        <p style="
+          color:#666;
+          margin:8px 0;
+        ">
+          ₹240 / kg
+        </p>
+
+        <button
+          onclick="addToCart('Skinless Chicken',240)"
+          style="
+            width:100%;
+            padding:12px;
+            border:none;
+            border-radius:9px;
+            background:#222;
+            color:white;
+            font-weight:bold;
+            cursor:pointer;
+          "
+        >
+          🛒 Add to Order
+        </button>
+
       </div>
-
-      <button
-        onclick="addToCart('Skinless',240)"
-      >
-        Add to Order
-      </button>
 
     </div>
 
 
     <!-- BONELESS -->
 
-    <div class="product">
+    <div style="
+      background:#fff;
+      border:1px solid #eee;
+      border-radius:15px;
+      overflow:hidden;
+      box-shadow:
+        0 5px 18px rgba(0,0,0,0.08);
+    ">
 
       <img
         src="images/Chicken_Breast_Boneless.png"
         alt="Boneless Chicken"
-        onclick="addToCart('Boneless',420)"
+        style="
+          width:100%;
+          height:210px;
+          object-fit:cover;
+        "
       >
 
-      <h3>Boneless</h3>
+      <div style="padding:18px;">
 
-      <div class="price">
-        ₹420 / kg
+        <h3>
+          Boneless Chicken
+        </h3>
+
+        <p style="
+          color:#666;
+          margin:8px 0;
+        ">
+          ₹420 / kg
+        </p>
+
+        <button
+          onclick="addToCart('Boneless Chicken',420)"
+          style="
+            width:100%;
+            padding:12px;
+            border:none;
+            border-radius:9px;
+            background:#222;
+            color:white;
+            font-weight:bold;
+            cursor:pointer;
+          "
+        >
+          🛒 Add to Order
+        </button>
+
       </div>
-
-      <button
-        onclick="addToCart('Boneless',420)"
-      >
-        Add to Order
-      </button>
 
     </div>
 
 
     <!-- DRUMSTICKS -->
 
-    <div class="product">
+    <div style="
+      background:#fff;
+      border:1px solid #eee;
+      border-radius:15px;
+      overflow:hidden;
+      box-shadow:
+        0 5px 18px rgba(0,0,0,0.08);
+    ">
 
       <img
         src="images/Drumsticks.png"
         alt="Chicken Drumsticks"
-        onclick="addToCart('Drumsticks',300)"
+        style="
+          width:100%;
+          height:210px;
+          object-fit:cover;
+        "
       >
 
-      <h3>Drumsticks</h3>
+      <div style="padding:18px;">
 
-      <div class="price">
-        ₹300 / kg
+        <h3>
+          Drumsticks
+        </h3>
+
+        <p style="
+          color:#666;
+          margin:8px 0;
+        ">
+          ₹300 / kg
+        </p>
+
+        <button
+          onclick="addToCart('Drumsticks',300)"
+          style="
+            width:100%;
+            padding:12px;
+            border:none;
+            border-radius:9px;
+            background:#222;
+            color:white;
+            font-weight:bold;
+            cursor:pointer;
+          "
+        >
+          🛒 Add to Order
+        </button>
+
       </div>
 
-      <button
-        onclick="addToCart('Drumsticks',300)"
-      >
-        Add to Order
-      </button>
+          </div>
+              <!-- LOLLIPOPS -->
 
-    </div>
-
-
-    <!-- LOLLIPOPS -->
-
-    <div class="product">
+    <div style="
+      background:#fff;
+      border:1px solid #eee;
+      border-radius:15px;
+      overflow:hidden;
+      box-shadow:
+        0 5px 18px rgba(0,0,0,0.08);
+    ">
 
       <img
         src="images/lollipop_1.jpg"
         alt="Chicken Lollipops"
-        onclick="addToCart('Lollipops',300)"
+        style="
+          width:100%;
+          height:210px;
+          object-fit:cover;
+        "
       >
 
-      <h3>Lollipops</h3>
+      <div style="padding:18px;">
 
-      <div class="price">
-        ₹300 / kg
+        <h3>
+          Lollipops
+        </h3>
+
+        <p style="
+          color:#666;
+          margin:8px 0;
+        ">
+          ₹300 / kg
+        </p>
+
+        <button
+          onclick="addToCart('Lollipops',300)"
+          style="
+            width:100%;
+            padding:12px;
+            border:none;
+            border-radius:9px;
+            background:#222;
+            color:white;
+            font-weight:bold;
+            cursor:pointer;
+          "
+        >
+          🛒 Add to Order
+        </button>
+
       </div>
-
-      <button
-        onclick="addToCart('Lollipops',300)"
-      >
-        Add to Order
-      </button>
 
     </div>
 
 
     <!-- LEGS & BREAST -->
 
-    <div class="product">
+    <div style="
+      background:#fff;
+      border:1px solid #eee;
+      border-radius:15px;
+      overflow:hidden;
+      box-shadow:
+        0 5px 18px rgba(0,0,0,0.08);
+    ">
 
       <img
         src="images/Legs%20and%20breast%20527904-114.jpg"
         alt="Chicken Legs and Breast"
-        onclick="addToCart('Legs & Breast',280)"
+        style="
+          width:100%;
+          height:210px;
+          object-fit:cover;
+        "
       >
 
-      <h3>Legs & Breast</h3>
+      <div style="padding:18px;">
 
-      <div class="price">
-        ₹280 / kg
+        <h3>
+          Legs & Breast
+        </h3>
+
+        <p style="
+          color:#666;
+          margin:8px 0;
+        ">
+          ₹280 / kg
+        </p>
+
+        <button
+          onclick="addToCart('Legs & Breast',280)"
+          style="
+            width:100%;
+            padding:12px;
+            border:none;
+            border-radius:9px;
+            background:#222;
+            color:white;
+            font-weight:bold;
+            cursor:pointer;
+          "
+        >
+          🛒 Add to Order
+        </button>
+
       </div>
-
-      <button
-        onclick="addToCart('Legs & Breast',280)"
-      >
-        Add to Order
-      </button>
 
     </div>
 
 
     <!-- LIVER -->
 
-    <div class="product">
+    <div style="
+      background:#fff;
+      border:1px solid #eee;
+      border-radius:15px;
+      overflow:hidden;
+      box-shadow:
+        0 5px 18px rgba(0,0,0,0.08);
+    ">
 
       <img
         src="images/Liver.jpg"
         alt="Chicken Liver"
-        onclick="addToCart('Liver',140)"
+        style="
+          width:100%;
+          height:210px;
+          object-fit:cover;
+        "
       >
 
-      <h3>Liver</h3>
+      <div style="padding:18px;">
 
-      <div class="price">
-        ₹140 / kg
+        <h3>
+          Liver
+        </h3>
+
+        <p style="
+          color:#666;
+          margin:8px 0;
+        ">
+          ₹140 / kg
+        </p>
+
+        <button
+          onclick="addToCart('Chicken Liver',140)"
+          style="
+            width:100%;
+            padding:12px;
+            border:none;
+            border-radius:9px;
+            background:#222;
+            color:white;
+            font-weight:bold;
+            cursor:pointer;
+          "
+        >
+          🛒 Add to Order
+        </button>
+
       </div>
-
-      <button
-        onclick="addToCart('Liver',140)"
-      >
-        Add to Order
-      </button>
 
     </div>
 
 
     <!-- EGGS -->
 
-    <div class="product">
+    <div style="
+      background:#fff;
+      border:1px solid #eee;
+      border-radius:15px;
+      overflow:hidden;
+      box-shadow:
+        0 5px 18px rgba(0,0,0,0.08);
+    ">
 
       <img
         src="images/Eggs.jpg"
-        alt="Chicken Eggs"
-        onclick="addToCart('Eggs',0)"
+        alt="Eggs"
+        style="
+          width:100%;
+          height:210px;
+          object-fit:cover;
+        "
       >
 
-      <h3>Eggs</h3>
+      <div style="padding:18px;">
 
-      <div class="price">
-        Price available at shop
+        <h3>
+          Eggs
+        </h3>
+
+        <p style="
+          color:#666;
+          margin:8px 0;
+        ">
+          Price available at shop
+        </p>
+
+        <button
+          onclick="addToCart('Eggs',0)"
+          style="
+            width:100%;
+            padding:12px;
+            border:none;
+            border-radius:9px;
+            background:#222;
+            color:white;
+            font-weight:bold;
+            cursor:pointer;
+          "
+        >
+          🛒 Add to Order
+        </button>
+
       </div>
-
-      <button
-        onclick="addToCart('Eggs',0)"
-      >
-        Add to Order
-      </button>
 
     </div>
 
@@ -673,81 +983,368 @@ footer {
 </section>
 
 
-<!-- =========================
-     SHOP PHOTOS
-========================= -->
+<!-- ============================= -->
+<!-- ORDER SECTION -->
+<!-- ============================= -->
 
-<section id="gallery">
+<section
+  id="order"
+  style="
+    padding:55px 20px;
+    background:#f8f8f8;
+  "
+>
 
   <h2 class="section-title">
-    📸 Our Shop
+    🛒 Place Your Order
   </h2>
 
-  <div class="gallery">
+  <p class="section-subtitle">
+    Add your products and enter your delivery details.
+  </p>
 
-    <img
-      src="images/4811bcd4c11d9bffbd6b0453c955913c.png"
-      alt="Farm Fresh Chicken Market"
-    >
 
-    <img
-      src="images/Screenshot_20260915_223216.jpg"
-      alt="Farm Fresh Chicken Market"
-    >
+  <div style="
+    max-width:900px;
+    margin:auto;
+  ">
 
-    <img
-      src="images/Screenshot_20260915_223237.jpg"
-      alt="Farm Fresh Chicken Market"
-    >
 
-    <img
-      src="images/Screenshot_20260916_080217.jpg"
-      alt="Farm Fresh Chicken Market"
-    >
+    <!-- CART -->
 
-    <img
-      src="images/f99a18de-d90f-4ed0-93b5-af9dc9e6372f.jpg"
-      alt="Farm Fresh Chicken Market"
-    >
+    <div style="
+      background:white;
+      padding:25px;
+      border-radius:15px;
+      box-shadow:
+        0 5px 18px rgba(0,0,0,0.08);
+      margin-bottom:25px;
+    ">
+
+      <h3 style="
+        margin-bottom:15px;
+        font-size:22px;
+      ">
+        🛍️ Your Cart
+      </h3>
+
+
+      <div id="cartItems">
+
+        <div style="
+          text-align:center;
+          padding:20px;
+          color:#777;
+        ">
+          Your cart is empty.
+          <br>
+          Add products from above.
+        </div>
+
+      </div>
+
+
+      <div style="
+        border-top:1px solid #ddd;
+        padding-top:15px;
+        margin-top:15px;
+        display:flex;
+        justify-content:space-between;
+        font-size:20px;
+      ">
+
+        <strong>
+          Total
+        </strong>
+
+        <strong id="cartTotal">
+          ₹0
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <!-- CUSTOMER DETAILS -->
+
+    <div style="
+      background:white;
+      padding:25px;
+      border-radius:15px;
+      box-shadow:
+        0 5px 18px rgba(0,0,0,0.08);
+    ">
+
+      <h3 style="
+        margin-bottom:20px;
+        font-size:22px;
+      ">
+        👤 Customer Details
+      </h3>
+
+
+      <label style="
+        display:block;
+        margin-bottom:7px;
+        font-weight:bold;
+      ">
+        Name
+      </label>
+
+      <input
+        id="customerName"
+        type="text"
+        placeholder="Enter your name"
+        style="
+          width:100%;
+          padding:13px;
+          border:1px solid #ccc;
+          border-radius:8px;
+          margin-bottom:16px;
+          font-size:16px;
+        "
+      >
+
+
+      <label style="
+        display:block;
+        margin-bottom:7px;
+        font-weight:bold;
+      ">
+        Mobile Number
+      </label>
+
+      <input
+        id="customerPhone"
+        type="tel"
+        maxlength="10"
+        placeholder="Enter 10-digit mobile number"
+        style="
+          width:100%;
+          padding:13px;
+          border:1px solid #ccc;
+          border-radius:8px;
+          margin-bottom:16px;
+          font-size:16px;
+        "
+      >
+
+
+      <label style="
+        display:block;
+        margin-bottom:7px;
+        font-weight:bold;
+      ">
+        Delivery Address
+      </label>
+
+      <textarea
+        id="customerAddress"
+        rows="3"
+        placeholder="Enter your complete address"
+        style="
+          width:100%;
+          padding:13px;
+          border:1px solid #ccc;
+          border-radius:8px;
+          margin-bottom:16px;
+          font-size:16px;
+          resize:vertical;
+        "
+      ></textarea>
+
+
+      <label style="
+        display:block;
+        margin-bottom:7px;
+        font-weight:bold;
+      ">
+        Landmark
+      </label>
+
+      <input
+        id="customerLandmark"
+        type="text"
+        placeholder="Enter nearby landmark"
+        style="
+          width:100%;
+          padding:13px;
+          border:1px solid #ccc;
+          border-radius:8px;
+          margin-bottom:20px;
+          font-size:16px;
+        "
+      >
+
+
+      <!-- LOCATION CHECK -->
+
+      <div style="
+        background:#fff8f0;
+        padding:18px;
+        border-radius:12px;
+        margin-bottom:20px;
+        text-align:center;
+      ">
+
+        <h3 style="
+          margin-bottom:8px;
+        ">
+          📍 Check Delivery Location
+        </h3>
+
+
+        <p style="
+          color:#666;
+          margin-bottom:15px;
+        ">
+          Online ordering is available
+          within 2 km of our Kondapur shop.
+        </p>
+
+
+        <button
+          type="button"
+          onclick="checkLocation()"
+          style="
+            padding:12px 20px;
+            border:none;
+            border-radius:9px;
+            background:#222;
+            color:white;
+            font-weight:bold;
+            cursor:pointer;
+          "
+        >
+          📍 Check My Location
+        </button>
+
+
+        <div
+          id="locationStatus"
+          style="
+            margin-top:15px;
+            font-weight:bold;
+            color:#555;
+          "
+        >
+          Location not checked yet.
+        </div>
+
+      </div>
+
+
+      <!-- PLACE ORDER -->
+
+      <button
+        type="button"
+        onclick="sendOrder()"
+        style="
+          width:100%;
+          padding:15px;
+          border:none;
+          border-radius:10px;
+          background:#25D366;
+          color:white;
+          font-size:18px;
+          font-weight:bold;
+          cursor:pointer;
+        "
+      >
+        📲 Place Order on WhatsApp
+      </button>
+
+
+      <p style="
+        text-align:center;
+        color:#777;
+        font-size:13px;
+        margin-top:12px;
+      ">
+        Your order will also be saved securely
+        for the shop owner.
+      </p>
+
+    </div>
 
   </div>
 
-</section>
+      </section>
+      <!-- ============================= -->
+<!-- LOCATION SECTION -->
+<!-- ============================= -->
 
-
-<!-- =========================
-     LOCATION
-========================= -->
-
-<section id="location">
+<section
+  id="location"
+  style="
+    padding:55px 20px;
+    background:#ffffff;
+    text-align:center;
+  "
+>
 
   <h2 class="section-title">
-    📍 Visit Our Shop
+    📍 Our Location
   </h2>
 
-  <div class="location-box">
+  <p class="section-subtitle">
+    Visit Farm Fresh Chicken Market
+  </p>
 
-    <h3>
+
+  <div style="
+    max-width:800px;
+    margin:auto;
+    background:#f8f8f8;
+    padding:30px 20px;
+    border-radius:15px;
+  ">
+
+    <h3 style="
+      font-size:22px;
+      margin-bottom:12px;
+    ">
       Farm Fresh Chicken Market
     </h3>
 
-    <p>
+
+    <p style="
+      color:#555;
+      font-size:17px;
+      line-height:1.7;
+    ">
       Kondapur, Raghavendra Colony,
-      near 1st pole
+      <br>
+      Near 1st Pole, Hyderabad
     </p>
 
-    <p>
-      🛵 Delivery available within 2 km
+
+    <p style="
+      margin-top:15px;
+      color:#666;
+    ">
+      📦 Online orders are available
+      within a <strong>2 km radius</strong>
       of our Kondapur shop.
     </p>
 
 
     <a
-      class="location-button"
       href="https://maps.app.goo.gl/FEYic1oimazVzHEh7?g_st=ac"
       target="_blank"
+      rel="noopener"
+      style="
+        display:inline-block;
+        margin-top:20px;
+        padding:14px 25px;
+        background:#222;
+        color:white;
+        border-radius:10px;
+        font-weight:bold;
+      "
     >
-      📍 Open Shop Location
+      🗺️ Open Shop in Google Maps
     </a>
 
   </div>
@@ -755,115 +1352,155 @@ footer {
 </section>
 
 
-<!-- =========================
-     ORDER SECTION
-========================= -->
+<!-- ============================= -->
+<!-- SHOP PHOTOS SECTION -->
+<!-- ============================= -->
 
-<section id="order">
+<section
+  id="shop-photos"
+  style="
+    padding:55px 20px;
+    background:#fff8f0;
+  "
+>
 
   <h2 class="section-title">
-    🛒 Place Your Order
+    📸 Shop Photos
   </h2>
 
-
-  <div class="order-box">
-
-
-    <h3>
-      Your Cart
-    </h3>
+  <p class="section-subtitle">
+    Take a look at Farm Fresh Chicken Market
+  </p>
 
 
-    <div id="cart">
+  <div style="
+    max-width:1100px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:
+      repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+  ">
 
-      <p
-        style="text-align:center;color:#777;"
+
+    <!-- SHOP PHOTO 1 -->
+
+    <div style="
+      background:white;
+      padding:8px;
+      border-radius:15px;
+      box-shadow:
+        0 5px 18px rgba(0,0,0,0.10);
+    ">
+
+      <img
+        src="images/4811bcd4c11d9bffbd6b0453c955913c.png"
+        alt="Farm Fresh Chicken Market Shop"
+        style="
+          width:100%;
+          height:250px;
+          object-fit:cover;
+          border-radius:10px;
+        "
       >
-        No products added yet.
-      </p>
 
     </div>
 
 
-    <div id="cartTotal">
-      Total: ₹0
-    </div>
+    <!-- SHOP PHOTO 2 -->
 
+    <div style="
+      background:white;
+      padding:8px;
+      border-radius:15px;
+      box-shadow:
+        0 5px 18px rgba(0,0,0,0.10);
+    ">
 
-    <hr>
-
-
-    <h3>
-      Customer Details
-    </h3>
-
-
-    <input
-      type="text"
-      id="customerName"
-      placeholder="Your Name"
-    >
-
-
-    <input
-      type="tel"
-      id="customerPhone"
-      placeholder="10-digit Phone Number"
-      maxlength="10"
-    >
-
-
-    <textarea
-      id="deliveryAddress"
-      placeholder="Delivery Address"
-    ></textarea>
-
-
-    <input
-      type="text"
-      id="landmark"
-      placeholder="Nearby Landmark"
-    >
-
-
-    <!-- LOCATION CHECK -->
-
-    <div class="location-check">
-
-      <h3>
-        📍 Delivery Location Check
-      </h3>
-
-      <p>
-        We deliver only within 2 km
-        of our Kondapur shop.
-      </p>
-
-
-      <button
-        type="button"
-        class="check-location-button"
-        onclick="checkLocation()"
+      <img
+        src="images/Screenshot_20260915_223216.jpg"
+        alt="Farm Fresh Chicken Market"
+        style="
+          width:100%;
+          height:250px;
+          object-fit:cover;
+          border-radius:10px;
+        "
       >
-        📍 Check My Location
-      </button>
-
-
-      <div id="locationStatus">
-        Location not checked.
-      </div>
 
     </div>
 
 
-    <button
-      type="button"
-      id="sendOrderButton"
-      onclick="sendOrder()"
-      disabled
-    >
-      📲 Place Order on WhatsApp
-    </button>
+    <!-- SHOP PHOTO 3 -->
+
+    <div style="
+      background:white;
+      padding:8px;
+      border-radius:15px;
+      box-shadow:
+        0 5px 18px rgba(0,0,0,0.10);
+    ">
+
+      <img
+        src="images/Screenshot_20260915_223237.jpg"
+        alt="Farm Fresh Chicken Market"
+        style="
+          width:100%;
+          height:250px;
+          object-fit:cover;
+          border-radius:10px;
+        "
+      >
+
+    </div>
+
+
+    <!-- SHOP PHOTO 4 -->
+
+    <div style="
+      background:white;
+      padding:8px;
+      border-radius:15px;
+      box-shadow:
+        0 5px 18px rgba(0,0,0,0.10);
+    ">
+
+      <img
+        src="images/Screenshot_20260916_080217.jpg"
+        alt="Farm Fresh Chicken Market"
+        style="
+          width:100%;
+          height:250px;
+          object-fit:cover;
+          border-radius:10px;
+        "
+      >
+
+    </div>
+
+
+    <!-- SHOP PHOTO 5 -->
+
+    <div style="
+      background:white;
+      padding:8px;
+      border-radius:15px;
+      box-shadow:
+        0 5px 18px rgba(0,0,0,0.10);
+    ">
+
+      <img
+        src="images/f99a18de-d90f-4ed0-93b5-af9dc9e6372f.jpg"
+        alt="Farm Fresh Chicken Market"
+        style="
+          width:100%;
+          height:250px;
+          object-fit:cover;
+          border-radius:10px;
+        "
+      >
+
+    </div>
 
 
   </div>
@@ -871,29 +1508,192 @@ footer {
 </section>
 
 
-<!-- =========================
-     QR CODE
-========================= -->
+<!-- ============================= -->
+<!-- WEBSITE QR CODE SECTION -->
+<!-- ============================= -->
 
-<section class="qr-section">
+<section
+  id="website-qr"
+  style="
+    padding:50px 20px;
+    text-align:center;
+    background:#ffffff;
+  "
+>
 
-  <h2>
+  <h2 class="section-title">
     📱 Scan & Order Online
   </h2>
 
-  <p>
-    Scan this QR code to open
+  <p class="section-subtitle">
+    Scan the QR code to open
     Farm Fresh Chicken Market
   </p>
 
 
-  <div class="qr-box">
+  <div style="
+    display:inline-block;
+    background:white;
+    padding:15px;
+    border-radius:15px;
+    box-shadow:
+      0 5px 20px rgba(0,0,0,0.12);
+  ">
 
     <div id="websiteQRCode"></div>
 
   </div>
 
 
-  <p>
-    <strong>
-      Farm Fresh Chicken Market
+  <p style="
+    margin-top:15px;
+    font-weight:bold;
+    color:#333;
+  ">
+    Farm Fresh Chicken Market
+  </p>
+
+
+  <button
+    onclick="downloadQRCode()"
+    style="
+      margin-top:12px;
+      padding:12px 20px;
+      border:none;
+      border-radius:8px;
+      background:#222;
+      color:white;
+      font-size:15px;
+      cursor:pointer;
+    "
+  >
+    ⬇️ Download QR Code
+  </button>
+
+</section>
+<!-- ============================= -->
+<!-- QR CODE LIBRARY -->
+<!-- ============================= -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+
+<script>
+
+  const websiteURL =
+    "https://akulasreekaran.github.io/Fram-Fresh-Chicken-Market-/";
+
+
+  new QRCode(
+    document.getElementById("websiteQRCode"),
+    {
+      text: websiteURL,
+      width: 220,
+      height: 220,
+      colorDark: "#000000",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H
+    }
+  );
+
+
+  function downloadQRCode() {
+
+    const qrCanvas =
+      document.querySelector(
+        "#websiteQRCode canvas"
+      );
+
+
+    if (qrCanvas) {
+
+      const link =
+        document.createElement("a");
+
+      link.download =
+        "Farm-Fresh-Chicken-Market-QR.png";
+
+      link.href =
+        qrCanvas.toDataURL("image/png");
+
+      link.click();
+
+    } else {
+
+      alert(
+        "QR code is not ready yet. Please try again."
+      );
+
+    }
+
+  }
+
+</script>
+
+
+<!-- ============================= -->
+<!-- FOOTER -->
+<!-- ============================= -->
+
+<footer style="
+  background:#222;
+  color:white;
+  text-align:center;
+  padding:35px 20px;
+">
+
+  <h3 style="
+    font-size:22px;
+    margin-bottom:10px;
+  ">
+    🍗 Farm Fresh Chicken Market
+  </h3>
+
+
+  <p style="
+    color:#ddd;
+    margin:6px 0;
+  ">
+    Fresh Chicken • Quality • Trust
+  </p>
+
+
+  <p style="
+    color:#bbb;
+    margin:6px 0;
+  ">
+    Kondapur, Raghavendra Colony,
+    Near 1st Pole, Hyderabad
+  </p>
+
+
+  <a
+    href="https://maps.app.goo.gl/FEYic1oimazVzHEh7?g_st=ac"
+    target="_blank"
+    rel="noopener"
+    style="
+      display:inline-block;
+      margin-top:12px;
+      color:#ffcc00;
+      font-weight:bold;
+    "
+  >
+    📍 View Location
+  </a>
+
+
+  <p style="
+    color:#999;
+    font-size:13px;
+    margin-top:20px;
+  ">
+    © 2026 Farm Fresh Chicken Market.
+    All Rights Reserved.
+  </p>
+
+</footer>
+
+
+</body>
+
+</html>
