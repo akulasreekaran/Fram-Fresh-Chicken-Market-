@@ -1692,8 +1692,694 @@
   </p>
 
 </footer>
+<!-- FIREBASE + CART SCRIPT -->
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+  getDatabase,
+  ref,
+  push,
+  set
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+
+const firebaseConfig = {
+
+  apiKey: "AIzaSyCcKIDaVUTCzin0tP6oN16ABrexjGOS50M",
+
+  authDomain:
+    "farm-fresh-chicken-market.firebaseapp.com",
+
+  projectId:
+    "farm-fresh-chicken-market",
+
+  storageBucket:
+    "farm-fresh-chicken-market.firebasestorage.app",
+
+  messagingSenderId:
+    "184530252526",
+
+  appId:
+    "1:184530252526:web:f7427c6a46eb76201df9ff"
+
+};
+
+
+const app =
+  initializeApp(firebaseConfig);
+
+const database =
+  getDatabase(app);
+
+
+const SHOP_LATITUDE =
+  17.470028;
+
+const SHOP_LONGITUDE =
+  78.364139;
+
+const MAX_DISTANCE_KM =
+  2;
+
+
+const WHATSAPP_NUMBER =
+  "918121321120";
+
+
+let cart = [];
+
+let customerLatitude = null;
+
+let customerLongitude = null;
+/* ADD PRODUCT TO CART */
+
+window.addToCart = function(product, price) {
+
+  const existingItem = cart.find(
+    item => item.product === product
+  );
+
+  if (existingItem) {
+
+    existingItem.quantity++;
+
+  } else {
+
+    cart.push({
+      product: product,
+      price: Number(price),
+      quantity: 1
+    });
+
+  }
+
+  renderCart();
+
+  document.getElementById("order").scrollIntoView({
+    behavior: "smooth"
+  });
+
+};
+
+
+/* CHANGE CART QUANTITY */
+
+window.changeCartQty = function(index, change) {
+
+  if (!cart[index]) return;
+
+  cart[index].quantity += change;
+
+  if (cart[index].quantity <= 0) {
+
+    cart.splice(index, 1);
+
+  }
+
+  renderCart();
+
+};
+
+
+/* REMOVE FROM CART */
+
+window.removeFromCart = function(index) {
+
+  cart.splice(index, 1);
+
+  renderCart();
+/* ESCAPE HTML */
+
+function escapeHTML(text) {
+
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+/* RENDER CART */
+
+function renderCart() {
+
+  const cartItems =
+    document.getElementById("cartItems");
+
+  const cartTotal =
+    document.getElementById("cartTotal");
+
+
+  if (!cartItems || !cartTotal) return;
+
+
+  if (cart.length === 0) {
+
+    cartItems.innerHTML =
+      "<p>Your cart is empty.</p>";
+
+    cartTotal.innerHTML =
+      "Total: ₹0";
+
+
+};
+  /* ESCAPE HTML */
+
+function escapeHTML(text) {
+
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+/* RENDER CART */
+
+function renderCart() {
+
+  const cartItems =
+    document.getElementById("cartItems");
+
+  const cartTotal =
+    document.getElementById("cartTotal");
+
+
+  if (!cartItems || !cartTotal) return;
+
+
+  if (cart.length === 0) {
+
+    cartItems.innerHTML =
+      "<p>Your cart is empty.</p>";
+
+    cartTotal.innerHTML =
+      "Total: ₹0";
+
+    return;
+
+  }
+
+
+  let total = 0;
+
+  let html = "";
+
+
+  cart.forEach((item, index) => {
+
+    const itemTotal =
+      item.price * item.quantity;
+
+    total += itemTotal;
+
+
+    html += `
+
+      <div style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        gap:10px;
+        padding:12px;
+        margin-bottom:10px;
+        background:#fff;
+        border-radius:10px;
+        box-shadow:0 2px 8px rgba(0,0,0,0.08);
+      ">
+
+        <div>
+
+          <strong>
+            ${escapeHTML(item.product)}
+          </strong>
+
+          <br>
+
+          <span>
+            ₹${item.price}/kg
+          </span>
+
+        </div>
+
+
+        <div style="
+          display:flex;
+          align-items:center;
+          gap:8px;
+        ">
+
+          <button
+            onclick="changeCartQty(${index}, -1)"
+            style="
+              padding:5px 10px;
+              border:none;
+              border-radius:6px;
+              cursor:pointer;
+            "
+          >
+            −
+          </button>
+
+
+          <strong>
+            ${item.quantity}
+          </strong>
+
+
+          <button
+            onclick="changeCartQty(${index}, 1)"
+            style="
+              padding:5px 10px;
+              border:none;
+              border-radius:6px;
+              cursor:pointer;
+            "
+          >
+            +
+          </button>
+
+
+          <button
+            onclick="removeFromCart(${index})"
+            style="
+              padding:5px 8px;
+              border:none;
+              border-radius:6px;
+              cursor:pointer;
+            "
+          >
+            ✕
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+
+  cartItems.innerHTML = html;
+
+
+  cartTotal.innerHTML =
+    `<strong>Total: ₹${total}</strong>`;
+
+}
+  /* CALCULATE DISTANCE */
+
+function calculateDistance(
+  lat1,
+  lon1,
+  lat2,
+  lon2
+) {
+
+  const R = 6371;
+
+  const dLat =
+    (lat2 - lat1) * Math.PI / 180;
+
+  const dLon =
+    (lon2 - lon1) * Math.PI / 180;
+
+
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1 * Math.PI / 180) *
+    Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon / 2) ** 2;
+
+
+  const c =
+    2 * Math.atan2(
+      Math.sqrt(a),
+      Math.sqrt(1 - a)
+    );
+
+
+  return R * c;
+
+}
+
+
+/* CHECK CUSTOMER LOCATION */
+
+window.checkLocation = function() {
+
+  const status =
+    document.getElementById("locationStatus");
+
+
+  if (!navigator.geolocation) {
+
+    status.innerHTML =
+      "❌ Location is not supported by your browser.";
+
+    return;
+
+  }
+
+
+  status.innerHTML =
+    "📍 Checking your location...";
+
+
+  navigator.geolocation.getCurrentPosition(
+
+    function(position) {
+
+      customerLatitude =
+        position.coords.latitude;
+
+      customerLongitude =
+        position.coords.longitude;
+
+
+      const distance =
+        calculateDistance(
+          customerLatitude,
+          customerLongitude,
+          SHOP_LATITUDE,
+          SHOP_LONGITUDE
+        );
+
+
+      if (distance <= MAX_DISTANCE_KM) {
+
+        status.innerHTML =
+          `✅ Location verified. You are ${distance.toFixed(2)} km from our shop.`;
+
+      } else {
+
+        status.innerHTML =
+          `❌ You are ${distance.toFixed(2)} km away. Ordering is available only within 2 km of our Kondapur shop.`;
+
+      }
+
+    },
+
+    function(error) {
+
+      status.innerHTML =
+        "❌ Please allow location access and try again.";
+
+    }
+
+  );
+
+};
+  /* PLACE ORDER */
+
+window.sendOrder = async function() {
+
+  if (cart.length === 0) {
+
+    alert("Please add products to your cart first.");
+
+    return;
+
+  }
+
+
+  const name =
+    document.getElementById("customerName").value.trim();
+
+  const phone =
+    document.getElementById("customerPhone").value.trim();
+
+  const address =
+    document.getElementById("customerAddress").value.trim();
+
+  const landmark =
+    document.getElementById("customerLandmark").value.trim();
+
+
+  /* CHECK CUSTOMER DETAILS */
+
+  if (!name) {
+
+    alert("Please enter your name.");
+
+    return;
+
+  }
+
+
+  if (!/^[0-9]{10}$/.test(phone)) {
+
+    alert("Please enter a valid 10-digit phone number.");
+
+    return;
+
+  }
+
+
+  if (!address) {
+
+    alert("Please enter your address.");
+
+    return;
+
+  }
+
+
+  if (!landmark) {
+
+    alert("Please enter your landmark.");
+
+    return;
+
+  }
+
+
+  /* CHECK LOCATION */
+
+  if (
+    customerLatitude === null ||
+    customerLongitude === null
+  ) {
+
+    alert("Please check your location first.");
+
+    return;
+
+  }
+
+
+  const distance =
+    calculateDistance(
+      customerLatitude,
+      customerLongitude,
+      SHOP_LATITUDE,
+      SHOP_LONGITUDE
+    );
+
+
+  if (distance > MAX_DISTANCE_KM) {
+
+    alert(
+      "Sorry! Ordering is available only within 2 km of our Kondapur shop."
+    );
+
+    return;
+
+  }
+
+
+  /* CALCULATE TOTAL */
+
+  let total = 0;
+
+
+  cart.forEach(item => {
+
+    total +=
+      item.price * item.quantity;
+
+  });
+
+
+  /* ORDER DATA */
+
+  const orderData = {
+
+    name: name,
+
+    phone: phone,
+
+    address: address,
+
+    landmark: landmark,
+
+    product:
+      cart.map(item => item.product).join(", "),
+
+    quantity:
+      cart.map(item => item.quantity).join(", "),
+
+    items: cart,
+
+    total: total,
+
+    distanceFromShop:
+      Number(distance.toFixed(2)),
+
+    distance:
+      Number(distance.toFixed(2)),
+
+    latitude:
+      customerLatitude,
+
+    longitude:
+      customerLongitude,
+
+    status: "new",
+
+    createdAt:
+      new Date().toISOString()
+
+  };
+
+
+  try {
+
+    /* SAVE ORDER TO FIREBASE */
+
+    const ordersRef =
+      ref(database, "orders");
+
+    const newOrderRef =
+      push(ordersRef);
+
+    await set(
+      newOrderRef,
+      orderData
+    );
+
+
+    /* CREATE WHATSAPP MESSAGE */
+
+    let message =
+      "🍗 *Farm Fresh Chicken Market*%0A%0A";
+
+    message +=
+      "*New Order*%0A%0A";
+
+
+    message +=
+      "*Customer:* " +
+      encodeURIComponent(name) +
+      "%0A";
+
+
+    message +=
+      "*Phone:* " +
+      encodeURIComponent(phone) +
+      "%0A";
+
+
+    message +=
+      "*Address:* " +
+      encodeURIComponent(address) +
+      "%0A";
+
+
+    message +=
+      "*Landmark:* " +
+      encodeURIComponent(landmark) +
+      "%0A%0A";
+
+
+    message +=
+      "*Items:*%0A";
+
+
+    cart.forEach(item => {
+
+      message +=
+        "• " +
+        encodeURIComponent(item.product) +
+        " × " +
+        item.quantity +
+        " kg = ₹" +
+        (item.price * item.quantity) +
+        "%0A";
+
+    });
+
+
+    message +=
+      "%0A*Total: ₹" +
+      total +
+      "*%0A";
+
+
+    message +=
+      "Distance from shop: " +
+      distance.toFixed(2) +
+      " km";
+
+
+    /* OPEN WHATSAPP */
+
+    const whatsappURL =
+      "https://wa.me/" +
+      WHATSAPP_NUMBER +
+      "?text=" +
+      message;
+
+
+    window.open(
+      whatsappURL,
+      "_blank"
+    );
+
+
+    alert(
+      "✅ Order placed successfully!"
+    );
+
+
+    /* CLEAR CART */
+
+    cart = [];
+
+    renderCart();
+
+
+    /* CLEAR CUSTOMER FORM */
+
+    document.getElementById("customerName").value = "";
+
+    document.getElementById("customerPhone").value = "";
+
+    document.getElementById("customerAddress").value = "";
+
+    document.getElementById("customerLandmark").value = "";
+
+
+  } catch (error) {
+
+    console
+    /* INITIAL CART DISPLAY */
+
+renderCart();
+
+</script>
 
 
 </body>
-
 </html>
