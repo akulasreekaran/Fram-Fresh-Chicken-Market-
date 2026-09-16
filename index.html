@@ -1826,7 +1826,8 @@
 </style>
 
 <!-- ================================= -->
-<!-- PART 10 - DELIVERY LOCATION CHECK -->
+<!-- ================================= -->
+<!-- PART 10 - LOCATION CHECK -->
 <!-- ================================= -->
 
 <script>
@@ -1835,6 +1836,12 @@ let locationVerified = false;
 
 const SHOP_LATITUDE = 17.470218;
 const SHOP_LONGITUDE = 78.364172;
+const MAX_DISTANCE_KM = 2;
+
+
+/* ================================= */
+/* DISTANCE CALCULATION */
+/* ================================= */
 
 function calculateDistance(lat1, lon1, lat2, lon2) {
 
@@ -1866,88 +1873,166 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 }
 
 
-function checkDeliveryLocation() {
+/* ================================= */
+/* CHANGE ORDER TYPE */
+/* ================================= */
+
+function changeOrderType() {
+
+  locationVerified = false;
+
+  const selected =
+    document.querySelector(
+      'input[name="orderType"]:checked'
+    ).value;
+
+  const helpText =
+    document.getElementById(
+      "locationHelpText"
+    );
 
   const status =
-    document.getElementById("locationStatus");
+    document.getElementById(
+      "locationStatus"
+    );
 
   const button =
-    document.getElementById("checkLocationButton");
+    document.getElementById(
+      "checkLocationButton"
+    );
+
+
+  status.innerHTML = "";
+
+  status.style.color = "#222";
+
+  button.disabled = false;
+
+
+  if (selected === "myself") {
+
+    helpText.innerHTML =
+      "📍 Your current GPS location will be checked.";
+
+    button.innerText =
+      "📍 Check My Location";
+
+  }
+
+  else {
+
+    helpText.innerHTML =
+      "🏠 The recipient's address and landmark will be checked.";
+
+    button.innerText =
+      "🏠 Check Delivery Address";
+
+  }
+
+}
+
+
+/* ================================= */
+/* MAIN CHECK */
+/* ================================= */
+
+function checkDeliveryLocation() {
+
+  const selected =
+    document.querySelector(
+      'input[name="orderType"]:checked'
+    ).value;
+
+
+  if (selected === "myself") {
+
+    checkMyLocation();
+
+  }
+
+  else {
+
+    checkRecipientAddress();
+
+  }
+
+}
+
+
+/* ================================= */
+/* MYSELF - GPS */
+/* ================================= */
+
+function checkMyLocation() {
+
+  const status =
+    document.getElementById(
+      "locationStatus"
+    );
+
+  const button =
+    document.getElementById(
+      "checkLocationButton"
+    );
+
+
+  locationVerified = false;
 
 
   if (!navigator.geolocation) {
 
     status.innerHTML =
-      "❌ Location is not supported by this browser.";
+      "❌ GPS is not supported by this browser.";
 
     status.style.color = "red";
 
-    locationVerified = false;
-
     return;
+
   }
 
 
   status.innerHTML =
-    "📍 Checking delivery location...";
+    "📍 Checking your current location...";
 
   status.style.color = "#222";
 
   button.disabled = true;
 
   button.innerText =
-    "Checking Location...";
+    "Checking GPS...";
 
 
   navigator.geolocation.getCurrentPosition(
 
     function(position) {
 
-      const customerLatitude =
+      const lat =
         position.coords.latitude;
 
-      const customerLongitude =
+      const lon =
         position.coords.longitude;
 
 
       const distance =
         calculateDistance(
-          customerLatitude,
-          customerLongitude,
+          lat,
+          lon,
           SHOP_LATITUDE,
           SHOP_LONGITUDE
         );
 
 
-      console.log(
-        "Delivery Latitude:",
-        customerLatitude
-      );
-
-      console.log(
-        "Delivery Longitude:",
-        customerLongitude
-      );
-
-      console.log(
-        "Distance from shop:",
-        distance.toFixed(2),
-        "km"
-      );
-
-
-      if (distance <= 2) {
+      if (distance <= MAX_DISTANCE_KM) {
 
         locationVerified = true;
 
         status.innerHTML =
           "✅ Delivery Available!<br>" +
-          "Delivery location is " +
+          "You are " +
           distance.toFixed(2) +
-          " km from our shop.";
+          " km from our Kondapur shop.";
 
-        status.style.color =
-          "green";
+        status.style.color = "green";
 
         button.innerText =
           "✅ Location Verified";
@@ -1960,13 +2045,12 @@ function checkDeliveryLocation() {
 
         status.innerHTML =
           "❌ Delivery Not Available!<br>" +
-          "Delivery location is " +
+          "You are " +
           distance.toFixed(2) +
-          " km from our shop.<br>" +
+          " km from our Kondapur shop.<br>" +
           "Orders are available only within 2 km.";
 
-        status.style.color =
-          "red";
+        status.style.color = "red";
 
         button.innerText =
           "📍 Check Again";
@@ -1986,14 +2070,14 @@ function checkDeliveryLocation() {
       button.disabled = false;
 
       button.innerText =
-        "📍 Check Delivery Location";
+        "📍 Check My Location";
 
 
       if (error.code === 1) {
 
         status.innerHTML =
           "❌ Location permission denied.<br>" +
-          "Please allow location access.";
+          "Please allow GPS access.";
 
       }
 
@@ -2014,13 +2098,12 @@ function checkDeliveryLocation() {
       else {
 
         status.innerHTML =
-          "❌ Could not check the delivery location.";
+          "❌ Could not check your location.";
 
       }
 
 
-      status.style.color =
-        "red";
+      status.style.color = "red";
 
     },
 
@@ -2035,8 +2118,220 @@ function checkDeliveryLocation() {
 
 }
 
+
+/* ================================= */
+/* SOMEONE ELSE - ADDRESS */
+/* ================================= */
+
+async function checkRecipientAddress() {
+
+  const address =
+    document.getElementById(
+      "customerAddress"
+    ).value.trim();
+
+  const landmark =
+    document.getElementById(
+      "customerLandmark"
+    ).value.trim();
+
+  const status =
+    document.getElementById(
+      "locationStatus"
+    );
+
+  const button =
+    document.getElementById(
+      "checkLocationButton"
+    );
+
+
+  locationVerified = false;
+
+
+  if (!address) {
+
+    status.innerHTML =
+      "❌ Please enter the delivery address.";
+
+    status.style.color = "red";
+
+    return;
+
+  }
+
+
+  if (!landmark) {
+
+    status.innerHTML =
+      "❌ Please enter the landmark.";
+
+    status.style.color = "red";
+
+    return;
+
+  }
+
+
+  const fullAddress =
+    address +
+    ", " +
+    landmark +
+    ", Kondapur, Hyderabad, Telangana, India";
+
+
+  status.innerHTML =
+    "🏠 Checking recipient's address...";
+
+  status.style.color = "#222";
+
+  button.disabled = true;
+
+  button.innerText =
+    "Checking Address...";
+
+
+  try {
+
+    const url =
+      "https://nominatim.openstreetmap.org/search" +
+      "?format=jsonv2" +
+      "&limit=1" +
+      "&countrycodes=in" +
+      "&q=" +
+      encodeURIComponent(fullAddress);
+
+
+    const response =
+      await fetch(url);
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "Address service error"
+      );
+
+    }
+
+
+    const results =
+      await response.json();
+
+
+    if (
+      !results ||
+      results.length === 0
+    ) {
+
+      locationVerified = false;
+
+      status.innerHTML =
+        "❌ Address not found.<br>" +
+        "Please enter a more complete address and landmark.";
+
+      status.style.color = "red";
+
+      button.disabled = false;
+
+      button.innerText =
+        "🏠 Check Delivery Address";
+
+      return;
+
+    }
+
+
+    const latitude =
+      parseFloat(
+        results[0].lat
+      );
+
+    const longitude =
+      parseFloat(
+        results[0].lon
+      );
+
+
+    const distance =
+      calculateDistance(
+        latitude,
+        longitude,
+        SHOP_LATITUDE,
+        SHOP_LONGITUDE
+      );
+
+
+    if (
+      distance <= MAX_DISTANCE_KM
+    ) {
+
+      locationVerified = true;
+
+      status.innerHTML =
+        "✅ Delivery Available!<br>" +
+        "Recipient address is approximately " +
+        distance.toFixed(2) +
+        " km from our Kondapur shop.";
+
+      status.style.color =
+        "green";
+
+      button.innerText =
+        "✅ Address Verified";
+
+    }
+
+    else {
+
+      locationVerified = false;
+
+      status.innerHTML =
+        "❌ Delivery Not Available!<br>" +
+        "Recipient address is approximately " +
+        distance.toFixed(2) +
+        " km from our Kondapur shop.<br>" +
+        "Orders are available only within 2 km.";
+
+      status.style.color =
+        "red";
+
+      button.innerText =
+        "🏠 Check Again";
+
+    }
+
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Geocoding error:",
+      error
+    );
+
+
+    locationVerified = false;
+
+    status.innerHTML =
+      "❌ Could not check the address right now.<br>" +
+      "Please try again.";
+
+    status.style.color =
+      "red";
+
+    button.innerText =
+      "🏠 Check Delivery Address";
+
+  }
+
+
+  button.disabled = false;
+
+}
+
 </script>
-    
 <!-- ================================= -->
 <!-- PART 11 - ORDER CONFIRMATION -->
 <!-- ================================= -->
