@@ -2703,31 +2703,43 @@ distanceFromShop = distance;
 </style>
 
 <script>
-// 🔔 Long confirmation beep
-const audioContext =
-  new (window.AudioContext || window.webkitAudioContext)();
+/* 5-second confirmation beep */
+try {
+  const AudioContext =
+    window.AudioContext ||
+    window.webkitAudioContext;
 
-const oscillator =
-  audioContext.createOscillator();
+  const audioContext = new AudioContext();
 
-const gainNode =
-  audioContext.createGain();
+  await audioContext.resume();
 
-oscillator.type = "sine";
-oscillator.frequency.value = 800;
+  const oscillator =
+    audioContext.createOscillator();
 
-gainNode.gain.value = 0.25;
+  const gainNode =
+    audioContext.createGain();
 
-oscillator.connect(gainNode);
-gainNode.connect(audioContext.destination);
+  oscillator.type = "sine";
+  oscillator.frequency.value = 800;
 
-oscillator.start();
+  gainNode.gain.setValueAtTime(
+    0.3,
+    audioContext.currentTime
+  );
 
-setTimeout(function() {
-  oscillator.stop();
-  audioContext.close();
-}, 2000);
-</script>
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+
+  oscillator.start();
+
+  oscillator.stop(
+    audioContext.currentTime + 5
+  );
+
+} catch (error) {
+  console.log("Beep error:", error);
+}
+<script>
 /* ================================= */
 /* SHOW ORDER CONFIRMATION */
 /* ================================= */
@@ -2948,6 +2960,7 @@ async function confirmOrder() {
 
   });
 
+
   /* Save order to Firebase */
   try {
 
@@ -3106,6 +3119,7 @@ distance:
 }
 
 </style>
+</script>
 <button
   type="button"
   class="whatsapp-order-button"
