@@ -2453,6 +2453,59 @@ distanceFromShop = distance;
   </p>
 
 </div>
+<!-- ORDER SUMMARY -->
+
+<div class="confirmation-order">
+
+  <h3>🛒 Your Order</h3>
+
+  <div id="confirmationItems">
+    <p>No order yet.</p>
+  </div>
+
+  <div class="confirmation-total">
+
+    <strong>
+      💰 Total Amount:
+    </strong>
+
+    <span id="confirmationTotal">
+      ₹0
+    </span>
+
+  </div>
+
+</div>
+
+
+<!-- CUSTOMER DETAILS -->
+
+<div class="confirmation-customer">
+
+  <h3>👤 Customer Details</h3>
+
+  <p>
+    <strong>Name:</strong>
+    <span id="confirmName">-</span>
+  </p>
+
+  <p>
+    <strong>Phone:</strong>
+    <span id="confirmPhone">-</span>
+  </p>
+
+  <p>
+    <strong>Address:</strong>
+    <span id="confirmAddress">-</span>
+  </p>
+
+  <p>
+    <strong>Landmark:</strong>
+    <span id="confirmLandmark">-</span>
+  </p>
+
+</div>
+
 
 
       <!-- LOCATION STATUS -->
@@ -2492,6 +2545,100 @@ distanceFromShop = distance;
 
 
 <style>
+  /* Order Summary */
+
+.confirmation-order,
+.confirmation-customer {
+
+  margin-top: 20px;
+  padding: 20px;
+
+  background: #fff;
+
+  border-radius: 12px;
+
+  border: 1px solid #eee;
+
+}
+
+
+/* Order items */
+
+.confirmation-item {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 12px 0;
+
+  border-bottom: 1px solid #eee;
+
+}
+
+
+.confirmation-item-name {
+
+  font-weight: bold;
+
+}
+
+
+.confirmation-item-details {
+
+  text-align: right;
+
+  font-size: 14px;
+
+}
+
+
+/* Total */
+
+.confirmation-total {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  margin-top: 18px;
+
+  padding-top: 15px;
+
+  border-top: 2px solid #ddd;
+
+  font-size: 18px;
+
+}
+
+
+#confirmationTotal {
+
+  font-weight: bold;
+
+}
+
+
+/* Customer details */
+
+.confirmation-customer p {
+
+  margin: 10px 0;
+
+  line-height: 1.5;
+
+}
+
+
+.confirmation-customer span {
+
+  margin-left: 5px;
+
+}
 
 /* Confirmation section */
 
