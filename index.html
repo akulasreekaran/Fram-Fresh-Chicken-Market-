@@ -5,14 +5,9 @@
 
   <meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>
-    Farm Fresh Chicken Market
-  </title>
+  <title>Farm Fresh Chicken Market</title>
 
   <meta
     name="description"
@@ -33,8 +28,8 @@
 
     body {
       font-family: Arial, sans-serif;
-      background: #fff;
-      color: #222;
+      background: #ffffff;
+      color: #222222;
       line-height: 1.6;
     }
 
@@ -47,54 +42,15 @@
       display: block;
     }
 
-    button {
+    button,
+    input,
+    textarea {
       font-family: inherit;
     }
 
-    /* HEADER */
-
-    header {
-      background: #222;
-      color: white;
-      padding: 15px 20px;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+    button {
+      cursor: pointer;
     }
-
-    .header-container {
-      max-width: 1200px;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .logo {
-      font-size: 22px;
-      font-weight: bold;
-      color: white;
-    }
-
-    nav {
-      display: flex;
-      gap: 18px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    nav a {
-      color: white;
-      font-weight: bold;
-      font-size: 15px;
-    }
-
-    nav a:hover {
-      color: #ffcc00;
-    }
-
-    /* GENERAL SECTIONS */
 
     section {
       width: 100%;
@@ -118,24 +74,14 @@
       margin-bottom: 30px;
     }
 
-    /* MOBILE */
-
     @media (max-width: 700px) {
-
-      .header-container {
-        flex-direction: column;
-      }
-
-      nav {
-        gap: 10px;
-      }
-
-      nav a {
-        font-size: 14px;
-      }
 
       .section-title {
         font-size: 27px;
+      }
+
+      .section-container {
+        padding: 40px 15px;
       }
 
     }
@@ -145,44 +91,44 @@
 </head>
 
 <body>
-
-
-<!-- ============================= -->
-<!-- HEADER -->
+  <!-- ============================= -->
+<!-- PART 2 — HEADER + NAVIGATION -->
 <!-- ============================= -->
 
-<header>
+<header class="site-header">
 
   <div class="header-container">
 
-    <div class="logo">
+    <!-- LOGO -->
+    <a href="#home" class="logo">
       🍗 Farm Fresh Chicken Market
-    </div>
+    </a>
 
-    <nav>
+    <!-- NAVIGATION -->
+    <nav class="main-nav">
 
       <a href="#home">
-        Home
+        🏠 Home
       </a>
 
       <a href="#products">
-        Products
+        🍗 Products
       </a>
 
       <a href="#order">
-        Order
+        🛒 Order
       </a>
 
       <a href="#location">
-        Location
+        📍 Location
       </a>
 
       <a href="#shop-photos">
-        Shop Photos
+        📸 Photos
       </a>
 
       <a href="#website-qr">
-        QR Code
+        📱 QR Code
       </a>
 
     </nav>
@@ -190,112 +136,151 @@
   </div>
 
 </header>
+
+
 <!-- ============================= -->
-<!-- HOME SECTION -->
+<!-- HEADER CSS -->
 <!-- ============================= -->
 
-<section
-  id="home"
-  style="
-    background:
-      linear-gradient(
-        rgba(0,0,0,0.55),
-        rgba(0,0,0,0.55)
-      ),
-      url('images/4811bcd4c11d9bffbd6b0453c955913c.png')
-      center/cover no-repeat;
-    min-height:520px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    color:white;
-    padding:60px 20px;
-  "
->
+<style>
 
-  <div style="
-    max-width:800px;
-    margin:auto;
-  ">
+  .site-header {
+    background: #222;
+    color: white;
+    padding: 15px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+  }
 
-    <div style="
-      display:inline-block;
-      background:#ffcc00;
-      color:#222;
-      padding:8px 18px;
-      border-radius:30px;
-      font-weight:bold;
-      margin-bottom:18px;
-      font-size:16px;
-    ">
+
+  .header-container {
+    max-width: 1200px;
+    margin: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+  }
+
+
+  .logo {
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+
+  .logo:hover {
+    color: #ffcc00;
+  }
+
+
+  .main-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+
+  .main-nav a {
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+
+    padding: 7px 4px;
+
+    transition: 0.2s;
+  }
+
+
+  .main-nav a:hover {
+    color: #ffcc00;
+  }
+
+
+  /* MOBILE HEADER */
+
+  @media (max-width: 800px) {
+
+    .header-container {
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .logo {
+      font-size: 20px;
+      text-align: center;
+    }
+
+    .main-nav {
+      gap: 8px 12px;
+    }
+
+    .main-nav a {
+      font-size: 13px;
+    }
+
+  }
+
+
+  @media (max-width: 450px) {
+
+    .main-nav {
+      gap: 6px 9px;
+    }
+
+    .main-nav a {
+      font-size: 12px;
+    }
+
+  }
+
+</style>
+  <!-- ============================= -->
+<!-- PART 3 — HOME PAGE -->
+<!-- ============================= -->
+
+<section id="home" class="home-section">
+
+  <div class="home-content">
+
+    <!-- TOP BADGE -->
+    <div class="fresh-badge">
       🔥 Fresh • Clean • Quality
     </div>
 
-
-    <h1 style="
-      font-size:48px;
-      margin-bottom:15px;
-      line-height:1.2;
-    ">
+    <!-- MAIN TITLE -->
+    <h1>
       Farm Fresh Chicken Market
     </h1>
 
-
-    <h2 style="
-      font-size:26px;
-      margin-bottom:15px;
-      color:#ffcc00;
-    ">
+    <!-- MAIN SLOGAN -->
+    <h2>
       Tender Chicken, Fresh Every Day 🍗
     </h2>
 
-
-    <p style="
-      font-size:18px;
-      margin-bottom:25px;
-      color:#f5f5f5;
-    ">
+    <!-- DESCRIPTION -->
+    <p>
       Fresh and quality chicken products
       available in Kondapur, Hyderabad.
     </p>
 
+    <!-- BUTTONS -->
+    <div class="home-buttons">
 
-    <div style="
-      display:flex;
-      gap:12px;
-      justify-content:center;
-      flex-wrap:wrap;
-    ">
-
-      <a
-        href="#products"
-        style="
-          display:inline-block;
-          background:#ffcc00;
-          color:#222;
-          padding:14px 25px;
-          border-radius:10px;
-          font-weight:bold;
-          font-size:16px;
-        "
-      >
+      <a href="#products" class="products-button">
         🛒 View Products
       </a>
 
-
-      <a
-        href="#location"
-        style="
-          display:inline-block;
-          background:white;
-          color:#222;
-          padding:14px 25px;
-          border-radius:10px;
-          font-weight:bold;
-          font-size:16px;
-        "
-      >
+      <a href="#location" class="location-button">
         📍 Find Our Shop
       </a>
 
@@ -307,37 +292,265 @@
 
 
 <!-- ============================= -->
-<!-- ABOUT / HIGHLIGHTS -->
+<!-- HOME PAGE CSS -->
 <!-- ============================= -->
 
-<section style="
-  background:#fff8f0;
-  padding:45px 20px;
-">
+<style>
 
-  <div style="
-    max-width:1100px;
-    margin:auto;
-    display:grid;
-    grid-template-columns:
-      repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
-  ">
+  .home-section {
+
+    min-height: 520px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    color: white;
+
+    padding: 60px 20px;
+
+    background:
+
+      linear-gradient(
+        rgba(0,0,0,0.58),
+        rgba(0,0,0,0.58)
+      ),
+
+      url('images/4811bcd4c11d9bffbd6b0453c955913c.png')
+
+      center / cover no-repeat;
+  }
 
 
-    <div style="
-      background:white;
-      padding:25px 20px;
-      border-radius:15px;
-      text-align:center;
-      box-shadow:
-        0 5px 18px rgba(0,0,0,0.08);
-    ">
+  .home-content {
 
-      <div style="
-        font-size:38px;
-        margin-bottom:10px;
-      ">
+    max-width: 850px;
+    margin: auto;
+
+  }
+
+
+  /* FRESH BADGE */
+
+  .fresh-badge {
+
+    display: inline-block;
+
+    background: #ffcc00;
+
+    color: #222;
+
+    padding: 8px 18px;
+
+    border-radius: 30px;
+
+    font-weight: bold;
+
+    margin-bottom: 18px;
+
+    font-size: 16px;
+
+  }
+
+
+  /* MAIN TITLE */
+
+  .home-content h1 {
+
+    font-size: 48px;
+
+    margin-bottom: 15px;
+
+    line-height: 1.2;
+
+  }
+
+
+  /* SLOGAN */
+
+  .home-content h2 {
+
+    font-size: 26px;
+
+    margin-bottom: 15px;
+
+    color: #ffcc00;
+
+  }
+
+
+  /* DESCRIPTION */
+
+  .home-content p {
+
+    font-size: 18px;
+
+    margin-bottom: 28px;
+
+    color: #f5f5f5;
+
+  }
+
+
+  /* BUTTON AREA */
+
+  .home-buttons {
+
+    display: flex;
+
+    gap: 12px;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+  }
+
+
+  /* PRODUCTS BUTTON */
+
+  .products-button {
+
+    display: inline-block;
+
+    background: #ffcc00;
+
+    color: #222;
+
+    padding: 14px 25px;
+
+    border-radius: 10px;
+
+    font-weight: bold;
+
+    font-size: 16px;
+
+    transition: 0.2s;
+
+  }
+
+
+  .products-button:hover {
+
+    transform: translateY(-2px);
+
+    background: #ffd633;
+
+  }
+
+
+  /* LOCATION BUTTON */
+
+  .location-button {
+
+    display: inline-block;
+
+    background: white;
+
+    color: #222;
+
+    padding: 14px 25px;
+
+    border-radius: 10px;
+
+    font-weight: bold;
+
+    font-size: 16px;
+
+    transition: 0.2s;
+
+  }
+
+
+  .location-button:hover {
+
+    transform: translateY(-2px);
+
+    background: #f1f1f1;
+
+  }
+
+
+  /* MOBILE */
+
+  @media (max-width: 700px) {
+
+    .home-section {
+
+      min-height: 500px;
+
+      padding: 50px 18px;
+
+    }
+
+
+    .home-content h1 {
+
+      font-size: 34px;
+
+    }
+
+
+    .home-content h2 {
+
+      font-size: 21px;
+
+    }
+
+
+    .home-content p {
+
+      font-size: 16px;
+
+    }
+
+
+    .products-button,
+    .location-button {
+
+      width: 100%;
+
+      max-width: 280px;
+
+    }
+
+  }
+
+
+  @media (max-width: 400px) {
+
+    .home-content h1 {
+
+      font-size: 29px;
+
+    }
+
+
+    .home-content h2 {
+
+      font-size: 19px;
+
+    }
+
+  }
+
+</style>
+<!-- ============================= -->
+<!-- PART 4 — HIGHLIGHTS -->
+<!-- ============================= -->
+
+<section class="highlights-section">
+
+  <div class="highlights-container">
+
+
+    <!-- CARD 1 -->
+
+    <div class="highlight-card">
+
+      <div class="highlight-icon">
         🍗
       </div>
 
@@ -345,10 +558,7 @@
         Fresh Chicken
       </h3>
 
-      <p style="
-        color:#666;
-        margin-top:8px;
-      ">
+      <p>
         Fresh chicken prepared
         with care every day.
       </p>
@@ -356,19 +566,11 @@
     </div>
 
 
-    <div style="
-      background:white;
-      padding:25px 20px;
-      border-radius:15px;
-      text-align:center;
-      box-shadow:
-        0 5px 18px rgba(0,0,0,0.08);
-    ">
+    <!-- CARD 2 -->
 
-      <div style="
-        font-size:38px;
-        margin-bottom:10px;
-      ">
+    <div class="highlight-card">
+
+      <div class="highlight-icon">
         ✨
       </div>
 
@@ -376,10 +578,7 @@
         Quality Products
       </h3>
 
-      <p style="
-        color:#666;
-        margin-top:8px;
-      ">
+      <p>
         Multiple chicken cuts
         for your cooking needs.
       </p>
@@ -387,19 +586,11 @@
     </div>
 
 
-    <div style="
-      background:white;
-      padding:25px 20px;
-      border-radius:15px;
-      text-align:center;
-      box-shadow:
-        0 5px 18px rgba(0,0,0,0.08);
-    ">
+    <!-- CARD 3 -->
 
-      <div style="
-        font-size:38px;
-        margin-bottom:10px;
-      ">
+    <div class="highlight-card">
+
+      <div class="highlight-icon">
         📍
       </div>
 
@@ -407,10 +598,7 @@
         Kondapur
       </h3>
 
-      <p style="
-        color:#666;
-        margin-top:8px;
-      ">
+      <p>
         Serving customers within
         a 2 km radius.
       </p>
@@ -418,19 +606,11 @@
     </div>
 
 
-    <div style="
-      background:white;
-      padding:25px 20px;
-      border-radius:15px;
-      text-align:center;
-      box-shadow:
-        0 5px 18px rgba(0,0,0,0.08);
-    ">
+    <!-- CARD 4 -->
 
-      <div style="
-        font-size:38px;
-        margin-bottom:10px;
-      ">
+    <div class="highlight-card">
+
+      <div class="highlight-icon">
         🛒
       </div>
 
@@ -438,15 +618,13 @@
         Easy Ordering
       </h3>
 
-      <p style="
-        color:#666;
-        margin-top:8px;
-      ">
+      <p>
         Select your products
         and place your order online.
       </p>
 
     </div>
+
 
   </div>
 
@@ -454,16 +632,118 @@
 
 
 <!-- ============================= -->
-<!-- PRODUCTS SECTION -->
+<!-- HIGHLIGHTS CSS -->
 <!-- ============================= -->
 
-<section
-  id="products"
-  style="
-    padding:55px 20px;
-    background:#ffffff;
-  "
->
+<style>
+
+  .highlights-section {
+
+    background: #fff8f0;
+
+    padding: 45px 20px;
+
+  }
+
+
+  .highlights-container {
+
+    max-width: 1100px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns:
+      repeat(
+        auto-fit,
+        minmax(220px, 1fr)
+      );
+
+    gap: 20px;
+
+  }
+
+
+  .highlight-card {
+
+    background: white;
+
+    padding: 25px 20px;
+
+    border-radius: 15px;
+
+    text-align: center;
+
+    box-shadow:
+      0 5px 18px rgba(0,0,0,0.08);
+
+    transition: 0.2s;
+
+  }
+
+
+  .highlight-card:hover {
+
+    transform: translateY(-4px);
+
+    box-shadow:
+      0 8px 22px rgba(0,0,0,0.12);
+
+  }
+
+
+  .highlight-icon {
+
+    font-size: 38px;
+
+    margin-bottom: 10px;
+
+  }
+
+
+  .highlight-card h3 {
+
+    font-size: 20px;
+
+    margin-bottom: 8px;
+
+  }
+
+
+  .highlight-card p {
+
+    color: #666;
+
+    font-size: 15px;
+
+  }
+
+
+  /* MOBILE */
+
+  @media (max-width: 500px) {
+
+    .highlights-section {
+
+      padding: 35px 15px;
+
+    }
+
+    .highlight-card {
+
+      padding: 22px 18px;
+
+    }
+
+  }
+
+</style>
+<!-- ============================= -->
+<!-- PART 5 — PRODUCTS 1, 2, 3 -->
+<!-- ============================= -->
+
+<section id="products" class="products-section">
 
   <h2 class="section-title">
     🍗 Our Products
@@ -475,62 +755,34 @@
   </p>
 
 
-  <div style="
-    max-width:1200px;
-    margin:auto;
-    display:grid;
-    grid-template-columns:
-      repeat(auto-fit,minmax(220px,1fr));
-    gap:22px;
-  ">
+  <div class="products-container">
 
 
-    <!-- LIVE -->
+    <!-- ================= -->
+    <!-- PRODUCT 1 — LIVE -->
+    <!-- ================= -->
 
-    <div style="
-      background:#fff;
-      border:1px solid #eee;
-      border-radius:15px;
-      overflow:hidden;
-      box-shadow:
-        0 5px 18px rgba(0,0,0,0.08);
-    ">
+    <div class="product-card">
 
       <img
         src="images/Live%20500x500%20%281%29.jpg"
         alt="Live Chicken"
-        style="
-          width:100%;
-          height:210px;
-          object-fit:cover;
-        "
+        class="product-image"
       >
 
-      <div style="padding:18px;">
+      <div class="product-info">
 
         <h3>
           Live Chicken
         </h3>
 
-        <p style="
-          color:#666;
-          margin:8px 0;
-        ">
+        <p class="product-price">
           ₹160 / kg
         </p>
 
         <button
+          class="add-cart-button"
           onclick="addToCart('Live Chicken',160)"
-          style="
-            width:100%;
-            padding:12px;
-            border:none;
-            border-radius:9px;
-            background:#222;
-            color:white;
-            font-weight:bold;
-            cursor:pointer;
-          "
         >
           🛒 Add to Order
         </button>
@@ -540,52 +792,31 @@
     </div>
 
 
-    <!-- DRESSED -->
+    <!-- ======================= -->
+    <!-- PRODUCT 2 — DRESSED -->
+    <!-- ======================= -->
 
-    <div style="
-      background:#fff;
-      border:1px solid #eee;
-      border-radius:15px;
-      overflow:hidden;
-      box-shadow:
-        0 5px 18px rgba(0,0,0,0.08);
-    ">
+    <div class="product-card">
 
       <img
         src="images/Dressed.jpg"
         alt="Dressed Chicken"
-        style="
-          width:100%;
-          height:210px;
-          object-fit:cover;
-        "
+        class="product-image"
       >
 
-      <div style="padding:18px;">
+      <div class="product-info">
 
         <h3>
           Dressed Chicken
         </h3>
 
-        <p style="
-          color:#666;
-          margin:8px 0;
-        ">
+        <p class="product-price">
           ₹220 / kg
         </p>
 
         <button
+          class="add-cart-button"
           onclick="addToCart('Dressed Chicken',220)"
-          style="
-            width:100%;
-            padding:12px;
-            border:none;
-            border-radius:9px;
-            background:#222;
-            color:white;
-            font-weight:bold;
-            cursor:pointer;
-          "
         >
           🛒 Add to Order
         </button>
@@ -595,380 +826,31 @@
     </div>
 
 
-    <!-- SKINLESS -->
+    <!-- ======================== -->
+    <!-- PRODUCT 3 — SKINLESS -->
+    <!-- ======================== -->
 
-    <div style="
-      background:#fff;
-      border:1px solid #eee;
-      border-radius:15px;
-      overflow:hidden;
-      box-shadow:
-        0 5px 18px rgba(0,0,0,0.08);
-    ">
+    <div class="product-card">
 
       <img
         src="images/Skinless.jpg"
         alt="Skinless Chicken"
-        style="
-          width:100%;
-          height:210px;
-          object-fit:cover;
-        "
+        class="product-image"
       >
 
-      <div style="padding:18px;">
+      <div class="product-info">
 
         <h3>
           Skinless Chicken
         </h3>
 
-        <p style="
-          color:#666;
-          margin:8px 0;
-        ">
+        <p class="product-price">
           ₹240 / kg
         </p>
 
         <button
+          class="add-cart-button"
           onclick="addToCart('Skinless Chicken',240)"
-          style="
-            width:100%;
-            padding:12px;
-            border:none;
-            border-radius:9px;
-            background:#222;
-            color:white;
-            font-weight:bold;
-            cursor:pointer;
-          "
-        >
-          🛒 Add to Order
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <!-- BONELESS -->
-
-    <div style="
-      background:#fff;
-      border:1px solid #eee;
-      border-radius:15px;
-      overflow:hidden;
-      box-shadow:
-        0 5px 18px rgba(0,0,0,0.08);
-    ">
-
-      <img
-        src="images/Chicken_Breast_Boneless.png"
-        alt="Boneless Chicken"
-        style="
-          width:100%;
-          height:210px;
-          object-fit:cover;
-        "
-      >
-
-      <div style="padding:18px;">
-
-        <h3>
-          Boneless Chicken
-        </h3>
-
-        <p style="
-          color:#666;
-          margin:8px 0;
-        ">
-          ₹420 / kg
-        </p>
-
-        <button
-          onclick="addToCart('Boneless Chicken',420)"
-          style="
-            width:100%;
-            padding:12px;
-            border:none;
-            border-radius:9px;
-            background:#222;
-            color:white;
-            font-weight:bold;
-            cursor:pointer;
-          "
-        >
-          🛒 Add to Order
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <!-- DRUMSTICKS -->
-
-    <div style="
-      background:#fff;
-      border:1px solid #eee;
-      border-radius:15px;
-      overflow:hidden;
-      box-shadow:
-        0 5px 18px rgba(0,0,0,0.08);
-    ">
-
-      <img
-        src="images/Drumsticks.png"
-        alt="Chicken Drumsticks"
-        style="
-          width:100%;
-          height:210px;
-          object-fit:cover;
-        "
-      >
-
-      <div style="padding:18px;">
-
-        <h3>
-          Drumsticks
-        </h3>
-
-        <p style="
-          color:#666;
-          margin:8px 0;
-        ">
-          ₹300 / kg
-        </p>
-
-        <button
-          onclick="addToCart('Drumsticks',300)"
-          style="
-            width:100%;
-            padding:12px;
-            border:none;
-            border-radius:9px;
-            background:#222;
-            color:white;
-            font-weight:bold;
-            cursor:pointer;
-          "
-        >
-          🛒 Add to Order
-        </button>
-
-      </div>
-
-          </div>
-              <!-- LOLLIPOPS -->
-
-    <div style="
-      background:#fff;
-      border:1px solid #eee;
-      border-radius:15px;
-      overflow:hidden;
-      box-shadow:
-        0 5px 18px rgba(0,0,0,0.08);
-    ">
-
-      <img
-        src="images/lollipop_1.jpg"
-        alt="Chicken Lollipops"
-        style="
-          width:100%;
-          height:210px;
-          object-fit:cover;
-        "
-      >
-
-      <div style="padding:18px;">
-
-        <h3>
-          Lollipops
-        </h3>
-
-        <p style="
-          color:#666;
-          margin:8px 0;
-        ">
-          ₹300 / kg
-        </p>
-
-        <button
-          onclick="addToCart('Lollipops',300)"
-          style="
-            width:100%;
-            padding:12px;
-            border:none;
-            border-radius:9px;
-            background:#222;
-            color:white;
-            font-weight:bold;
-            cursor:pointer;
-          "
-        >
-          🛒 Add to Order
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <!-- LEGS & BREAST -->
-
-    <div style="
-      background:#fff;
-      border:1px solid #eee;
-      border-radius:15px;
-      overflow:hidden;
-      box-shadow:
-        0 5px 18px rgba(0,0,0,0.08);
-    ">
-
-      <img
-        src="images/Legs%20and%20breast%20527904-114.jpg"
-        alt="Chicken Legs and Breast"
-        style="
-          width:100%;
-          height:210px;
-          object-fit:cover;
-        "
-      >
-
-      <div style="padding:18px;">
-
-        <h3>
-          Legs & Breast
-        </h3>
-
-        <p style="
-          color:#666;
-          margin:8px 0;
-        ">
-          ₹280 / kg
-        </p>
-
-        <button
-          onclick="addToCart('Legs & Breast',280)"
-          style="
-            width:100%;
-            padding:12px;
-            border:none;
-            border-radius:9px;
-            background:#222;
-            color:white;
-            font-weight:bold;
-            cursor:pointer;
-          "
-        >
-          🛒 Add to Order
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <!-- LIVER -->
-
-    <div style="
-      background:#fff;
-      border:1px solid #eee;
-      border-radius:15px;
-      overflow:hidden;
-      box-shadow:
-        0 5px 18px rgba(0,0,0,0.08);
-    ">
-
-      <img
-        src="images/Liver.jpg"
-        alt="Chicken Liver"
-        style="
-          width:100%;
-          height:210px;
-          object-fit:cover;
-        "
-      >
-
-      <div style="padding:18px;">
-
-        <h3>
-          Liver
-        </h3>
-
-        <p style="
-          color:#666;
-          margin:8px 0;
-        ">
-          ₹140 / kg
-        </p>
-
-        <button
-          onclick="addToCart('Chicken Liver',140)"
-          style="
-            width:100%;
-            padding:12px;
-            border:none;
-            border-radius:9px;
-            background:#222;
-            color:white;
-            font-weight:bold;
-            cursor:pointer;
-          "
-        >
-          🛒 Add to Order
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <!-- EGGS -->
-
-    <div style="
-      background:#fff;
-      border:1px solid #eee;
-      border-radius:15px;
-      overflow:hidden;
-      box-shadow:
-        0 5px 18px rgba(0,0,0,0.08);
-    ">
-
-      <img
-        src="images/Eggs.jpg"
-        alt="Eggs"
-        style="
-          width:100%;
-          height:210px;
-          object-fit:cover;
-        "
-      >
-
-      <div style="padding:18px;">
-
-        <h3>
-          Eggs
-        </h3>
-
-        <p style="
-          color:#666;
-          margin:8px 0;
-        ">
-          Price available at shop
-        </p>
-
-        <button
-          onclick="addToCart('Eggs',0)"
-          style="
-            width:100%;
-            padding:12px;
-            border:none;
-            border-radius:9px;
-            background:#222;
-            color:white;
-            font-weight:bold;
-            cursor:pointer;
-          "
         >
           🛒 Add to Order
         </button>
@@ -984,58 +866,186 @@
 
 
 <!-- ============================= -->
-<!-- ORDER SECTION -->
+<!-- PRODUCTS CSS -->
 <!-- ============================= -->
 
-<section
-  id="order"
-  style="
-    padding:55px 20px;
-    background:#f8f8f8;
-  "
->
+<style>
 
-  <h2 class="section-title">
-    🛒 Place Your Order
-  </h2>
+  .products-section {
 
-  <p class="section-subtitle">
-    Add your products and enter your delivery details.
-  </p>
+    padding: 55px 20px;
+
+    background: #ffffff;
+
+  }
 
 
-  <div style="
-    max-width:900px;
-    margin:auto;
-  ">
+  .products-container {
+
+    max-width: 1200px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns:
+      repeat(
+        auto-fit,
+        minmax(220px, 1fr)
+      );
+
+    gap: 22px;
+
+  }
 
 
-    <!-- CART -->
+  .product-card {
 
-    <div style="
-      background:white;
-      padding:25px;
-      border-radius:15px;
-      box-shadow:
-        0 5px 18px rgba(0,0,0,0.08);
-      margin-bottom:25px;
-    ">
+    background: #ffffff;
 
-      <h3 style="
-        margin-bottom:15px;
-        font-size:22px;
-      ">
-        🛍️ Your Cart
+    border: 1px solid #eeeeee;
+
+    border-radius: 15px;
+
+    overflow: hidden;
+
+    box-shadow:
+      0 5px 18px rgba(0,0,0,0.08);
+
+    transition: 0.2s;
+
+  }
+
+
+  .product-card:hover {
+
+    transform: translateY(-4px);
+
+    box-shadow:
+      0 8px 24px rgba(0,0,0,0.13);
+
+  }
+
+
+  .product-image {
+
+    width: 100%;
+
+    height: 210px;
+
+    object-fit: cover;
+
+  }
+
+
+  .product-info {
+
+    padding: 18px;
+
+  }
+
+
+  .product-info h3 {
+
+    font-size: 20px;
+
+    margin-bottom: 8px;
+
+  }
+
+
+  .product-price {
+
+    color: #666666;
+
+    margin-bottom: 14px;
+
+    font-size: 16px;
+
+  }
+
+
+  .add-cart-button {
+
+    width: 100%;
+
+    padding: 12px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: #222222;
+
+    color: white;
+
+    font-weight: bold;
+
+    font-size: 15px;
+
+    transition: 0.2s;
+
+  }
+
+
+  .add-cart-button:hover {
+
+    background: #ffcc00;
+
+    color: #222222;
+
+  }
+
+
+  /* MOBILE */
+
+  @media (max-width: 500px) {
+
+    .products-section {
+
+      padding: 40px 15px;
+
+    }
+
+    .product-image {
+
+      height: 200px;
+
+    }
+
+  }
+
+
+</style>
+<!-- ============================= -->
+<!-- PART 8 — SHOPPING CART -->
+<!-- ============================= -->
+
+<section id="order" class="cart-section">
+
+  <div class="cart-container">
+
+    <h2 class="section-title">
+      🛒 Your Order
+    </h2>
+
+    <p class="section-subtitle">
+      Review your selected products before placing your order.
+    </p>
+
+    <!-- CART BOX -->
+
+    <div class="cart-box">
+
+      <h3 class="cart-heading">
+        🛍️ Shopping Cart
       </h3>
 
+      <!-- CART ITEMS -->
 
       <div id="cartItems">
 
-        <div style="
-          text-align:center;
-          padding:20px;
-          color:#777;
-        ">
+        <div class="empty-cart">
           Your cart is empty.
           <br>
           Add products from above.
@@ -1043,15 +1053,9 @@
 
       </div>
 
+      <!-- TOTAL -->
 
-      <div style="
-        border-top:1px solid #ddd;
-        padding-top:15px;
-        margin-top:15px;
-        display:flex;
-        justify-content:space-between;
-        font-size:20px;
-      ">
+      <div class="cart-total-row">
 
         <strong>
           Total
@@ -1063,32 +1067,317 @@
 
       </div>
 
+      <!-- GO TO CUSTOMER DETAILS -->
+
+      <a
+        href="#customer-details"
+        class="checkout-button"
+      >
+        ➡️ Continue to Customer Details
+      </a>
+
     </div>
 
+  </div>
 
-    <!-- CUSTOMER DETAILS -->
-
-    <div style="
-      background:white;
-      padding:25px;
-      border-radius:15px;
-      box-shadow:
-        0 5px 18px rgba(0,0,0,0.08);
-    ">
-
-      <h3 style="
-        margin-bottom:20px;
-        font-size:22px;
-      ">
-        👤 Customer Details
-      </h3>
+</section>
 
 
-      <label style="
-        display:block;
-        margin-bottom:7px;
-        font-weight:bold;
-      ">
+<!-- ============================= -->
+<!-- PART 8 — CART CSS -->
+<!-- ============================= -->
+
+<style>
+
+  .cart-section {
+
+    padding: 55px 20px;
+
+    background: #f8f8f8;
+
+  }
+
+
+  .cart-container {
+
+    max-width: 900px;
+
+    margin: auto;
+
+  }
+
+
+  .cart-box {
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 15px;
+
+    box-shadow:
+      0 5px 18px rgba(0,0,0,0.08);
+
+  }
+
+
+  .cart-heading {
+
+    font-size: 22px;
+
+    margin-bottom: 18px;
+
+  }
+
+
+  .empty-cart {
+
+    text-align: center;
+
+    padding: 25px;
+
+    color: #777;
+
+    background: #fafafa;
+
+    border-radius: 10px;
+
+  }
+
+
+  /* CART ITEM */
+
+  .cart-item {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 15px 0;
+
+    border-bottom: 1px solid #eeeeee;
+
+  }
+
+
+  .cart-item-info {
+
+    flex: 1;
+
+  }
+
+
+  .cart-item-name {
+
+    font-weight: bold;
+
+    font-size: 17px;
+
+  }
+
+
+  .cart-item-price {
+
+    color: #666;
+
+    font-size: 14px;
+
+    margin-top: 3px;
+
+  }
+
+
+  /* QUANTITY */
+
+  .quantity-controls {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+  }
+
+
+  .quantity-button {
+
+    width: 32px;
+
+    height: 32px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    background: #222;
+
+    color: white;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+  }
+
+
+  .quantity-button:hover {
+
+    background: #ffcc00;
+
+    color: #222;
+
+  }
+
+
+  .quantity-number {
+
+    min-width: 25px;
+
+    text-align: center;
+
+    font-weight: bold;
+
+  }
+
+
+  /* REMOVE */
+
+  .remove-button {
+
+    border: none;
+
+    background: transparent;
+
+    color: #d00000;
+
+    font-weight: bold;
+
+    padding: 5px;
+
+  }
+
+
+  /* TOTAL */
+
+  .cart-total-row {
+
+    border-top: 2px solid #ddd;
+
+    margin-top: 18px;
+
+    padding-top: 18px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    font-size: 21px;
+
+  }
+
+
+  /* CHECKOUT */
+
+  .checkout-button {
+
+    display: block;
+
+    text-align: center;
+
+    margin-top: 22px;
+
+    padding: 14px 20px;
+
+    border-radius: 10px;
+
+    background: #ffcc00;
+
+    color: #222;
+
+    font-weight: bold;
+
+  }
+
+
+  .checkout-button:hover {
+
+    background: #ffd633;
+
+  }
+
+
+  /* MOBILE */
+
+  @media (max-width: 600px) {
+
+    .cart-section {
+
+      padding: 40px 15px;
+
+    }
+
+
+    .cart-box {
+
+      padding: 20px 15px;
+
+    }
+
+
+    .cart-item {
+
+      flex-wrap: wrap;
+
+    }
+
+
+    .cart-item-info {
+
+      min-width: 150px;
+
+    }
+
+
+    .quantity-controls {
+
+      margin-left: auto;
+
+    }
+
+  }
+
+</style>
+<!-- ============================= -->
+<!-- PART 9 — CUSTOMER DETAILS -->
+<!-- ============================= -->
+
+<section
+  id="customer-details"
+  class="customer-section"
+>
+
+  <div class="customer-container">
+
+    <h2 class="section-title">
+      👤 Customer Details
+    </h2>
+
+    <p class="section-subtitle">
+      Enter your details for delivery.
+    </p>
+
+
+    <div class="customer-box">
+
+
+      <!-- NAME -->
+
+      <label for="customerName">
         Name
       </label>
 
@@ -1096,22 +1385,13 @@
         id="customerName"
         type="text"
         placeholder="Enter your name"
-        style="
-          width:100%;
-          padding:13px;
-          border:1px solid #ccc;
-          border-radius:8px;
-          margin-bottom:16px;
-          font-size:16px;
-        "
+        autocomplete="name"
       >
 
 
-      <label style="
-        display:block;
-        margin-bottom:7px;
-        font-weight:bold;
-      ">
+      <!-- MOBILE NUMBER -->
+
+      <label for="customerPhone">
         Mobile Number
       </label>
 
@@ -1119,47 +1399,29 @@
         id="customerPhone"
         type="tel"
         maxlength="10"
+        inputmode="numeric"
         placeholder="Enter 10-digit mobile number"
-        style="
-          width:100%;
-          padding:13px;
-          border:1px solid #ccc;
-          border-radius:8px;
-          margin-bottom:16px;
-          font-size:16px;
-        "
+        autocomplete="tel"
       >
 
 
-      <label style="
-        display:block;
-        margin-bottom:7px;
-        font-weight:bold;
-      ">
+      <!-- DELIVERY ADDRESS -->
+
+      <label for="customerAddress">
         Delivery Address
       </label>
 
       <textarea
         id="customerAddress"
-        rows="3"
-        placeholder="Enter your complete address"
-        style="
-          width:100%;
-          padding:13px;
-          border:1px solid #ccc;
-          border-radius:8px;
-          margin-bottom:16px;
-          font-size:16px;
-          resize:vertical;
-        "
+        rows="4"
+        placeholder="Enter your complete delivery address"
+        autocomplete="street-address"
       ></textarea>
 
 
-      <label style="
-        display:block;
-        margin-bottom:7px;
-        font-weight:bold;
-      ">
+      <!-- LANDMARK -->
+
+      <label for="customerLandmark">
         Landmark
       </label>
 
@@ -1167,185 +1429,51 @@
         id="customerLandmark"
         type="text"
         placeholder="Enter nearby landmark"
-        style="
-          width:100%;
-          padding:13px;
-          border:1px solid #ccc;
-          border-radius:8px;
-          margin-bottom:20px;
-          font-size:16px;
-        "
       >
 
 
-      <!-- LOCATION CHECK -->
+      <!-- LOCATION CHECK AREA -->
 
-      <div style="
-        background:#fff8f0;
-        padding:18px;
-        border-radius:12px;
-        margin-bottom:20px;
-        text-align:center;
-      ">
+      <div class="location-check-box">
 
-        <h3 style="
-          margin-bottom:8px;
-        ">
-          📍 Check Delivery Location
+        <h3>
+          📍 Delivery Location
         </h3>
 
-
-        <p style="
-          color:#666;
-          margin-bottom:15px;
-        ">
-          Online ordering is available
-          within 2 km of our Kondapur shop.
+        <p>
+          Delivery is currently available within
+          2 km of our Kondapur shop.
         </p>
-
 
         <button
           type="button"
-          onclick="checkLocation()"
-          style="
-            padding:12px 20px;
-            border:none;
-            border-radius:9px;
-            background:#222;
-            color:white;
-            font-weight:bold;
-            cursor:pointer;
-          "
+          id="checkLocationButton"
+          onclick="checkCustomerLocation()"
         >
           📍 Check My Location
         </button>
 
-
         <div
           id="locationStatus"
-          style="
-            margin-top:15px;
-            font-weight:bold;
-            color:#555;
-          "
+          class="location-status"
         >
-          Location not checked yet.
         </div>
 
       </div>
 
 
-      <!-- PLACE ORDER -->
+      <!-- CONTINUE BUTTON -->
 
       <button
         type="button"
-        onclick="sendOrder()"
-        style="
-          width:100%;
-          padding:15px;
-          border:none;
-          border-radius:10px;
-          background:#25D366;
-          color:white;
-          font-size:18px;
-          font-weight:bold;
-          cursor:pointer;
-        "
+        class="continue-order-button"
+        onclick="validateCustomerDetails()"
       >
-        📲 Place Order on WhatsApp
+        ✅ Continue Order
       </button>
 
 
-      <p style="
-        text-align:center;
-        color:#777;
-        font-size:13px;
-        margin-top:12px;
-      ">
-        Your order will also be saved securely
-        for the shop owner.
-      </p>
-
     </div>
-
-  </div>
-
-      </section>
-      <!-- ============================= -->
-<!-- LOCATION SECTION -->
-<!-- ============================= -->
-
-<section
-  id="location"
-  style="
-    padding:55px 20px;
-    background:#ffffff;
-    text-align:center;
-  "
->
-
-  <h2 class="section-title">
-    📍 Our Location
-  </h2>
-
-  <p class="section-subtitle">
-    Visit Farm Fresh Chicken Market
-  </p>
-
-
-  <div style="
-    max-width:800px;
-    margin:auto;
-    background:#f8f8f8;
-    padding:30px 20px;
-    border-radius:15px;
-  ">
-
-    <h3 style="
-      font-size:22px;
-      margin-bottom:12px;
-    ">
-      Farm Fresh Chicken Market
-    </h3>
-
-
-    <p style="
-      color:#555;
-      font-size:17px;
-      line-height:1.7;
-    ">
-      Kondapur, Raghavendra Colony,
-      <br>
-      Near 1st Pole, Hyderabad
-    </p>
-
-
-    <p style="
-      margin-top:15px;
-      color:#666;
-    ">
-      📦 Online orders are available
-      within a <strong>2 km radius</strong>
-      of our Kondapur shop.
-    </p>
-
-
-    <a
-      href="https://maps.app.goo.gl/FEYic1oimazVzHEh7?g_st=ac"
-      target="_blank"
-      rel="noopener"
-      style="
-        display:inline-block;
-        margin-top:20px;
-        padding:14px 25px;
-        background:#222;
-        color:white;
-        border-radius:10px;
-        font-weight:bold;
-      "
-    >
-      🗺️ Open Shop in Google Maps
-    </a>
 
   </div>
 
@@ -1353,766 +1481,231 @@
 
 
 <!-- ============================= -->
-<!-- SHOP PHOTOS SECTION -->
+<!-- PART 9 — CUSTOMER CSS -->
 <!-- ============================= -->
 
-<section
-  id="shop-photos"
-  style="
-    padding:55px 20px;
-    background:#fff8f0;
-  "
->
+<style>
 
-  <h2 class="section-title">
-    📸 Shop Photos
-  </h2>
+  .customer-section {
 
-  <p class="section-subtitle">
-    Take a look at Farm Fresh Chicken Market
-  </p>
+    padding: 55px 20px;
+
+    background: #ffffff;
+
+  }
 
 
-  <div style="
-    max-width:1100px;
-    margin:auto;
-    display:grid;
-    grid-template-columns:
-      repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
-  ">
+  .customer-container {
+
+    max-width: 900px;
+
+    margin: auto;
+
+  }
 
 
-    <!-- SHOP PHOTO 1 -->
+  .customer-box {
 
-    <div style="
-      background:white;
-      padding:8px;
-      border-radius:15px;
-      box-shadow:
-        0 5px 18px rgba(0,0,0,0.10);
-    ">
+    background: white;
 
-      <img
-        src="images/4811bcd4c11d9bffbd6b0453c955913c.png"
-        alt="Farm Fresh Chicken Market Shop"
-        style="
-          width:100%;
-          height:250px;
-          object-fit:cover;
-          border-radius:10px;
-        "
-      >
+    padding: 28px;
 
-    </div>
+    border-radius: 15px;
 
-
-    <!-- SHOP PHOTO 2 -->
-
-    <div style="
-      background:white;
-      padding:8px;
-      border-radius:15px;
-      box-shadow:
-        0 5px 18px rgba(0,0,0,0.10);
-    ">
-
-      <img
-        src="images/Screenshot_20260915_223216.jpg"
-        alt="Farm Fresh Chicken Market"
-        style="
-          width:100%;
-          height:250px;
-          object-fit:cover;
-          border-radius:10px;
-        "
-      >
-
-    </div>
-
-
-    <!-- SHOP PHOTO 3 -->
-
-    <div style="
-      background:white;
-      padding:8px;
-      border-radius:15px;
-      box-shadow:
-        0 5px 18px rgba(0,0,0,0.10);
-    ">
-
-      <img
-        src="images/Screenshot_20260915_223237.jpg"
-        alt="Farm Fresh Chicken Market"
-        style="
-          width:100%;
-          height:250px;
-          object-fit:cover;
-          border-radius:10px;
-        "
-      >
-
-    </div>
-
-
-    <!-- SHOP PHOTO 4 -->
-
-    <div style="
-      background:white;
-      padding:8px;
-      border-radius:15px;
-      box-shadow:
-        0 5px 18px rgba(0,0,0,0.10);
-    ">
-
-      <img
-        src="images/Screenshot_20260916_080217.jpg"
-        alt="Farm Fresh Chicken Market"
-        style="
-          width:100%;
-          height:250px;
-          object-fit:cover;
-          border-radius:10px;
-        "
-      >
-
-    </div>
-
-
-    <!-- SHOP PHOTO 5 -->
-
-    <div style="
-      background:white;
-      padding:8px;
-      border-radius:15px;
-      box-shadow:
-        0 5px 18px rgba(0,0,0,0.10);
-    ">
-
-      <img
-        src="images/f99a18de-d90f-4ed0-93b5-af9dc9e6372f.jpg"
-        alt="Farm Fresh Chicken Market"
-        style="
-          width:100%;
-          height:250px;
-          object-fit:cover;
-          border-radius:10px;
-        "
-      >
-
-    </div>
-
-
-  </div>
-
-</section>
-
-
-<!-- ============================= -->
-<!-- WEBSITE QR CODE SECTION -->
-<!-- ============================= -->
-
-<section
-  id="website-qr"
-  style="
-    padding:50px 20px;
-    text-align:center;
-    background:#ffffff;
-  "
->
-
-  <h2 class="section-title">
-    📱 Scan & Order Online
-  </h2>
-
-  <p class="section-subtitle">
-    Scan the QR code to open
-    Farm Fresh Chicken Market
-  </p>
-
-
-  <div style="
-    display:inline-block;
-    background:white;
-    padding:15px;
-    border-radius:15px;
     box-shadow:
-      0 5px 20px rgba(0,0,0,0.12);
-  ">
+      0 5px 18px rgba(0,0,0,0.08);
 
-    <div id="websiteQRCode"></div>
+    border: 1px solid #eeeeee;
 
-  </div>
-
-
-  <p style="
-    margin-top:15px;
-    font-weight:bold;
-    color:#333;
-  ">
-    Farm Fresh Chicken Market
-  </p>
+  }
 
 
-  <button
-    onclick="downloadQRCode()"
-    style="
-      margin-top:12px;
-      padding:12px 20px;
-      border:none;
-      border-radius:8px;
-      background:#222;
-      color:white;
-      font-size:15px;
-      cursor:pointer;
-    "
-  >
-    ⬇️ Download QR Code
-  </button>
+  .customer-box label {
 
-</section>
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-weight: bold;
+
+    font-size: 15px;
+
+  }
+
+
+  .customer-box input,
+  .customer-box textarea {
+
+    width: 100%;
+
+    padding: 13px;
+
+    border: 1px solid #cccccc;
+
+    border-radius: 8px;
+
+    margin-bottom: 18px;
+
+    font-size: 16px;
+
+    outline: none;
+
+  }
+
+
+  .customer-box input:focus,
+  .customer-box textarea:focus {
+
+    border-color: #ffcc00;
+
+    box-shadow:
+      0 0 0 2px rgba(255,204,0,0.15);
+
+  }
+
+
+  .customer-box textarea {
+
+    resize: vertical;
+
+  }
+
+
+  /* LOCATION BOX */
+
+  .location-check-box {
+
+    background: #fff8f0;
+
+    padding: 20px;
+
+    border-radius: 12px;
+
+    margin-top: 5px;
+
+    margin-bottom: 20px;
+
+    border: 1px solid #f0dfc8;
+
+  }
+
+
+  .location-check-box h3 {
+
+    margin-bottom: 6px;
+
+    font-size: 19px;
+
+  }
+
+
+  .location-check-box p {
+
+    color: #666;
+
+    margin-bottom: 15px;
+
+  }
+
+
+  #checkLocationButton {
+
+    width: 100%;
+
+    padding: 13px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: #222;
+
+    color: white;
+
+    font-weight: bold;
+
+    font-size: 15px;
+
+  }
+
+
+  #checkLocationButton:hover {
+
+    background: #ffcc00;
+
+    color: #222;
+
+  }
+
+
+  .location-status {
+
+    margin-top: 12px;
+
+    font-weight: bold;
+
+    text-align: center;
+
+  }
+
+
+  /* CONTINUE ORDER */
+
+  .continue-order-button {
+
+    width: 100%;
+
+    padding: 15px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #ffcc00;
+
+    color: #222;
+
+    font-weight: bold;
+
+    font-size: 16px;
+
+  }
+
+
+  .continue-order-button:hover {
+
+    background: #ffd633;
+
+  }
+
+
+  /* MOBILE */
+
+  @media (max-width: 600px) {
+
+    .customer-section {
+
+      padding: 40px 15px;
+
+    }
+
+
+    .customer-box {
+
+      padding: 20px 15px;
+
+    }
+
+  }
+
+</style>
 <!-- ============================= -->
-<!-- QR CODE LIBRARY -->
+<!-- CUSTOMER DETAILS JAVASCRIPT -->
 <!-- ============================= -->
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
 
 <script>
 
-  const websiteURL =
-    "https://akulasreekaran.github.io/Fram-Fresh-Chicken-Market-/";
-
-
-  new QRCode(
-    document.getElementById("websiteQRCode"),
-    {
-      text: websiteURL,
-      width: 220,
-      height: 220,
-      colorDark: "#000000",
-      colorLight: "#ffffff",
-      correctLevel: QRCode.CorrectLevel.H
-    }
-  );
-
-
-  function downloadQRCode() {
-
-    const qrCanvas =
-      document.querySelector(
-        "#websiteQRCode canvas"
-      );
-
-
-    if (qrCanvas) {
-
-      const link =
-        document.createElement("a");
-
-      link.download =
-        "Farm-Fresh-Chicken-Market-QR.png";
-
-      link.href =
-        qrCanvas.toDataURL("image/png");
-
-      link.click();
-
-    } else {
-
-      alert(
-        "QR code is not ready yet. Please try again."
-      );
-
-    }
-
-  }
-
-</script>
-
-
-<!-- ============================= -->
-<!-- FOOTER -->
-<!-- ============================= -->
-
-<footer style="
-  background:#222;
-  color:white;
-  text-align:center;
-  padding:35px 20px;
-">
-
-  <h3 style="
-    font-size:22px;
-    margin-bottom:10px;
-  ">
-    🍗 Farm Fresh Chicken Market
-  </h3>
-
-
-  <p style="
-    color:#ddd;
-    margin:6px 0;
-  ">
-    Fresh Chicken • Quality • Trust
-  </p>
-
-
-  <p style="
-    color:#bbb;
-    margin:6px 0;
-  ">
-    Kondapur, Raghavendra Colony,
-    Near 1st Pole, Hyderabad
-  </p>
-
-
-  <a
-    href="https://maps.app.goo.gl/FEYic1oimazVzHEh7?g_st=ac"
-    target="_blank"
-    rel="noopener"
-    style="
-      display:inline-block;
-      margin-top:12px;
-      color:#ffcc00;
-      font-weight:bold;
-    "
-  >
-    📍 View Location
-  </a>
-
-
-  <p style="
-    color:#999;
-    font-size:13px;
-    margin-top:20px;
-  ">
-    © 2026 Farm Fresh Chicken Market.
-    All Rights Reserved.
-  </p>
-
-</footer>
-<!-- FIREBASE + CART SCRIPT -->
-
-<script type="module">
-
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-import {
-  getDatabase,
-  ref,
-  push,
-  set
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-
-
-const firebaseConfig = {
-
-  apiKey: "AIzaSyCcKIDaVUTCzin0tP6oN16ABrexjGOS50M",
-
-  authDomain:
-    "farm-fresh-chicken-market.firebaseapp.com",
-
-  projectId:
-    "farm-fresh-chicken-market",
-
-  storageBucket:
-    "farm-fresh-chicken-market.firebasestorage.app",
-
-  messagingSenderId:
-    "184530252526",
-
-  appId:
-    "1:184530252526:web:f7427c6a46eb76201df9ff"
-
-};
-
-
-const app =
-  initializeApp(firebaseConfig);
-
-const database =
-  getDatabase(app);
-
-
-const SHOP_LATITUDE =
-  17.470028;
-
-const SHOP_LONGITUDE =
-  78.364139;
-
-const MAX_DISTANCE_KM =
-  2;
-
-
-const WHATSAPP_NUMBER =
-  "918121321120";
-
-
-let cart = [];
-
-let customerLatitude = null;
-
-let customerLongitude = null;
-/* ADD PRODUCT TO CART */
-
-window.addToCart = function(product, price) {
-
-  const existingItem = cart.find(
-    item => item.product === product
-  );
-
-  if (existingItem) {
-
-    existingItem.quantity++;
-
-  } else {
-
-    cart.push({
-      product: product,
-      price: Number(price),
-      quantity: 1
-    });
-
-  }
-
-  renderCart();
-
-  document.getElementById("order").scrollIntoView({
-    behavior: "smooth"
-  });
-
-};
-
-
-/* CHANGE CART QUANTITY */
-
-window.changeCartQty = function(index, change) {
-
-  if (!cart[index]) return;
-
-  cart[index].quantity += change;
-
-  if (cart[index].quantity <= 0) {
-
-    cart.splice(index, 1);
-
-  }
-
-  renderCart();
-
-};
-
-
-/* REMOVE FROM CART */
-
-window.removeFromCart = function(index) {
-
-  cart.splice(index, 1);
-
-  renderCart();
-/* ESCAPE HTML */
-
-function escapeHTML(text) {
-
-  return String(text)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-
-}
-
-
-/* RENDER CART */
-
-function renderCart() {
-
-  const cartItems =
-    document.getElementById("cartItems");
-
-  const cartTotal =
-    document.getElementById("cartTotal");
-
-
-  if (!cartItems || !cartTotal) return;
-
-
-  if (cart.length === 0) {
-
-    cartItems.innerHTML =
-      "<p>Your cart is empty.</p>";
-
-    cartTotal.innerHTML =
-      "Total: ₹0";
-
-
-};
-  /* ESCAPE HTML */
-
-function escapeHTML(text) {
-
-  return String(text)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-
-}
-
-
-/* RENDER CART */
-
-function renderCart() {
-
-  const cartItems =
-    document.getElementById("cartItems");
-
-  const cartTotal =
-    document.getElementById("cartTotal");
-
-
-  if (!cartItems || !cartTotal) return;
-
-
-  if (cart.length === 0) {
-
-    cartItems.innerHTML =
-      "<p>Your cart is empty.</p>";
-
-    cartTotal.innerHTML =
-      "Total: ₹0";
-
-    return;
-
-  }
-
-
-  let total = 0;
-
-  let html = "";
-
-
-  cart.forEach((item, index) => {
-
-    const itemTotal =
-      item.price * item.quantity;
-
-    total += itemTotal;
-
-
-    html += `
-
-      <div style="
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        gap:10px;
-        padding:12px;
-        margin-bottom:10px;
-        background:#fff;
-        border-radius:10px;
-        box-shadow:0 2px 8px rgba(0,0,0,0.08);
-      ">
-
-        <div>
-
-          <strong>
-            ${escapeHTML(item.product)}
-          </strong>
-
-          <br>
-
-          <span>
-            ₹${item.price}/kg
-          </span>
-
-        </div>
-
-
-        <div style="
-          display:flex;
-          align-items:center;
-          gap:8px;
-        ">
-
-          <button
-            onclick="changeCartQty(${index}, -1)"
-            style="
-              padding:5px 10px;
-              border:none;
-              border-radius:6px;
-              cursor:pointer;
-            "
-          >
-            −
-          </button>
-
-
-          <strong>
-            ${item.quantity}
-          </strong>
-
-
-          <button
-            onclick="changeCartQty(${index}, 1)"
-            style="
-              padding:5px 10px;
-              border:none;
-              border-radius:6px;
-              cursor:pointer;
-            "
-          >
-            +
-          </button>
-
-
-          <button
-            onclick="removeFromCart(${index})"
-            style="
-              padding:5px 8px;
-              border:none;
-              border-radius:6px;
-              cursor:pointer;
-            "
-          >
-            ✕
-          </button>
-
-        </div>
-
-      </div>
-
-    `;
-
-  });
-
-
-  cartItems.innerHTML = html;
-
-
-  cartTotal.innerHTML =
-    `<strong>Total: ₹${total}</strong>`;
-
-}
-  /* CALCULATE DISTANCE */
-
-function calculateDistance(
-  lat1,
-  lon1,
-  lat2,
-  lon2
-) {
-
-  const R = 6371;
-
-  const dLat =
-    (lat2 - lat1) * Math.PI / 180;
-
-  const dLon =
-    (lon2 - lon1) * Math.PI / 180;
-
-
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(lat1 * Math.PI / 180) *
-    Math.cos(lat2 * Math.PI / 180) *
-    Math.sin(dLon / 2) ** 2;
-
-
-  const c =
-    2 * Math.atan2(
-      Math.sqrt(a),
-      Math.sqrt(1 - a)
-    );
-
-
-  return R * c;
-
-}
-
-
-/* CHECK CUSTOMER LOCATION */
-
-window.checkLocation = function() {
-
-  const status =
-    document.getElementById("locationStatus");
-
-
-  if (!navigator.geolocation) {
-
-    status.innerHTML =
-      "❌ Location is not supported by your browser.";
-
-    return;
-
-  }
-
-
-  status.innerHTML =
-    "📍 Checking your location...";
-
-
-  navigator.geolocation.getCurrentPosition(
-
-    function(position) {
-
-      customerLatitude =
-        position.coords.latitude;
-
-      customerLongitude =
-        position.coords.longitude;
-
-
-      const distance =
-        calculateDistance(
-          customerLatitude,
-          customerLongitude,
-          SHOP_LATITUDE,
-          SHOP_LONGITUDE
-        );
-
-
-      if (distance <= MAX_DISTANCE_KM) {
-
-        status.innerHTML =
-          `✅ Location verified. You are ${distance.toFixed(2)} km from our shop.`;
-
-      } else {
-
-        status.innerHTML =
-          `❌ You are ${distance.toFixed(2)} km away. Ordering is available only within 2 km of our Kondapur shop.`;
-
-      }
-
-    },
-
-    function(error) {
-
-      status.innerHTML =
-        "❌ Please allow location access and try again.";
-
-    }
-
-  );
-
-};
-  /* PLACE ORDER */
-
-window.sendOrder = async function() {
-
-  if (cart.length === 0) {
-
-    alert("Please add products to your cart first.");
-
-    return;
-
-  }
-
+function validateCustomerDetails() {
 
   const name =
     document.getElementById("customerName").value.trim();
@@ -2127,11 +1720,11 @@ window.sendOrder = async function() {
     document.getElementById("customerLandmark").value.trim();
 
 
-  /* CHECK CUSTOMER DETAILS */
-
-  if (!name) {
+  if (name === "") {
 
     alert("Please enter your name.");
+
+    document.getElementById("customerName").focus();
 
     return;
 
@@ -2140,246 +1733,2366 @@ window.sendOrder = async function() {
 
   if (!/^[0-9]{10}$/.test(phone)) {
 
-    alert("Please enter a valid 10-digit phone number.");
+    alert("Please enter a valid 10-digit mobile number.");
+
+    document.getElementById("customerPhone").focus();
 
     return;
 
   }
 
 
-  if (!address) {
+  if (address === "") {
 
-    alert("Please enter your address.");
+    alert("Please enter your delivery address.");
 
-    return;
-
-  }
-
-
-  if (!landmark) {
-
-    alert("Please enter your landmark.");
+    document.getElementById("customerAddress").focus();
 
     return;
 
   }
 
 
-  /* CHECK LOCATION */
+  if (landmark === "") {
+
+    alert("Please enter a nearby landmark.");
+
+    document.getElementById("customerLandmark").focus();
+
+    return;
+
+  }
+
+
+  alert(
+    "Customer details are valid! ✅\n\n" +
+    "Next step: confirm your order."
+  );
+
+}
+
+
+function checkCustomerLocation() {
+
+  const status =
+    document.getElementById("locationStatus");
+
+  const button =
+    document.getElementById("checkLocationButton");
+
+
+  if (!navigator.geolocation) {
+
+    status.innerHTML =
+      "❌ Location is not supported by this browser.";
+
+    return;
+
+  }
+
+
+  status.innerHTML =
+    "📍 Checking your location...";
+
+
+  button.disabled = true;
+
+  button.innerText =
+    "Checking Location...";
+
+
+  navigator.geolocation.getCurrentPosition(
+
+    function(position) {
+
+      const latitude =
+        position.coords.latitude;
+
+      const longitude =
+        position.coords.longitude;
+
+
+      status.innerHTML =
+        "📍 Location detected successfully! ✅";
+
+
+      button.disabled = false;
+
+      button.innerText =
+        "📍 Location Checked";
+
+
+      console.log(
+        "Customer Latitude:",
+        latitude
+      );
+
+      console.log(
+        "Customer Longitude:",
+        longitude
+      );
+
+    },
+
+
+    function(error) {
+
+      button.disabled = false;
+
+      button.innerText =
+        "📍 Check My Location";
+
+
+      if (error.code === 1) {
+
+        status.innerHTML =
+          "❌ Location permission was denied. Please allow location access.";
+
+      }
+
+      else if (error.code === 2) {
+
+        status.innerHTML =
+          "❌ Unable to detect your location.";
+
+      }
+
+      else if (error.code === 3) {
+
+        status.innerHTML =
+          "❌ Location request timed out.";
+
+      }
+
+      else {
+
+        status.innerHTML =
+          "❌ Could not check your location.";
+
+      }
+
+    },
+
+    {
+
+      enableHighAccuracy: true,
+
+      timeout: 15000,
+
+      maximumAge: 0
+
+    }
+
+  );
+
+}
+
+</script>
+<!-- ============================= -->
+<!-- PART 10 - 2 KM LOCATION CHECK -->
+<!-- ============================= -->
+
+<script>
+
+let locationVerified = false;
+
+/* YOUR KONDAPUR SHOP LOCATION */
+const SHOP_LATITUDE = 17.470218;
+const SHOP_LONGITUDE = 78.364172;
+
+
+/* Calculate distance between two locations */
+function calculateDistance(lat1, lon1, lat2, lon2) {
+
+  const R = 6371; // Earth radius in kilometres
+
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * Math.PI / 180) *
+    Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+  const c =
+    2 * Math.atan2(
+      Math.sqrt(a),
+      Math.sqrt(1 - a)
+    );
+
+  return R * c;
+}
+
+
+/* Check customer's current location */
+function checkCustomerLocation() {
+
+  const status =
+    document.getElementById("locationStatus");
+
+  const button =
+    document.getElementById("checkLocationButton");
+
+
+  /* Check browser support */
+  if (!navigator.geolocation) {
+
+    status.innerHTML =
+      "❌ Location is not supported by this browser.";
+
+    status.style.color = "red";
+
+    locationVerified = false;
+
+    return;
+  }
+
+
+  /* Start checking */
+  status.innerHTML =
+    "📍 Checking your location...";
+
+  status.style.color = "#222";
+
+  button.disabled = true;
+
+  button.innerText =
+    "Checking Location...";
+
+
+  navigator.geolocation.getCurrentPosition(
+
+    function(position) {
+
+      /* Customer GPS coordinates */
+      const customerLatitude =
+        position.coords.latitude;
+
+      const customerLongitude =
+        position.coords.longitude;
+
+
+      /* Calculate distance from shop */
+      const distance =
+        calculateDistance(
+          customerLatitude,
+          customerLongitude,
+          SHOP_LATITUDE,
+          SHOP_LONGITUDE
+        );
+
+
+      console.log(
+        "Customer Latitude:",
+        customerLatitude
+      );
+
+      console.log(
+        "Customer Longitude:",
+        customerLongitude
+      );
+
+      console.log(
+        "Distance from shop:",
+        distance.toFixed(2),
+        "km"
+      );
+
+
+      /* ========================= */
+      /* WITHIN 2 KM */
+      /* ========================= */
+
+      if (distance <= 2) {
+
+        locationVerified = true;
+
+        status.innerHTML =
+          "✅ Delivery Available!<br>" +
+          "You are " +
+          distance.toFixed(2) +
+          " km from our shop.";
+
+        status.style.color = "green";
+
+        button.innerText =
+          "✅ Location Verified";
+
+      }
+
+
+      /* ========================= */
+      /* OUTSIDE 2 KM */
+      /* ========================= */
+
+      else {
+
+        locationVerified = false;
+
+        status.innerHTML =
+          "❌ Delivery Not Available!<br>" +
+          "You are " +
+          distance.toFixed(2) +
+          " km from our shop.<br>" +
+          "Orders are available only within 2 km.";
+
+        status.style.color = "red";
+
+        button.innerText =
+          "📍 Check Again";
+      }
+
+
+      button.disabled = false;
+
+    },
+
+
+    /* ========================= */
+    /* LOCATION ERROR */
+    /* ========================= */
+
+    function(error) {
+
+      locationVerified = false;
+
+      button.disabled = false;
+
+      button.innerText =
+        "📍 Check My Location";
+
+
+      if (error.code === 1) {
+
+        status.innerHTML =
+          "❌ Location permission denied.<br>" +
+          "Please allow location access.";
+
+      }
+
+      else if (error.code === 2) {
+
+        status.innerHTML =
+          "❌ Unable to detect your location.";
+
+      }
+
+      else if (error.code === 3) {
+
+        status.innerHTML =
+          "❌ Location request timed out.";
+
+      }
+
+      else {
+
+        status.innerHTML =
+          "❌ Could not check your location.";
+      }
+
+
+      status.style.color = "red";
+    },
+
+
+    /* GPS settings */
+    {
+      enableHighAccuracy: true,
+      timeout: 15000,
+      maximumAge: 0
+    }
+
+  );
+
+}
+
+</script>
+<!-- ================================= -->
+<!-- PART 11 - ORDER CONFIRMATION -->
+<!-- ================================= -->
+
+<section id="order-confirmation" class="confirmation-section">
+
+  <div class="confirmation-container">
+
+    <h2 class="section-title">
+      ✅ Confirm Your Order
+    </h2>
+
+    <p class="section-subtitle">
+      Please check your order details before placing the order.
+    </p>
+
+
+    <div class="confirmation-box">
+
+      <!-- ORDER ITEMS -->
+
+      <h3>🛒 Your Order</h3>
+
+      <div id="confirmationItems">
+
+        <p class="confirmation-empty">
+          No products selected.
+        </p>
+
+      </div>
+
+
+      <!-- TOTAL -->
+
+      <div class="confirmation-total">
+
+        <span>Total Amount</span>
+
+        <strong id="confirmationTotal">
+          ₹0
+        </strong>
+
+      </div>
+
+
+      <!-- CUSTOMER DETAILS -->
+
+      <div class="customer-summary">
+
+        <h3>👤 Customer Details</h3>
+
+        <p>
+          <strong>Name:</strong>
+          <span id="confirmName">-</span>
+        </p>
+
+        <p>
+          <strong>Mobile:</strong>
+          <span id="confirmPhone">-</span>
+        </p>
+
+        <p>
+          <strong>Address:</strong>
+          <span id="confirmAddress">-</span>
+        </p>
+
+        <p>
+          <strong>Landmark:</strong>
+          <span id="confirmLandmark">-</span>
+        </p>
+
+      </div>
+
+
+      <!-- LOCATION STATUS -->
+
+      <div class="confirmation-location">
+
+        <h3>📍 Delivery Location</h3>
+
+        <p id="confirmLocationStatus">
+          ❌ Location not verified
+        </p>
+
+      </div>
+
+
+      <!-- PLACE ORDER BUTTON -->
+
+      <button
+        type="button"
+        class="place-order-button"
+        onclick="confirmOrder()"
+      >
+        🛍️ Confirm Order
+      </button>
+
+
+      <p
+        id="confirmationMessage"
+        class="confirmation-message"
+      ></p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<style>
+
+/* Confirmation section */
+
+.confirmation-section {
+
+  padding: 55px 20px;
+
+  background: #fff8f0;
+}
+
+
+/* Container */
+
+.confirmation-container {
+
+  max-width: 900px;
+
+  margin: auto;
+}
+
+
+/* Main box */
+
+.confirmation-box {
+
+  background: white;
+
+  padding: 28px;
+
+  border-radius: 15px;
+
+  box-shadow:
+    0 5px 18px rgba(0,0,0,0.08);
+
+  border: 1px solid #eee;
+}
+
+
+/* Headings */
+
+.confirmation-box h3 {
+
+  font-size: 20px;
+
+  margin-bottom: 15px;
+}
+
+
+/* Confirmation items */
+
+.confirmation-item {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 14px 0;
+
+  border-bottom: 1px solid #eee;
+}
+
+
+.confirmation-item-name {
+
+  font-weight: bold;
+
+  font-size: 16px;
+}
+
+
+.confirmation-item-details {
+
+  color: #666;
+
+  font-size: 14px;
+
+  text-align: right;
+}
+
+
+.confirmation-empty {
+
+  text-align: center;
+
+  color: #777;
+
+  padding: 20px;
+}
+
+
+/* Total */
+
+.confirmation-total {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-top: 20px;
+
+  padding-top: 18px;
+
+  border-top: 2px solid #ddd;
+
+  font-size: 22px;
+}
+
+
+.confirmation-total strong {
+
+  color: #222;
+}
+
+
+/* Customer summary */
+
+.customer-summary {
+
+  margin-top: 30px;
+
+  padding: 20px;
+
+  background: #fafafa;
+
+  border-radius: 12px;
+}
+
+
+.customer-summary p {
+
+  margin-bottom: 10px;
+
+  word-break: break-word;
+}
+
+
+.customer-summary p:last-child {
+
+  margin-bottom: 0;
+}
+
+
+/* Location */
+
+.confirmation-location {
+
+  margin-top: 20px;
+
+  padding: 20px;
+
+  background: #fff8f0;
+
+  border-radius: 12px;
+
+  border: 1px solid #f0dfc8;
+}
+
+
+.confirmation-location p {
+
+  font-weight: bold;
+
+  color: #d00000;
+}
+
+
+/* Place order button */
+
+.place-order-button {
+
+  width: 100%;
+
+  margin-top: 25px;
+
+  padding: 15px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: #ffcc00;
+
+  color: #222;
+
+  font-size: 17px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+
+.place-order-button:hover {
+
+  background: #ffd633;
+}
+
+
+/* Message */
+
+.confirmation-message {
+
+  text-align: center;
+
+  margin-top: 15px;
+
+  font-weight: bold;
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+  .confirmation-section {
+
+    padding: 40px 15px;
+  }
+
+  .confirmation-box {
+
+    padding: 20px 15px;
+  }
+
+  .confirmation-item {
+
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 5px;
+  }
+
+  .confirmation-item-details {
+
+    text-align: left;
+  }
+
+  .confirmation-total {
+
+    font-size: 20px;
+  }
+
+}
+
+</style>
+
+
+<script>
+
+/* ================================= */
+/* SHOW ORDER CONFIRMATION */
+/* ================================= */
+
+function showOrderConfirmation() {
+
+  const confirmationItems =
+    document.getElementById("confirmationItems");
+
+  const confirmationTotal =
+    document.getElementById("confirmationTotal");
+
+
+  /* Check cart */
 
   if (
-    customerLatitude === null ||
-    customerLongitude === null
+    typeof cart === "undefined" ||
+    cart.length === 0
   ) {
 
-    alert("Please check your location first.");
+    confirmationItems.innerHTML =
+      '<p class="confirmation-empty">' +
+      '❌ Your cart is empty.' +
+      '</p>';
+
+    confirmationTotal.innerText = "₹0";
 
     return;
-
   }
 
 
-  const distance =
-    calculateDistance(
-      customerLatitude,
-      customerLongitude,
-      SHOP_LATITUDE,
-      SHOP_LONGITUDE
-    );
+  /* Clear old items */
 
+  confirmationItems.innerHTML = "";
 
-  if (distance > MAX_DISTANCE_KM) {
-
-    alert(
-      "Sorry! Ordering is available only within 2 km of our Kondapur shop."
-    );
-
-    return;
-
-  }
-
-
-  /* CALCULATE TOTAL */
 
   let total = 0;
 
 
-  cart.forEach(item => {
+  /* Display cart */
 
-    total +=
+  cart.forEach(function(item) {
+
+    const itemTotal =
       item.price * item.quantity;
+
+    total += itemTotal;
+
+
+    const div =
+      document.createElement("div");
+
+    div.className =
+      "confirmation-item";
+
+
+    div.innerHTML =
+
+      '<div>' +
+
+        '<div class="confirmation-item-name">' +
+
+          item.name +
+
+        '</div>' +
+
+      '</div>' +
+
+
+      '<div class="confirmation-item-details">' +
+
+        item.quantity +
+        " × ₹" +
+        item.price +
+
+        " = ₹" +
+
+        itemTotal +
+
+      '</div>';
+
+
+    confirmationItems.appendChild(div);
 
   });
 
 
-  /* ORDER DATA */
+  confirmationTotal.innerText =
+    "₹" + total;
 
-  const orderData = {
-
-    name: name,
-
-    phone: phone,
-
-    address: address,
-
-    landmark: landmark,
-
-    product:
-      cart.map(item => item.product).join(", "),
-
-    quantity:
-      cart.map(item => item.quantity).join(", "),
-
-    items: cart,
-
-    total: total,
-
-    distanceFromShop:
-      Number(distance.toFixed(2)),
-
-    distance:
-      Number(distance.toFixed(2)),
-
-    latitude:
-      customerLatitude,
-
-    longitude:
-      customerLongitude,
-
-    status: "new",
-
-    createdAt:
-      new Date().toISOString()
-
-  };
+}
 
 
-  try {
+/* ================================= */
+/* SHOW CUSTOMER DETAILS */
+/* ================================= */
 
-    /* SAVE ORDER TO FIREBASE */
+function showCustomerConfirmation() {
 
-    const ordersRef =
-      ref(database, "orders");
+  const name =
+    document.getElementById("customerName").value.trim();
 
-    const newOrderRef =
-      push(ordersRef);
+  const phone =
+    document.getElementById("customerPhone").value.trim();
 
-    await set(
-      newOrderRef,
-      orderData
+  const address =
+    document.getElementById("customerAddress").value.trim();
+
+  const landmark =
+    document.getElementById("customerLandmark").value.trim();
+
+
+  document.getElementById("confirmName")
+    .innerText = name || "-";
+
+
+  document.getElementById("confirmPhone")
+    .innerText = phone || "-";
+
+
+  document.getElementById("confirmAddress")
+    .innerText = address || "-";
+
+
+  document.getElementById("confirmLandmark")
+    .innerText = landmark || "-";
+
+
+  const locationStatus =
+    document.getElementById(
+      "confirmLocationStatus"
     );
 
 
-    /* CREATE WHATSAPP MESSAGE */
+  if (locationVerified === true) {
 
-    let message =
-      "🍗 *Farm Fresh Chicken Market*%0A%0A";
+    locationStatus.innerText =
+      "✅ Delivery location verified";
 
-    message +=
-      "*New Order*%0A%0A";
+    locationStatus.style.color =
+      "green";
 
+  } else {
 
-    message +=
-      "*Customer:* " +
-      encodeURIComponent(name) +
-      "%0A";
+    locationStatus.innerText =
+      "❌ Location not verified";
 
+    locationStatus.style.color =
+      "red";
+  }
 
-    message +=
-      "*Phone:* " +
-      encodeURIComponent(phone) +
-      "%0A";
-
-
-    message +=
-      "*Address:* " +
-      encodeURIComponent(address) +
-      "%0A";
+}
 
 
-    message +=
-      "*Landmark:* " +
-      encodeURIComponent(landmark) +
-      "%0A%0A";
+/* ================================= */
+/* CONFIRM ORDER */
+/* ================================= */
+
+function confirmOrder() {
+
+  const message =
+    document.getElementById(
+      "confirmationMessage"
+    );
 
 
-    message +=
-      "*Items:*%0A";
+  /* Check cart */
+
+  if (
+    typeof cart === "undefined" ||
+    cart.length === 0
+  ) {
+
+    message.innerText =
+      "❌ Please add products to your cart.";
+
+    message.style.color = "red";
+
+    return;
+  }
 
 
-    cart.forEach(item => {
+  /* Check location */
 
-      message +=
-        "• " +
-        encodeURIComponent(item.product) +
-        " × " +
-        item.quantity +
-        " kg = ₹" +
-        (item.price * item.quantity) +
-        "%0A";
+  if (locationVerified !== true) {
+
+    message.innerText =
+      "❌ Please verify that your location is within 2 km of our shop.";
+
+    message.style.color = "red";
+
+    return;
+  }
+
+
+  /* Check customer details */
+
+  const name =
+    document.getElementById("customerName")
+      .value.trim();
+
+  const phone =
+    document.getElementById("customerPhone")
+      .value.trim();
+
+  const address =
+    document.getElementById("customerAddress")
+      .value.trim();
+
+  const landmark =
+    document.getElementById("customerLandmark")
+      .value.trim();
+
+
+  if (!name || !phone || !address || !landmark) {
+
+    message.innerText =
+      "❌ Please complete all customer details.";
+
+    message.style.color = "red";
+
+    return;
+  }
+
+
+  /* Everything is ready */
+
+  message.innerText =
+    "✅ Order details confirmed!";
+
+  message.style.color =
+    "green";
+
+
+  showOrderConfirmation();
+
+  showCustomerConfirmation();
+
+}
+
+</script>
+<style>
+
+.whatsapp-order-button {
+
+  width: 100%;
+
+  margin-top: 12px;
+
+  padding: 15px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: #25D366;
+
+  color: white;
+
+  font-size: 17px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+
+.whatsapp-order-button:hover {
+
+  opacity: 0.9;
+
+}
+
+</style>
+<button
+  type="button"
+  class="whatsapp-order-button"
+  onclick="sendOrderToWhatsApp()"
+>
+  📲 Place Order on WhatsApp
+</button>
+<!-- ================================= -->
+<!-- PART 13 - SHOP LOCATION -->
+<!-- ================================= -->
+
+<section id="location" class="shop-location-section">
+
+  <div class="location-container">
+
+    <h2 class="section-title">
+      📍 Find Our Shop
+    </h2>
+
+    <p class="section-subtitle">
+      Visit Farm Fresh Chicken Market in Kondapur, Hyderabad.
+    </p>
+
+
+    <div class="location-content">
+
+      <!-- SHOP DETAILS -->
+
+      <div class="shop-location-card">
+
+        <div class="location-icon">
+          📍
+        </div>
+
+        <h3>
+          Farm Fresh Chicken Market
+        </h3>
+
+        <p>
+          Kondapur, Raghavendra Colony
+        </p>
+
+        <p>
+          Near 1st Pole, Hyderabad
+        </p>
+
+        <p class="delivery-radius">
+          🚚 Delivery available within 2 km
+        </p>
+
+
+        <!-- OPEN GOOGLE MAPS -->
+
+        <a
+          href="https://www.google.com/maps/search/?api=1&query=17.470218,78.364172"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="maps-button"
+        >
+          📍 Open in Google Maps
+        </a>
+
+
+        <!-- GET DIRECTIONS -->
+
+        <a
+          href="https://www.google.com/maps/dir/?api=1&destination=17.470218,78.364172"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="directions-button"
+        >
+          🚗 Get Directions
+        </a>
+
+      </div>
+
+
+      <!-- MAP -->
+
+      <div class="map-container">
+
+        <iframe
+          src="https://www.google.com/maps?q=17.470218,78.364172&z=17&output=embed"
+          width="100%"
+          height="400"
+          style="border:0;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<style>
+
+/* =============================== */
+/* SHOP LOCATION SECTION */
+/* =============================== */
+
+.shop-location-section {
+
+  padding: 55px 20px;
+
+  background: #f8f8f8;
+}
+
+
+/* Container */
+
+.location-container {
+
+  max-width: 1100px;
+
+  margin: auto;
+}
+
+
+/* Content */
+
+.location-content {
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(280px, 0.8fr)
+    minmax(350px, 1.2fr);
+
+  gap: 25px;
+
+  align-items: stretch;
+}
+
+
+/* Shop card */
+
+.shop-location-card {
+
+  background: white;
+
+  padding: 30px;
+
+  border-radius: 15px;
+
+  box-shadow:
+    0 5px 18px rgba(0,0,0,0.08);
+
+  text-align: center;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  align-items: center;
+}
+
+
+/* Location icon */
+
+.location-icon {
+
+  font-size: 48px;
+
+  margin-bottom: 12px;
+}
+
+
+.shop-location-card h3 {
+
+  font-size: 22px;
+
+  margin-bottom: 12px;
+}
+
+
+.shop-location-card p {
+
+  color: #666;
+
+  margin-bottom: 6px;
+}
+
+
+/* Delivery radius */
+
+.shop-location-card .delivery-radius {
+
+  color: green;
+
+  font-weight: bold;
+
+  margin-top: 12px;
+
+  margin-bottom: 20px;
+}
+
+
+/* Google Maps button */
+
+.maps-button {
+
+  display: block;
+
+  width: 100%;
+
+  max-width: 300px;
+
+  padding: 13px;
+
+  margin-bottom: 10px;
+
+  border-radius: 9px;
+
+  background: #ffcc00;
+
+  color: #222;
+
+  font-weight: bold;
+
+  text-decoration: none;
+}
+
+
+.maps-button:hover {
+
+  background: #ffd633;
+}
+
+
+/* Directions button */
+
+.directions-button {
+
+  display: block;
+
+  width: 100%;
+
+  max-width: 300px;
+
+  padding: 13px;
+
+  border-radius: 9px;
+
+  background: #222;
+
+  color: white;
+
+  font-weight: bold;
+
+  text-decoration: none;
+}
+
+
+.directions-button:hover {
+
+  background: #444;
+}
+
+
+/* Map */
+
+.map-container {
+
+  background: white;
+
+  border-radius: 15px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 5px 18px rgba(0,0,0,0.08);
+}
+
+
+.map-container iframe {
+
+  display: block;
+
+  width: 100%;
+
+  min-height: 400px;
+
+}
+
+
+/* Mobile */
+
+@media (max-width: 800px) {
+
+  .shop-location-section {
+
+    padding: 40px 15px;
+  }
+
+
+  .location-content {
+
+    grid-template-columns: 1fr;
+  }
+
+
+  .map-container iframe {
+
+    min-height: 350px;
+  }
+
+}
+
+</style>
+<!-- ================================= -->
+<!-- PART 14 - SHOP PHOTOS -->
+<!-- ================================= -->
+
+<section id="shop-photos" class="shop-photos-section">
+
+  <div class="shop-photos-container">
+
+    <h2 class="section-title">
+      📸 Our Shop
+    </h2>
+
+    <p class="section-subtitle">
+      Visit Farm Fresh Chicken Market — Freshness you can trust.
+    </p>
+
+    <div class="shop-photo-grid">
+
+      <!-- PHOTO 1 -->
+      <div class="shop-photo-card">
+        <img
+          src="images/4811bcd4c11d9bffbd6b0453c955913c.png"
+          alt="Farm Fresh Chicken Market"
+          loading="lazy"
+        >
+      </div>
+
+      <!-- PHOTO 2 -->
+      <div class="shop-photo-card">
+        <img
+          src="images/Screenshot_20260915_223216.jpg"
+          alt="Farm Fresh Chicken Market"
+          loading="lazy"
+        >
+      </div>
+
+      <!-- PHOTO 3 -->
+      <div class="shop-photo-card">
+        <img
+          src="images/Screenshot_20260915_223237.jpg"
+          alt="Farm Fresh Chicken Market"
+          loading="lazy"
+        >
+      </div>
+
+      <!-- PHOTO 4 -->
+      <div class="shop-photo-card">
+        <img
+          src="images/Screenshot_20260916_080217.jpg"
+          alt="Farm Fresh Chicken Market"
+          loading="lazy"
+        >
+      </div>
+
+      <!-- PHOTO 5 -->
+      <div class="shop-photo-card">
+        <img
+          src="images/f99a18de-d90f-4ed0-93b5-af9dc9e6372f.jpg"
+          alt="Farm Fresh Chicken Market"
+          loading="lazy"
+        >
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<style>
+
+.shop-photos-section {
+
+  padding: 55px 20px;
+
+  background: #ffffff;
+}
+
+
+.shop-photos-container {
+
+  max-width: 1100px;
+
+  margin: auto;
+}
+
+
+.shop-photo-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 20px;
+}
+
+
+.shop-photo-card {
+
+  background: #ffffff;
+
+  border-radius: 15px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 5px 18px rgba(0,0,0,0.10);
+
+  border: 1px solid #eee;
+
+  transition: 0.2s;
+}
+
+
+.shop-photo-card:hover {
+
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 8px 24px rgba(0,0,0,0.14);
+}
+
+
+.shop-photo-card img {
+
+  width: 100%;
+
+  height: 300px;
+
+  object-fit: cover;
+
+  display: block;
+}
+
+
+@media (max-width: 650px) {
+
+  .shop-photos-section {
+
+    padding: 40px 15px;
+  }
+
+
+  .shop-photo-grid {
+
+    grid-template-columns: 1fr;
+
+    gap: 15px;
+  }
+
+
+  .shop-photo-card img {
+
+    height: 250px;
+  }
+
+}
+
+</style>
+<!-- ================================= -->
+<!-- PART 15 - WEBSITE QR CODE -->
+<!-- ================================= -->
+
+<section id="website-qr" class="qr-section">
+
+  <div class="qr-container">
+
+    <h2 class="section-title">
+      📱 Scan & Visit Our Website
+    </h2>
+
+    <p class="section-subtitle">
+      Scan the QR code to view our products and place your order.
+    </p>
+
+
+    <div class="qr-card">
+
+      <div class="qr-icon">
+        📲
+      </div>
+
+      <h3>
+        Farm Fresh Chicken Market
+      </h3>
+
+      <p>
+        Scan the QR code using your phone camera.
+      </p>
+
+
+      <!-- QR CODE -->
+
+      <div class="qr-image-container">
+
+        <img
+          id="websiteQRCode"
+          alt="Farm Fresh Chicken Market Website QR Code"
+        >
+
+      </div>
+
+
+      <p class="qr-url">
+        akulasreekaran.github.io
+      </p>
+
+
+      <a
+        href="https://akulasreekaran.github.io/Fram-Fresh-Chicken-Market-/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="open-website-button"
+      >
+        🌐 Open Website
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<style>
+
+/* =============================== */
+/* QR SECTION */
+/* =============================== */
+
+.qr-section {
+
+  padding: 55px 20px;
+
+  background: #f8f8f8;
+}
+
+
+.qr-container {
+
+  max-width: 700px;
+
+  margin: auto;
+
+  text-align: center;
+}
+
+
+/* QR Card */
+
+.qr-card {
+
+  background: white;
+
+  padding: 30px;
+
+  border-radius: 15px;
+
+  box-shadow:
+    0 5px 18px rgba(0,0,0,0.08);
+
+  border: 1px solid #eee;
+}
+
+
+.qr-icon {
+
+  font-size: 42px;
+
+  margin-bottom: 10px;
+}
+
+
+.qr-card h3 {
+
+  font-size: 22px;
+
+  margin-bottom: 8px;
+}
+
+
+.qr-card > p {
+
+  color: #666;
+
+  margin-bottom: 20px;
+}
+
+
+/* QR image */
+
+.qr-image-container {
+
+  width: 250px;
+
+  height: 250px;
+
+  margin: 20px auto;
+
+  padding: 10px;
+
+  background: white;
+
+  border: 1px solid #ddd;
+
+  border-radius: 10px;
+}
+
+
+.qr-image-container img {
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: contain;
+}
+
+
+/* Website address */
+
+.qr-url {
+
+  font-size: 14px;
+
+  color: #777;
+
+  word-break: break-all;
+
+  margin-bottom: 20px;
+}
+
+
+/* Open website */
+
+.open-website-button {
+
+  display: inline-block;
+
+  padding: 13px 25px;
+
+  border-radius: 9px;
+
+  background: #ffcc00;
+
+  color: #222;
+
+  font-weight: bold;
+
+  text-decoration: none;
+}
+
+
+.open-website-button:hover {
+
+  background: #ffd633;
+}
+
+
+/* Mobile */
+
+@media (max-width: 500px) {
+
+  .qr-section {
+
+    padding: 40px 15px;
+  }
+
+
+  .qr-card {
+
+    padding: 20px 15px;
+  }
+
+
+  .qr-image-container {
+
+    width: 220px;
+
+    height: 220px;
+  }
+
+}
+
+</style>
+
+
+<script>
+
+/* ================================= */
+/* GENERATE WEBSITE QR CODE */
+/* ================================= */
+
+function generateWebsiteQR() {
+
+  const websiteURL =
+    "https://akulasreekaran.github.io/Fram-Fresh-Chicken-Market-/";
+
+
+  const qrImage =
+    document.getElementById("websiteQRCode");
+
+
+  qrImage.src =
+    "https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=" +
+    encodeURIComponent(websiteURL);
+
+}
+
+
+/* Generate QR when page loads */
+
+window.addEventListener(
+  "load",
+  generateWebsiteQR
+);
+
+</script>
+<!-- ================================= -->
+<!-- PART 16 - FOOTER -->
+<!-- ================================= -->
+
+<footer class="site-footer">
+
+  <div class="footer-container">
+
+    <div class="footer-brand">
+
+      <h2>🍗 Farm Fresh Chicken Market</h2>
+
+      <p>
+        Tender Chicken, Fresh Every Day.
+      </p>
+
+      <p>
+        Fresh and quality chicken products
+        available in Kondapur, Hyderabad.
+      </p>
+
+    </div>
+
+
+    <div class="footer-links">
+
+      <h3>Quick Links</h3>
+
+      <a href="#home">🏠 Home</a>
+
+      <a href="#products">🍗 Products</a>
+
+      <a href="#order">🛒 Order</a>
+
+      <a href="#location">📍 Location</a>
+
+      <a href="#shop-photos">📸 Photos</a>
+
+      <a href="#website-qr">📱 QR Code</a>
+
+    </div>
+
+
+    <div class="footer-location">
+
+      <h3>📍 Shop Location</h3>
+
+      <p>
+        Kondapur, Raghavendra Colony
+      </p>
+
+      <p>
+        Near 1st Pole, Hyderabad
+      </p>
+
+      <p>
+        🚚 Delivery within 2 km
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="footer-bottom">
+
+    <p>
+      © 2026 Farm Fresh Chicken Market.
+      All Rights Reserved.
+    </p>
+
+  </div>
+
+</footer>
+
+
+<style>
+
+/* ================================= */
+/* FOOTER */
+/* ================================= */
+
+.site-footer {
+
+  background: #222;
+
+  color: white;
+
+  padding-top: 45px;
+}
+
+
+.footer-container {
+
+  max-width: 1100px;
+
+  margin: auto;
+
+  padding: 0 20px 35px;
+
+  display: grid;
+
+  grid-template-columns:
+    1.5fr 1fr 1fr;
+
+  gap: 35px;
+}
+
+
+/* Footer headings */
+
+.footer-container h2 {
+
+  font-size: 22px;
+
+  margin-bottom: 12px;
+}
+
+
+.footer-container h3 {
+
+  font-size: 18px;
+
+  margin-bottom: 15px;
+}
+
+
+/* Footer text */
+
+.footer-container p {
+
+  color: #cccccc;
+
+  font-size: 14px;
+
+  margin-bottom: 8px;
+
+  line-height: 1.6;
+}
+
+
+/* Footer links */
+
+.footer-links {
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-start;
+}
+
+
+.footer-links a {
+
+  color: #cccccc;
+
+  text-decoration: none;
+
+  font-size: 14px;
+
+  margin-bottom: 8px;
+
+  transition: 0.2s;
+}
+
+
+.footer-links a:hover {
+
+  color: #ffcc00;
+}
+
+
+/* Bottom */
+
+.footer-bottom {
+
+  border-top: 1px solid #444;
+
+  text-align: center;
+
+  padding: 18px 15px;
+}
+
+
+.footer-bottom p {
+
+  margin: 0;
+
+  color: #aaa;
+
+  font-size: 13px;
+}
+
+
+/* Mobile */
+
+@media (max-width: 700px) {
+
+  .footer-container {
+
+    grid-template-columns: 1fr;
+
+    text-align: center;
+
+    gap: 25px;
+  }
+
+
+  .footer-links {
+
+    align-items: center;
+  }
+
+}
+
+</style>
+
+
+<!-- ================================= -->
+<!-- FINAL INTEGRATION JAVASCRIPT -->
+<!-- ================================= -->
+
+<script>
+
+/* ================================= */
+/* SHOPPING CART */
+/* ================================= */
+
+let cart = [];
+
+
+/* Add product to cart */
+
+function addToCart(productName, productPrice) {
+
+  const existingItem =
+    cart.find(
+      item => item.name === productName
+    );
+
+
+  if (existingItem) {
+
+    existingItem.quantity += 1;
+
+  } else {
+
+    cart.push({
+
+      name: productName,
+
+      price: productPrice,
+
+      quantity: 1
 
     });
 
-
-    message +=
-      "%0A*Total: ₹" +
-      total +
-      "*%0A";
+  }
 
 
-    message +=
-      "Distance from shop: " +
-      distance.toFixed(2) +
-      " km";
+  updateCart();
+
+  alert(
+    productName +
+    " added to your order! 🛒"
+  );
+
+}
 
 
-    /* OPEN WHATSAPP */
+/* ================================= */
+/* UPDATE CART */
+/* ================================= */
 
-    const whatsappURL =
-      "https://wa.me/" +
-      WHATSAPP_NUMBER +
-      "?text=" +
-      message;
+function updateCart() {
+
+  const cartItems =
+    document.getElementById("cartItems");
+
+  const cartTotal =
+    document.getElementById("cartTotal");
 
 
-    window.open(
-      whatsappURL,
-      "_blank"
-    );
+  if (!cartItems || !cartTotal) {
 
+    return;
+
+  }
+
+
+  if (cart.length === 0) {
+
+    cartItems.innerHTML =
+
+      '<div class="empty-cart">' +
+
+      'Your cart is empty.<br>' +
+
+      'Add products from above.' +
+
+      '</div>';
+
+    cartTotal.innerText = "₹0";
+
+    return;
+
+  }
+
+
+  cartItems.innerHTML = "";
+
+
+  let total = 0;
+
+
+  cart.forEach(
+    function(item, index) {
+
+      const itemTotal =
+        item.price * item.quantity;
+
+
+      total += itemTotal;
+
+
+      const cartItem =
+        document.createElement("div");
+
+      cartItem.className =
+        "cart-item";
+
+
+      cartItem.innerHTML =
+
+        '<div class="cart-item-info">' +
+
+          '<div class="cart-item-name">' +
+
+            item.name +
+
+          '</div>' +
+
+          '<div class="cart-item-price">' +
+
+            "₹" +
+            item.price +
+            " × " +
+            item.quantity +
+            " = ₹" +
+            itemTotal +
+
+          '</div>' +
+
+        '</div>' +
+
+
+        '<div class="quantity-controls">' +
+
+          '<button ' +
+
+            'class="quantity-button" ' +
+
+            'onclick="changeQuantity(' +
+            index +
+            ',-1)"' +
+
+          '>−</button>' +
+
+
+          '<span class="quantity-number">' +
+
+            item.quantity +
+
+          '</span>' +
+
+
+          '<button ' +
+
+            'class="quantity-button" ' +
+
+            'onclick="changeQuantity(' +
+            index +
+            ',1)"' +
+
+          '>+</button>' +
+
+
+          '<button ' +
+
+            'class="remove-button" ' +
+
+            'onclick="removeFromCart(' +
+            index +
+            ')"' +
+
+          '>Remove</button>' +
+
+        '</div>';
+
+
+      cartItems.appendChild(cartItem);
+
+    }
+  );
+
+
+  cartTotal.innerText =
+    "₹" + total;
+
+}
+
+
+/* ================================= */
+/* CHANGE QUANTITY */
+/* ================================= */
+
+function changeQuantity(index, change) {
+
+  if (!cart[index]) {
+
+    return;
+
+  }
+
+
+  cart[index].quantity += change;
+
+
+  if (cart[index].quantity <= 0) {
+
+    cart.splice(index, 1);
+
+  }
+
+
+  updateCart();
+
+}
+
+
+/* ================================= */
+/* REMOVE PRODUCT */
+/* ================================= */
+
+function removeFromCart(index) {
+
+  if (!cart[index]) {
+
+    return;
+
+  }
+
+
+  cart.splice(index, 1);
+
+  updateCart();
+
+}
+
+
+/* ================================= */
+/* CUSTOMER DETAILS → CONFIRMATION */
+/* ================================= */
+
+function continueToConfirmation() {
+
+  const name =
+    document.getElementById("customerName")
+      .value.trim();
+
+  const phone =
+    document.getElementById("customerPhone")
+      .value.trim();
+
+  const address =
+    document.getElementById("customerAddress")
+      .value.trim();
+
+  const landmark =
+    document.getElementById("customerLandmark")
+      .value.trim();
+
+
+  /* Check cart */
+
+  if (cart.length === 0) {
 
     alert(
-      "✅ Order placed successfully!"
+      "❌ Please add at least one product."
     );
 
+    return;
 
-    /* CLEAR CART */
-
-    cart = [];
-
-    renderCart();
+  }
 
 
-    /* CLEAR CUSTOMER FORM */
+  /* Check name */
 
-    document.getElementById("customerName").value = "";
+  if (!name) {
 
-    document.getElementById("customerPhone").value = "";
+    alert(
+      "❌ Please enter your name."
+    );
 
-    document.getElementById("customerAddress").value = "";
+    return;
 
-    document.getElementById("customerLandmark").value = "";
+  }
 
 
-  } catch (error) {
+  /* Check phone */
 
-    console
-    /* INITIAL CART DISPLAY */
+  if (!/^[0-9]{10}$/.test(phone)) {
 
-renderCart();
+    alert(
+      "❌ Please enter a valid 10-digit mobile number."
+    );
+
+    return;
+
+  }
+
+
+  /* Check address */
+
+  if (!address) {
+
+    alert(
+      "❌ Please enter your delivery address."
+    );
+
+    return;
+
+  }
+
+
+  /* Check landmark */
+
+  if (!landmark) {
+
+    alert(
+      "❌ Please enter a nearby landmark."
+    );
+
+    return;
+
+  }
+
+
+  /* Check GPS */
+
+  if (locationVerified !== true) {
+
+    alert(
+      "❌ Please verify your location first.\n\n" +
+      "Delivery is available only within 2 km."
+    );
+
+    return;
+
+  }
+
+
+  /* Fill confirmation */
+
+  if (
+    typeof showOrderConfirmation ===
+    "function"
+  ) {
+
+    showOrderConfirmation();
+
+  }
+
+
+  if (
+    typeof showCustomerConfirmation ===
+    "function"
+  ) {
+
+    showCustomerConfirmation();
+
+  }
+
+
+  /* Go to confirmation */
+
+  document
+    .getElementById("order-confirmation")
+    .scrollIntoView({
+      behavior: "smooth"
+    });
+
+}
+
+
+/* ================================= */
+/* INITIAL CART */
+/* ================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    updateCart();
+
+  }
+);
 
 </script>
-
-
-</body>
-</html>
