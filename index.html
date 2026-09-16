@@ -1,837 +1,689 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Farm Fresh Chicken Market</title>
+<meta charset="UTF-8">
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-    html {
-      scroll-behavior: smooth;
-    }
+<title>Farm Fresh Chicken Market</title>
 
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f7f7f7;
-      color: #222;
-    }
+<style>
 
-    header {
-      background: #111;
-      color: white;
-      padding: 15px;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 3px 12px rgba(0,0,0,.25);
-    }
+* {
+  box-sizing: border-box;
+}
 
-    .header-inner {
-      max-width: 1100px;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #fffaf5;
+  color: #222;
+}
 
-    .logo {
-      font-size: 21px;
-      font-weight: bold;
-    }
+header {
+  background: #b71c1c;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
 
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 15px;
-      font-weight: bold;
-    }
+header h1 {
+  margin: 0;
+  font-size: 30px;
+}
 
-    nav a:hover {
-      color: #ff9800;
-    }
+header p {
+  margin: 8px 0 0;
+  font-size: 15px;
+}
 
-    .hero {
-      min-height: 520px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 40px 20px;
-      background:
-        linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)),
-        url("images/4811bcd4c11d9bffbd6b0453c955913c.png");
-      background-size: cover;
-      background-position: center;
-      color: white;
-    }
+nav {
+  background: #8e0000;
+  padding: 12px;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
 
-    .hero-content {
-      max-width: 700px;
-    }
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+  font-weight: bold;
+}
 
-    .hero h1 {
-      font-size: 42px;
-      margin-bottom: 10px;
-    }
+.hero {
+  padding: 55px 20px;
+  text-align: center;
+  background: linear-gradient(
+    rgba(0,0,0,0.55),
+    rgba(0,0,0,0.55)
+  ),
+  url("images/4811bcd4c11d9bffbd6b0453c955913c.png");
 
-    .hero p {
-      font-size: 19px;
-      line-height: 1.6;
-    }
+  background-size: cover;
+  background-position: center;
+  color: white;
+}
 
-    .tender {
-      display: inline-block;
-      background: #ff9800;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 30px;
-      font-size: 18px;
-      font-weight: bold;
-      margin: 15px 0;
-    }
+.hero h2 {
+  font-size: 38px;
+  margin: 0 0 12px;
+}
 
-    .hero-buttons {
-      margin-top: 20px;
-    }
+.hero p {
+  font-size: 19px;
+  margin: 8px;
+}
 
-    .hero-buttons a {
-      display: inline-block;
-      padding: 13px 22px;
-      margin: 5px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-    }
+.tender {
+  display: inline-block;
+  margin-top: 15px;
+  background: #ffca28;
+  color: #222;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-weight: bold;
+}
 
-    .products-btn {
-      background: #ff6d00;
-      color: white;
-    }
+section {
+  padding: 45px 20px;
+}
 
-    .location-btn {
-      background: white;
-      color: #222;
-    }
+.section-title {
+  text-align: center;
+  font-size: 30px;
+  margin-bottom: 30px;
+}
 
-    section {
-      max-width: 1100px;
-      margin: auto;
-      padding: 55px 18px;
-    }
+.products {
+  max-width: 1100px;
+  margin: auto;
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
 
-    .section-title {
-      text-align: center;
-      margin-bottom: 30px;
-    }
+.product {
+  background: white;
+  border-radius: 15px;
+  padding: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+  text-align: center;
+}
 
-    .section-title h2 {
-      font-size: 32px;
-      margin-bottom: 8px;
-    }
+.product img {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  border-radius: 12px;
+}
 
-    .section-title p {
-      color: #666;
-    }
+.product h3 {
+  margin: 12px 0 6px;
+}
 
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 20px;
-    }
+.price {
+  font-size: 18px;
+  font-weight: bold;
+  color: #b71c1c;
+}
 
-    .product-card {
-      background: white;
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0,0,0,.1);
-    }
+.product button {
+  margin-top: 12px;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #b71c1c;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-    .product-card img {
-      width: 100%;
-      height: 190px;
-      object-fit: cover;
-      display: block;
-    }
+.product button:hover {
+  background: #8e0000;
+}
 
-    .product-info {
-      padding: 15px;
-      text-align: center;
-    }
+.gallery {
+  max-width: 1100px;
+  margin: auto;
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+}
 
-    .product-info h3 {
-      margin: 5px 0 8px;
-      font-size: 20px;
-    }
+.gallery img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 12px;
+}
 
-    .price {
-      font-size: 18px;
-      font-weight: bold;
-      color: #e65100;
-      margin-bottom: 12px;
-    }
+.location-box {
+  max-width: 800px;
+  margin: auto;
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  text-align: center;
+}
 
-    .add-btn {
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      background: #ff6d00;
-      color: white;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.location-button {
+  display: inline-block;
+  margin-top: 15px;
+  background: #1976d2;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+}
 
-    #order {
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0 4px 18px rgba(0,0,0,.1);
-    }
+.order-box {
+  max-width: 700px;
+  margin: auto;
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+}
 
-    .cart-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 14px 5px;
-      border-bottom: 1px solid #ddd;
-    }
+.order-box input,
+.order-box textarea {
+  width: 100%;
+  padding: 13px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
 
-    .cart-name {
-      font-weight: bold;
-      flex: 1;
-    }
+.order-box textarea {
+  min-height: 90px;
+  resize: vertical;
+}
 
-    .quantity-controls {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
+#cart {
+  margin-top: 15px;
+}
 
-    .quantity-controls button {
-      width: 35px;
-      height: 35px;
-      border: none;
-      border-radius: 7px;
-      background: #222;
-      color: white;
-      font-size: 20px;
-      cursor: pointer;
-    }
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  margin: 8px 0;
+  background: #fff3e0;
+  border-radius: 10px;
+}
 
-    .quantity {
-      min-width: 35px;
-      text-align: center;
-      font-weight: bold;
-    }
+.cart-name {
+  font-weight: bold;
+}
 
-    .remove-btn {
-      background: #d32f2f !important;
-      font-size: 15px !important;
-    }
+.cart-name small {
+  color: #666;
+  font-weight: normal;
+}
 
-    .cart-total {
-      font-size: 21px;
-      font-weight: bold;
-      text-align: right;
-      padding-top: 20px;
-    }
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
 
-    .form-group {
-      margin-top: 18px;
-    }
+.quantity-controls button {
+  border: none;
+  background: #b71c1c;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  font-size: 18px;
+  cursor: pointer;
+}
 
-    .form-group label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 6px;
-    }
+.quantity {
+  min-width: 25px;
+  text-align: center;
+  font-weight: bold;
+}
 
-    .form-group input,
-    .form-group textarea {
-      width: 100%;
-      padding: 13px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 16px;
-      font-family: inherit;
-    }
+.quantity-controls .remove-btn {
+  background: #555;
+}
 
-    .form-group textarea {
-      min-height: 90px;
-      resize: vertical;
-    }
+#cartTotal {
+  text-align: right;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 15px;
+}
 
-    .location-box {
-      background: #fff8e1;
-      border: 1px solid #ffcc80;
-      padding: 15px;
-      border-radius: 10px;
-      margin-top: 22px;
-    }
+.location-check {
+  margin-top: 20px;
+  padding: 20px;
+  background: #f5f5f5;
+  border-radius: 12px;
+  text-align: center;
+}
 
-    .location-status {
-      font-weight: bold;
-      margin-top: 10px;
-      line-height: 1.6;
-    }
+#locationStatus {
+  margin: 15px 0;
+  font-weight: bold;
+  line-height: 1.6;
+}
 
-    .check-location-btn {
-      width: 100%;
-      padding: 14px;
-      margin-top: 10px;
-      background: #1976d2;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.check-location-button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #1976d2;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-    .order-btn {
-      width: 100%;
-      padding: 16px;
-      margin-top: 20px;
-      background: #25d366;
-      color: white;
-      border: none;
-      border-radius: 9px;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+#sendOrderButton {
+  width: 100%;
+  margin-top: 20px;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  background: #25d366;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-    .order-btn:disabled {
-      background: #aaa;
-      cursor: not-allowed;
-    }
+#sendOrderButton:disabled {
+  background: #aaa;
+  cursor: not-allowed;
+}
 
-    .delivery-note {
-      background: #e8f5e9;
-      border-left: 5px solid #2e7d32;
-      padding: 13px;
-      border-radius: 7px;
-      margin-top: 20px;
-      line-height: 1.5;
-    }
+.qr-section {
+  padding: 45px 20px;
+  text-align: center;
+  background: #fff3e0;
+}
 
-    .location-section {
-      text-align: center;
-    }
+.qr-box {
+  display: inline-block;
+  background: white;
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+}
 
-    .shop-location-box {
-      background: white;
-      border-radius: 15px;
-      padding: 25px;
-      box-shadow: 0 4px 15px rgba(0,0,0,.1);
-    }
+.download-qr {
+  margin-top: 15px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #222;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
 
-    .map-link {
-      display: inline-block;
-      background: #1976d2;
-      color: white;
-      padding: 13px 20px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-      margin-top: 10px;
-    }
+footer {
+  background: #222;
+  color: white;
+  text-align: center;
+  padding: 25px;
+}
 
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-    }
+@media (max-width: 600px) {
 
-    .gallery-grid img {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-      border-radius: 12px;
-      box-shadow: 0 3px 10px rgba(0,0,0,.15);
-    }
+  header h1 {
+    font-size: 24px;
+  }
 
-    footer {
-      background: #111;
-      color: white;
-      text-align: center;
-      padding: 25px;
-      margin-top: 30px;
-    }
+  .hero h2 {
+    font-size: 30px;
+  }
 
-    @media (max-width: 600px) {
-      .header-inner {
-        flex-direction: column;
-      }
+  nav a {
+    margin: 0 5px;
+    font-size: 14px;
+  }
 
-      nav a {
-        margin: 0 6px;
-        font-size: 14px;
-      }
+  .cart-item {
+    flex-direction: column;
+    align-items: stretch;
+  }
 
-      .hero h1 {
-        font-size: 31px;
-      }
+  .quantity-controls {
+    justify-content: center;
+  }
 
-      .hero p {
-        font-size: 16px;
-      }
+}
 
-      .cart-item {
-        flex-wrap: wrap;
-      }
-    }
-  </style>
+</style>
+
 </head>
+
 
 <body>
 
+
+<!-- =========================
+     HEADER
+========================= -->
+
 <header>
-  <div class="header-inner">
 
-    <div class="logo">
-      🐔 Farm Fresh Chicken Market
-    </div>
+  <h1>🐔 Farm Fresh Chicken Market</h1>
 
-    <nav>
-      <a href="#home">Home</a>
-      <a href="#products">Products</a>
-      <a href="#order">Order</a>
-      <a href="#location">Location</a>
-    </nav>
+  <p>Fresh • Clean • Quality Chicken</p>
 
-  </div>
 </header>
 
 
-<!-- HOME -->
+<!-- =========================
+     NAVIGATION
+========================= -->
 
-<div id="home" class="hero">
+<nav>
 
-  <div class="hero-content">
+  <a href="#home">Home</a>
 
-    <div class="tender">
-      🌱 Fresh & Tender Chicken
-    </div>
+  <a href="#products">Products</a>
 
-    <h1>
-      Farm Fresh Chicken Market
-    </h1>
+  <a href="#gallery">Photos</a>
 
-    <p>
-      Fresh, hygienic and quality chicken
-      for your family.
-      Order from our Kondapur shop.
-    </p>
+  <a href="#location">Location</a>
 
-    <p>
-      📍 Kondapur, Raghavendra Colony,
-      near 1st pole
-    </p>
+  <a href="#order">Order</a>
 
-    <div class="hero-buttons">
+</nav>
 
-      <a class="products-btn" href="#products">
-        🛒 View Products
-      </a>
 
-      <a class="location-btn" href="#location">
-        📍 Shop Location
-      </a>
+<!-- =========================
+     HOME
+========================= -->
 
-    </div>
+<section id="home" class="hero">
 
+  <h2>Fresh Chicken Delivered</h2>
+
+  <p>
+    Quality chicken from Farm Fresh Chicken Market
+  </p>
+
+  <div class="tender">
+    🐔 Fresh & Tender Chicken
   </div>
 
-</div>
+</section>
 
 
-<!-- PRODUCTS -->
+<!-- =========================
+     PRODUCTS
+========================= -->
 
 <section id="products">
 
-  <div class="section-title">
-
-    <h2>🐔 Our Products</h2>
-
-    <p>
-      Add one or multiple products to your order.
-    </p>
-
-  </div>
+  <h2 class="section-title">
+    Our Products
+  </h2>
 
 
-  <div class="products-grid">
+  <div class="products">
 
-    <div class="product-card">
+
+    <!-- LIVE -->
+
+    <div class="product">
+
       <img
         src="images/Live%20500x500%20%281%29.jpg"
         alt="Live Chicken"
+        onclick="addToCart('Live',160)"
       >
-      <div class="product-info">
-        <h3>Live Chicken</h3>
-        <div class="price">₹160 / kg</div>
-        <button class="add-btn"
-          onclick="addToCart('Live Chicken',160)">
-          ➕ Add to Order
-        </button>
+
+      <h3>Live</h3>
+
+      <div class="price">
+        ₹160 / kg
       </div>
+
+      <button
+        onclick="addToCart('Live',160)"
+      >
+        Add to Order
+      </button>
+
     </div>
 
 
-    <div class="product-card">
+    <!-- DRESSED -->
+
+    <div class="product">
+
       <img
         src="images/Dressed.jpg"
         alt="Dressed Chicken"
+        onclick="addToCart('Dressed',220)"
       >
-      <div class="product-info">
-        <h3>Dressed Chicken</h3>
-        <div class="price">₹220 / kg</div>
-        <button class="add-btn"
-          onclick="addToCart('Dressed Chicken',220)">
-          ➕ Add to Order
-        </button>
+
+      <h3>Dressed</h3>
+
+      <div class="price">
+        ₹220 / kg
       </div>
+
+      <button
+        onclick="addToCart('Dressed',220)"
+      >
+        Add to Order
+      </button>
+
     </div>
 
 
-    <div class="product-card">
+    <!-- SKINLESS -->
+
+    <div class="product">
+
       <img
         src="images/Skinless.jpg"
         alt="Skinless Chicken"
+        onclick="addToCart('Skinless',240)"
       >
-      <div class="product-info">
-        <h3>Skinless Chicken</h3>
-        <div class="price">₹240 / kg</div>
-        <button class="add-btn"
-          onclick="addToCart('Skinless Chicken',240)">
-          ➕ Add to Order
-        </button>
+
+      <h3>Skinless</h3>
+
+      <div class="price">
+        ₹240 / kg
       </div>
+
+      <button
+        onclick="addToCart('Skinless',240)"
+      >
+        Add to Order
+      </button>
+
     </div>
 
 
-    <div class="product-card">
+    <!-- BONELESS -->
+
+    <div class="product">
+
       <img
         src="images/Chicken_Breast_Boneless.png"
         alt="Boneless Chicken"
+        onclick="addToCart('Boneless',420)"
       >
-      <div class="product-info">
-        <h3>Boneless Chicken</h3>
-        <div class="price">₹420 / kg</div>
-        <button class="add-btn"
-          onclick="addToCart('Boneless Chicken',420)">
-          ➕ Add to Order
-        </button>
+
+      <h3>Boneless</h3>
+
+      <div class="price">
+        ₹420 / kg
       </div>
+
+      <button
+        onclick="addToCart('Boneless',420)"
+      >
+        Add to Order
+      </button>
+
     </div>
 
 
-    <div class="product-card">
+    <!-- DRUMSTICKS -->
+
+    <div class="product">
+
       <img
         src="images/Drumsticks.png"
         alt="Chicken Drumsticks"
+        onclick="addToCart('Drumsticks',300)"
       >
-      <div class="product-info">
-        <h3>Drumsticks</h3>
-        <div class="price">₹300 / kg</div>
-        <button class="add-btn"
-          onclick="addToCart('Drumsticks',300)">
-          ➕ Add to Order
-        </button>
+
+      <h3>Drumsticks</h3>
+
+      <div class="price">
+        ₹300 / kg
       </div>
+
+      <button
+        onclick="addToCart('Drumsticks',300)"
+      >
+        Add to Order
+      </button>
+
     </div>
 
 
-    <div class="product-card">
+    <!-- LOLLIPOPS -->
+
+    <div class="product">
+
       <img
         src="images/lollipop_1.jpg"
         alt="Chicken Lollipops"
+        onclick="addToCart('Lollipops',300)"
       >
-      <div class="product-info">
-        <h3>Lollipops</h3>
-        <div class="price">₹300 / kg</div>
-        <button class="add-btn"
-          onclick="addToCart('Lollipops',300)">
-          ➕ Add to Order
-        </button>
+
+      <h3>Lollipops</h3>
+
+      <div class="price">
+        ₹300 / kg
       </div>
+
+      <button
+        onclick="addToCart('Lollipops',300)"
+      >
+        Add to Order
+      </button>
+
     </div>
 
 
-    <div class="product-card">
+    <!-- LEGS & BREAST -->
+
+    <div class="product">
+
       <img
         src="images/Legs%20and%20breast%20527904-114.jpg"
         alt="Chicken Legs and Breast"
+        onclick="addToCart('Legs & Breast',280)"
       >
-      <div class="product-info">
-        <h3>Legs & Breast</h3>
-        <div class="price">₹280 / kg</div>
-        <button class="add-btn"
-          onclick="addToCart('Legs & Breast',280)">
-          ➕ Add to Order
-        </button>
+
+      <h3>Legs & Breast</h3>
+
+      <div class="price">
+        ₹280 / kg
       </div>
+
+      <button
+        onclick="addToCart('Legs & Breast',280)"
+      >
+        Add to Order
+      </button>
+
     </div>
 
 
-    <div class="product-card">
+    <!-- LIVER -->
+
+    <div class="product">
+
       <img
         src="images/Liver.jpg"
         alt="Chicken Liver"
+        onclick="addToCart('Liver',140)"
       >
-      <div class="product-info">
-        <h3>Liver</h3>
-        <div class="price">₹140 / kg</div>
-        <button class="add-btn"
-          onclick="addToCart('Liver',140)">
-          ➕ Add to Order
-        </button>
+
+      <h3>Liver</h3>
+
+      <div class="price">
+        ₹140 / kg
       </div>
+
+      <button
+        onclick="addToCart('Liver',140)"
+      >
+        Add to Order
+      </button>
+
     </div>
 
 
-    <div class="product-card">
+    <!-- EGGS -->
+
+    <div class="product">
+
       <img
         src="images/Eggs.jpg"
-        alt="Eggs"
+        alt="Chicken Eggs"
+        onclick="addToCart('Eggs',0)"
       >
-      <div class="product-info">
-        <h3>Eggs</h3>
-        <div class="price">Price available at shop</div>
-        <button class="add-btn"
-          onclick="addToCart('Eggs',0)">
-          ➕ Add to Order
-        </button>
+
+      <h3>Eggs</h3>
+
+      <div class="price">
+        Price available at shop
       </div>
+
+      <button
+        onclick="addToCart('Eggs',0)"
+      >
+        Add to Order
+      </button>
+
     </div>
 
-  </div>
-</section>
-
-
-<!-- ORDER -->
-
-<section id="order">
-
-  <div class="section-title">
-
-    <h2>🛒 Your Order</h2>
-
-    <p>
-      Choose multiple products and quantities.
-    </p>
-
-  </div>
-
-
-  <div id="cart">
-
-    <p
-      id="emptyCart"
-      style="text-align:center;color:#777;"
-    >
-      No products added yet.
-    </p>
-
-  </div>
-
-
-  <div id="cartTotal" class="cart-total">
-    Total: ₹0
-  </div>
-
-
-  <!-- CUSTOMER DETAILS -->
-
-  <div class="form-group">
-
-    <label for="customerName">
-      👤 Customer Name
-    </label>
-
-    <input
-      type="text"
-      id="customerName"
-      placeholder="Enter your full name"
-    >
-
-  </div>
-
-
-  <div class="form-group">
-
-    <label for="customerPhone">
-      📞 Phone Number
-    </label>
-
-    <input
-      type="tel"
-      id="customerPhone"
-      placeholder="10-digit mobile number"
-      maxlength="10"
-    >
-
-  </div>
-
-
-  <!-- DELIVERY ADDRESS -->
-
-  <div class="form-group">
-
-    <label for="deliveryAddress">
-      🏠 Delivery Address
-    </label>
-
-    <textarea
-      id="deliveryAddress"
-      placeholder="House / Flat number, street, colony, area"
-    ></textarea>
-
-  </div>
-
-
-  <div class="form-group">
-
-    <label for="landmark">
-      📌 Landmark
-    </label>
-
-    <input
-      type="text"
-      id="landmark"
-      placeholder="Nearby landmark"
-    >
-
-  </div>
-
-
-  <!-- LOCATION -->
-
-  <div class="location-box">
-
-    <strong>
-      📍 Delivery Location
-    </strong>
-
-    <p>
-      Your GPS location is used only to check
-      whether delivery is within the
-      <strong>2 km</strong> service area.
-    </p>
-
-    <button
-      class="check-location-btn"
-      onclick="checkLocation()"
-    >
-      📍 Use My Current Location
-    </button>
-
-    <div
-      id="locationStatus"
-      class="location-status"
-    >
-      Location not checked.
-    </div>
-
-  </div>
-
-
-  <div class="delivery-note">
-
-    🚚 <strong>Delivery Area:</strong>
-    We currently deliver within
-    <strong>2 km of our Kondapur shop.</strong>
-
-    <br><br>
-
-    📍 Please provide your correct delivery
-    address and landmark.
-
-  </div>
-
-
-  <button
-    id="sendOrderButton"
-    class="order-btn"
-    onclick="sendOrder()"
-    disabled
-  >
-    📱 Send Order on WhatsApp
-  </button>
-
-</section>
-
-
-<!-- SHOP LOCATION -->
-
-<section id="location">
-
-  <div class="section-title">
-
-    <h2>📍 Shop Location</h2>
-
-    <p>
-      Visit Farm Fresh Chicken Market
-      in Kondapur.
-    </p>
-
-  </div>
-
-
-  <div class="shop-location-box">
-
-    <h3>
-      Farm Fresh Chicken Market
-    </h3>
-
-    <p>
-      Kondapur, Raghavendra Colony,
-      near 1st pole
-    </p>
-
-    <p>
-      🛵 Delivery available within
-      2 km radius.
-    </p>
-
-    <a
-      class="map-link"
-      href="https://maps.app.goo.gl/FEYic1oimazVzHEh7?g_st=ac"
-      target="_blank"
-    >
-      🗺️ Open Shop in Google Maps
-    </a>
 
   </div>
 
 </section>
 
 
-<!-- SHOP PHOTOS -->
+<!-- =========================
+     SHOP PHOTOS
+========================= -->
 
-<section>
+<section id="gallery">
 
-  <div class="section-title">
+  <h2 class="section-title">
+    📸 Our Shop
+  </h2>
 
-    <h2>📸 Our Shop</h2>
-
-    <p>
-      Visit us at our Kondapur location.
-    </p>
-
-  </div>
-
-
-  <div class="gallery-grid">
+  <div class="gallery">
 
     <img
       src="images/4811bcd4c11d9bffbd6b0453c955913c.png"
@@ -863,1004 +715,185 @@
 </section>
 
 
-<footer>
-
-  <p>
-    © 2026 Farm Fresh Chicken Market
-  </p>
-
-  <p>
-    📍 Kondapur, Hyderabad
-  </p>
-
-</footer>
-
-
-<script type="module">
-
-  import {
-    initializeApp
-  } from
-  "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-
-  import {
-    getDatabase,
-    ref,
-    push,
-    set
-  } from
-  "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
-
-
-  const firebaseConfig = {
-
-    apiKey:
-      "AIzaSyCcKIDaVUTCzin0tP6oN16ABrexjGOS50M",
-
-    authDomain:
-      "farm-fresh-chicken-market.firebaseapp.com",
-
-    databaseURL:
-      "https://farm-fresh-chicken-market-default-rtdb.firebaseio.com",
-
-    projectId:
-      "farm-fresh-chicken-market",
-
-    storageBucket:
-      "farm-fresh-chicken-market.firebasestorage.app",
-
-    messagingSenderId:
-      "184530252526",
-
-    appId:
-      "1:184530252526:web:f7427c6a46eb76201df9ff"
-  };
-
-
-  const app =
-    initializeApp(firebaseConfig);
-
-  const db =
-    getDatabase(app);
-
-
-  /* SHOP LOCATION */
-
-  const SHOP_LAT = 17.470028;
-  const SHOP_LNG = 78.364139;
-  const MAX_DISTANCE_KM = 2;
-
-
-  /* WHATSAPP */
-
-  const WHATSAPP_NUMBER =
-    "918121321120";
-
-
-  let cart = [];
-
-  let locationAllowed = false;
-
-  let customerLatitude = null;
-
-  let customerLongitude = null;
-
-  let customerDistance = null;
-
-
-  /* =========================
-     CART
-  ========================= */
-
-  window.addToCart =
-    function(product, price) {
-
-      const existing =
-        cart.find(
-          item =>
-            item.product === product
-        );
-
-
-      if (existing) {
-
-        existing.quantity++;
-
-      } else {
-
-        cart.push({
-          product: product,
-          price: Number(price),
-          quantity: 1
-        });
-
-      }
-
-      renderCart();
-
-      document
-        .getElementById("order")
-        .scrollIntoView({
-          behavior: "smooth"
-        });
-    };
-
-
-  window.changeCartQty =
-    function(index, change) {
-
-      if (!cart[index]) return;
-
-      cart[index].quantity += change;
-
-      if (cart[index].quantity <= 0) {
-        cart.splice(index, 1);
-      }
-
-      renderCart();
-    };
-
-
-  window.removeFromCart =
-    function(index) {
-
-      cart.splice(index, 1);
-
-      renderCart();
-    };
-
-
-  function renderCart() {
-
-    const container =
-      document.getElementById("cart");
-
-    const totalElement =
-      document.getElementById("cartTotal");
-
-
-    if (cart.length === 0) {
-
-      container.innerHTML = `
-        <p
-          id="emptyCart"
-          style="text-align:center;color:#777;"
-        >
-          No products added yet.
-        </p>
-      `;
-
-      totalElement.textContent =
-        "Total: ₹0";
-
-      return;
-    }
-
-
-    let total = 0;
-
-    container.innerHTML = "";
-
-
-    cart.forEach(
-      (item, index) => {
-
-        if (item.price > 0) {
-          total +=
-            item.price *
-            item.quantity;
-        }
-
-
-        const div =
-          document.createElement("div");
-
-        div.className =
-          "cart-item";
-
-
-        div.innerHTML = `
-
-          <div class="cart-name">
-
-            ${escapeHTML(item.product)}
-
-            <br>
-
-            <small>
-              ${
-                item.price > 0
-                ? "₹" + item.price + " / kg"
-                : "Price at shop"
-              }
-            </small>
-
-          </div>
-
-
-          <div class="quantity-controls">
-
-            <button
-              onclick="changeCartQty(${index},-1)"
-            >
-              −
-            </button>
-
-            <span class="quantity">
-              ${item.quantity}
-            </span>
-
-            <button
-              onclick="changeCartQty(${index},1)"
-            >
-              +
-            </button>
-
-            <button
-              class="remove-btn"
-              onclick="removeFromCart(${index})"
-            >
-              🗑️
-            </button>
-
-          </div>
-        `;
-
-
-        container.appendChild(div);
-      }
-    );
-
-
-    totalElement.textContent =
-      "Total: ₹" + total;
-  }
-
-
-  /* =========================
+<!-- =========================
      LOCATION
-  ========================= */
+========================= -->
 
-  window.checkLocation =
-    function() {
+<section id="location">
 
-      const status =
-        document.getElementById(
-          "locationStatus"
-        );
+  <h2 class="section-title">
+    📍 Visit Our Shop
+  </h2>
 
+  <div class="location-box">
 
-      status.style.color = "#222";
+    <h3>
+      Farm Fresh Chicken Market
+    </h3>
 
-      status.textContent =
-        "📍 Getting your current location...";
+    <p>
+      Kondapur, Raghavendra Colony,
+      near 1st pole
+    </p>
 
+    <p>
+      🛵 Delivery available within 2 km
+      of our Kondapur shop.
+    </p>
 
-      locationAllowed = false;
 
+    <a
+      class="location-button"
+      href="https://maps.app.goo.gl/FEYic1oimazVzHEh7?g_st=ac"
+      target="_blank"
+    >
+      📍 Open Shop Location
+    </a>
 
-      document
-        .getElementById("sendOrderButton")
-        .disabled = true;
+  </div>
 
+</section>
 
-      if (!navigator.geolocation) {
 
-        status.textContent =
-          "❌ Your browser does not support location.";
+<!-- =========================
+     ORDER SECTION
+========================= -->
 
-        return;
-      }
+<section id="order">
 
+  <h2 class="section-title">
+    🛒 Place Your Order
+  </h2>
 
-      navigator.geolocation.getCurrentPosition(
 
-        function(position) {
+  <div class="order-box">
 
-          customerLatitude =
-            position.coords.latitude;
 
-          customerLongitude =
-            position.coord
-          <script type="module">
+    <h3>
+      Your Cart
+    </h3>
 
-import {
-  initializeApp
-} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 
-import {
-  getDatabase,
-  ref,
-  push,
-  set
-} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
+    <div id="cart">
 
-
-/* =========================
-   FIREBASE
-========================= */
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCcKIDaVUTCzin0tP6oN16ABrexjGOS50M",
-  authDomain: "farm-fresh-chicken-market.firebaseapp.com",
-  databaseURL: "https://farm-fresh-chicken-market-default-rtdb.firebaseio.com",
-  projectId: "farm-fresh-chicken-market",
-  storageBucket: "farm-fresh-chicken-market.firebasestorage.app",
-  messagingSenderId: "184530252526",
-  appId: "1:184530252526:web:f7427c6a46eb76201df9ff"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
-
-/* =========================
-   SHOP LOCATION
-========================= */
-
-const SHOP_LAT = 17.470028;
-const SHOP_LNG = 78.364139;
-const MAX_DISTANCE_KM = 2;
-
-
-/* =========================
-   WHATSAPP
-========================= */
-
-const WHATSAPP_NUMBER = "918121321120";
-
-
-/* =========================
-   CART
-========================= */
-
-let cart = [];
-
-let locationAllowed = false;
-
-let customerLatitude = null;
-let customerLongitude = null;
-let customerDistance = null;
-
-
-/* ADD TO CART */
-
-window.addToCart = function(product, price) {
-
-  price = Number(price);
-
-  const existing = cart.find(
-    item => item.product === product
-  );
-
-  if (existing) {
-
-    existing.quantity++;
-
-  } else {
-
-    cart.push({
-      product: product,
-      price: price,
-      quantity: 1
-    });
-
-  }
-
-  renderCart();
-
-  document
-    .getElementById("order")
-    .scrollIntoView({
-      behavior: "smooth"
-    });
-};
-
-
-/* CHANGE QUANTITY */
-
-window.changeCartQty = function(index, change) {
-
-  if (!cart[index]) return;
-
-  cart[index].quantity += change;
-
-  if (cart[index].quantity <= 0) {
-    cart.splice(index, 1);
-  }
-
-  renderCart();
-};
-
-
-/* REMOVE */
-
-window.removeFromCart = function(index) {
-
-  if (!cart[index]) return;
-
-  cart.splice(index, 1);
-
-  renderCart();
-};
-
-
-/* ESCAPE HTML */
-
-function escapeHTML(value) {
-
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
-
-/* RENDER CART */
-
-function renderCart() {
-
-  const container =
-    document.getElementById("cart");
-
-  const totalElement =
-    document.getElementById("cartTotal");
-
-  if (!container || !totalElement) return;
-
-
-  if (cart.length === 0) {
-
-    container.innerHTML = `
       <p
         style="text-align:center;color:#777;"
       >
         No products added yet.
       </p>
-    `;
 
-    totalElement.textContent = "Total: ₹0";
-
-    return;
-  }
+    </div>
 
 
-  let total = 0;
-
-  container.innerHTML = "";
-
-
-  cart.forEach((item, index) => {
-
-    if (item.price > 0) {
-
-      total +=
-        item.price *
-        item.quantity;
-
-    }
+    <div id="cartTotal">
+      Total: ₹0
+    </div>
 
 
-    const div =
-      document.createElement("div");
-
-    div.className = "cart-item";
+    <hr>
 
 
-    div.innerHTML = `
+    <h3>
+      Customer Details
+    </h3>
 
-      <div class="cart-name">
 
-        ${escapeHTML(item.product)}
+    <input
+      type="text"
+      id="customerName"
+      placeholder="Your Name"
+    >
 
-        <br>
 
-        <small>
-          ${
-            item.price > 0
-              ? "₹" + item.price + " / kg"
-              : "Price available at shop"
-          }
-        </small>
+    <input
+      type="tel"
+      id="customerPhone"
+      placeholder="10-digit Phone Number"
+      maxlength="10"
+    >
 
+
+    <textarea
+      id="deliveryAddress"
+      placeholder="Delivery Address"
+    ></textarea>
+
+
+    <input
+      type="text"
+      id="landmark"
+      placeholder="Nearby Landmark"
+    >
+
+
+    <!-- LOCATION CHECK -->
+
+    <div class="location-check">
+
+      <h3>
+        📍 Delivery Location Check
+      </h3>
+
+      <p>
+        We deliver only within 2 km
+        of our Kondapur shop.
+      </p>
+
+
+      <button
+        type="button"
+        class="check-location-button"
+        onclick="checkLocation()"
+      >
+        📍 Check My Location
+      </button>
+
+
+      <div id="locationStatus">
+        Location not checked.
       </div>
 
+    </div>
 
-      <div class="quantity-controls">
 
-        <button
-          type="button"
-          onclick="changeCartQty(${index}, -1)"
-        >
-          −
-        </button>
+    <button
+      type="button"
+      id="sendOrderButton"
+      onclick="sendOrder()"
+      disabled
+    >
+      📲 Place Order on WhatsApp
+    </button>
 
 
-        <span class="quantity">
-          ${item.quantity}
-        </span>
+  </div>
 
+</section>
 
-        <button
-          type="button"
-          onclick="changeCartQty(${index}, 1)"
-        >
-          +
-        </button>
 
+<!-- =========================
+     QR CODE
+========================= -->
 
-        <button
-          type="button"
-          class="remove-btn"
-          onclick="removeFromCart(${index})"
-        >
-          🗑️
-        </button>
+<section class="qr-section">
 
-      </div>
+  <h2>
+    📱 Scan & Order Online
+  </h2>
 
-    `;
+  <p>
+    Scan this QR code to open
+    Farm Fresh Chicken Market
+  </p>
 
 
-    container.appendChild(div);
+  <div class="qr-box">
 
-  });
+    <div id="websiteQRCode"></div>
 
+  </div>
 
-  totalElement.textContent =
-    "Total: ₹" + total;
 
-}
-
-
-/* =========================
-   DISTANCE CALCULATION
-========================= */
-
-function calculateDistance(
-  lat1,
-  lon1,
-  lat2,
-  lon2
-) {
-
-  const R = 6371;
-
-  const dLat =
-    (lat2 - lat1) *
-    Math.PI / 180;
-
-  const dLon =
-    (lon2 - lon1) *
-    Math.PI / 180;
-
-  const a =
-    Math.sin(dLat / 2) *
-    Math.sin(dLat / 2) +
-
-    Math.cos(lat1 * Math.PI / 180) *
-    Math.cos(lat2 * Math.PI / 180) *
-
-    Math.sin(dLon / 2) *
-    Math.sin(dLon / 2);
-
-  const c =
-    2 *
-    Math.atan2(
-      Math.sqrt(a),
-      Math.sqrt(1 - a)
-    );
-
-  return R * c;
-}
-
-
-/* =========================
-   CHECK LOCATION
-========================= */
-
-window.checkLocation = function() {
-
-  const status =
-    document.getElementById(
-      "locationStatus"
-    );
-
-  const sendButton =
-    document.getElementById(
-      "sendOrderButton"
-    );
-
-
-  status.style.color = "#222";
-
-  status.textContent =
-    "📍 Getting your current location...";
-
-
-  locationAllowed = false;
-
-  sendButton.disabled = true;
-
-
-  if (!navigator.geolocation) {
-
-    status.style.color = "#d32f2f";
-
-    status.textContent =
-      "❌ Your browser does not support location.";
-
-    return;
-  }
-
-
-  navigator.geolocation.getCurrentPosition(
-
-    function(position) {
-
-      customerLatitude =
-        position.coords.latitude;
-
-      customerLongitude =
-        position.coords.longitude;
-
-
-      customerDistance =
-        calculateDistance(
-          SHOP_LAT,
-          SHOP_LNG,
-          customerLatitude,
-          customerLongitude
-        );
-
-
-      if (
-        customerDistance <=
-        MAX_DISTANCE_KM
-      ) {
-
-        locationAllowed = true;
-
-        status.style.color = "#2e7d32";
-
-        status.innerHTML =
-          "✅ Delivery available!<br>" +
-          "You are approximately " +
-          customerDistance.toFixed(2) +
-          " km from our shop.";
-
-        sendButton.disabled = false;
-
-      } else {
-
-        locationAllowed = false;
-
-        status.style.color = "#d32f2f";
-
-        status.innerHTML =
-          "❌ Sorry, delivery is not available at your location.<br>" +
-          "Distance from shop: " +
-          customerDistance.toFixed(2) +
-          " km.<br>" +
-          "Maximum delivery distance: 2 km.";
-
-        sendButton.disabled = true;
-
-      }
-
-    },
-
-
-    function(error) {
-
-      locationAllowed = false;
-
-      sendButton.disabled = true;
-
-      status.style.color = "#d32f2f";
-
-
-      if (error.code === 1) {
-
-        status.textContent =
-          "❌ Location permission denied. Please allow location access.";
-
-      } else if (error.code === 2) {
-
-        status.textContent =
-          "❌ Unable to get your location. Please try again.";
-
-      } else if (error.code === 3) {
-
-        status.textContent =
-          "❌ Location request timed out. Please try again.";
-
-      } else {
-
-        status.textContent =
-          "❌ Unable to get your location.";
-
-      }
-
-    },
-
-
-    {
-      enableHighAccuracy: true,
-      timeout: 15000,
-      maximumAge: 0
-    }
-
-  );
-
-};
-
-
-/* =========================
-   SEND ORDER
-========================= */
-
-window.sendOrder = async function() {
-
-  if (cart.length === 0) {
-
-    alert("Please add at least one product.");
-
-    return;
-  }
-
-
-  if (!locationAllowed) {
-
-    alert(
-      "Please check your delivery location first."
-    );
-
-    return;
-  }
-
-
-  const name =
-    document
-      .getElementById("customerName")
-      .value
-      .trim();
-
-
-  const phone =
-    document
-      .getElementById("customerPhone")
-      .value
-      .trim();
-
-
-  const address =
-    document
-      .getElementById("deliveryAddress")
-      .value
-      .trim();
-
-
-  const landmark =
-    document
-      .getElementById("landmark")
-      .value
-      .trim();
-
-
-  if (!name) {
-
-    alert("Please enter your name.");
-
-    return;
-  }
-
-
-  if (!/^[0-9]{10}$/.test(phone)) {
-
-    alert(
-      "Please enter a valid 10-digit phone number."
-    );
-
-    return;
-  }
-
-
-  if (!address) {
-
-    alert("Please enter your delivery address.");
-
-    return;
-  }
-
-
-  if (!landmark) {
-
-    alert("Please enter a landmark.");
-
-    return;
-  }
-
-
-  let total = 0;
-
-
-  cart.forEach(item => {
-
-    if (item.price > 0) {
-
-      total +=
-        item.price *
-        item.quantity;
-
-    }
-
-  });
-
-
-  const customerMapLink =
-    "https://www.google.com/maps?q=" +
-    customerLatitude +
-    "," +
-    customerLongitude;
-
-
-  /* FIREBASE ORDER */
-
-  const orderData = {
-
-    name: name,
-
-    phone: phone,
-
-    deliveryAddress: address,
-
-    landmark: landmark,
-
-
-    items: cart.map(item => ({
-
-      product: item.product,
-
-      quantity: item.quantity,
-
-      price: item.price
-
-    })),
-
-
-    /* OLD COMPATIBILITY FIELDS */
-
-    product:
-      cart.length === 1
-        ? cart[0].product
-        : "Multiple Products",
-
-    quantity:
-      cart.length === 1
-        ? cart[0].quantity
-        : cart.reduce(
-            (sum, item) =>
-              sum + item.quantity,
-            0
-          ),
-
-    qty:
-      cart.length === 1
-        ? cart[0].quantity
-        : cart.reduce(
-            (sum, item) =>
-              sum + item.quantity,
-            0
-          ),
-
-
-    customerLatitude:
-      customerLatitude,
-
-    customerLongitude:
-      customerLongitude,
-
-    distanceFromShop:
-      Number(
-        customerDistance.toFixed(2)
-      ),
-
-    distance:
-      Number(
-        customerDistance.toFixed(2)
-      ),
-
-    customerMapLink:
-      customerMapLink,
-
-    total:
-      total,
-
-    status:
-      "new",
-
-    createdAt:
-      Date.now()
-
-  };
-
-
-  try {
-
-    const ordersRef =
-      ref(db, "orders");
-
-    const newOrderRef =
-      push(ordersRef);
-
-    await set(
-      newOrderRef,
-      orderData
-    );
-
-
-    /* WHATSAPP MESSAGE */
-
-    let message =
-      "🐔 *Farm Fresh Chicken Market*%0A%0A";
-
-    message +=
-      "🛒 *New Order*%0A%0A";
-
-
-    message +=
-      "👤 Name: " +
-      encodeURIComponent(name) +
-      "%0A";
-
-
-    message +=
-      "📞 Phone: " +
-      encodeURIComponent(phone) +
-      "%0A%0A";
-
-
-    message +=
-      "📦 *Products:*%0A";
-
-
-    cart.forEach(item => {
-
-      message +=
-        "• " +
-        encodeURIComponent(item.product) +
-        " × " +
-        item.quantity;
-
-
-      if (item.price > 0) {
-
-        message +=
-          " = ₹" +
-          item.price *
-          item.quantity;
-
-      } else {
-
-        message +=
-          " (Price at shop)";
-
-      }
-
-
-      message += "%0A";
-
-    });
-
-
-    message +=
-      "%0A💰 Total: ₹" +
-      total +
-      "%0A";
-
-
-    message +=
-      "
+  <p>
+    <strong>
+      Farm Fresh Chicken Market
