@@ -11,1096 +11,1333 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
-      background: #fff;
+      font-family: Arial, sans-serif;
+      background: #fff8f3;
       color: #222;
+      line-height: 1.6;
     }
 
+    /* ================= HEADER ================= */
+
     header {
-      background: #d71920;
+      background: #d62828;
       color: white;
       padding: 15px 20px;
-      text-align: center;
       position: sticky;
       top: 0;
       z-index: 1000;
     }
 
-    header h1 {
-      font-size: 25px;
-      margin-bottom: 8px;
+    .nav {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
     }
 
     nav a {
       color: white;
       text-decoration: none;
-      margin: 0 8px;
+      margin-left: 14px;
       font-weight: bold;
     }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* ================= HERO ================= */
 
     .hero {
       background:
         linear-gradient(
-          rgba(0,0,0,0.45),
-          rgba(0,0,0,0.45)
+          rgba(0,0,0,0.48),
+          rgba(0,0,0,0.48)
         ),
         url("images/4811bcd4c11d9bffbd6b0453c955913c.png");
 
       background-size: cover;
       background-position: center;
-      min-height: 420px;
+
+      min-height: 440px;
 
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
 
       text-align: center;
       color: white;
-      padding: 30px;
+
+      padding: 30px 20px;
     }
 
-    .hero h2 {
-      font-size: 42px;
-      margin-bottom: 15px;
+    .hero-content {
+      max-width: 750px;
+    }
+
+    .tender {
+      display: inline-block;
+      background: #ffb703;
+      color: #222;
+
+      padding: 10px 20px;
+      border-radius: 25px;
+
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-size: 44px;
+      margin-bottom: 10px;
     }
 
     .hero p {
       font-size: 20px;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
+
+    .hero .btn {
+      margin-top: 18px;
+    }
+
+    /* ================= BUTTON ================= */
 
     .btn {
       display: inline-block;
-      background: #d71920;
+
+      background: #d62828;
       color: white;
-      padding: 13px 22px;
+
+      padding: 12px 22px;
+
       border-radius: 8px;
+
       text-decoration: none;
       font-weight: bold;
+
       border: none;
       cursor: pointer;
     }
 
     .btn:hover {
-      background: #b9141a;
+      background: #b51f1f;
     }
 
-    section {
-      padding: 45px 20px;
+    /* ================= PRODUCTS ================= */
+
+    .products-section {
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .products-section h2,
+    .shop-gallery h2,
+    .location-section h2 {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .section-subtitle,
+    .gallery-subtitle {
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    .product-grid {
       max-width: 1100px;
       margin: auto;
-    }
 
-    section h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #d71920;
-      font-size: 30px;
-    }
-
-    /* SHOP PHOTOS */
-
-    .gallery {
       display: grid;
-      grid-template-columns:
-        repeat(auto-fit, minmax(200px, 1fr));
 
-      gap: 15px;
+      grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+
+      gap: 25px;
     }
 
-    .gallery img {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-      border-radius: 12px;
+    .product-card {
+      background: white;
+
+      border-radius: 15px;
+      overflow: hidden;
+
+      padding-bottom: 20px;
 
       box-shadow:
-        0 3px 10px rgba(0,0,0,0.15);
+        0 4px 15px rgba(0,0,0,0.12);
+
+      transition: transform 0.2s ease;
     }
 
-    /* PRODUCTS */
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
 
-    .products {
+    .product-card img {
+      width: 100%;
+      height: 210px;
+
+      object-fit: cover;
+
+      display: block;
+    }
+
+    .product-card h3 {
+      margin: 15px 10px 5px;
+
+      font-size: 21px;
+    }
+
+    .product-card p {
+      color: #666;
+
+      margin: 5px 10px 10px;
+    }
+
+    .product-card strong {
+      font-size: 19px;
+      color: #d62828;
+    }
+
+    /* ================= ORDER ================= */
+
+    .order-section {
+      padding: 60px 20px;
+
+      background: #ffe8d6;
+    }
+
+    .order-box {
+      max-width: 600px;
+
+      margin: auto;
+
+      background: white;
+
+      padding: 30px;
+
+      border-radius: 15px;
+
+      box-shadow:
+        0 4px 15px rgba(0,0,0,0.12);
+    }
+
+    .order-box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+
+      font-weight: bold;
+
+      margin-bottom: 5px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+
+      padding: 12px;
+
+      border: 1px solid #ccc;
+
+      border-radius: 8px;
+
+      font-size: 16px;
+    }
+
+    .order-btn {
+      width: 100%;
+
+      margin-top: 10px;
+
+      font-size: 17px;
+    }
+
+    /* ================= SHOP PHOTOS ================= */
+
+    .shop-gallery {
+      padding: 60px 20px;
+
+      background: white;
+
+      text-align: center;
+    }
+
+    .gallery-grid {
+      max-width: 1100px;
+
+      margin: auto;
+
       display: grid;
+
       grid-template-columns:
         repeat(auto-fit, minmax(220px, 1fr));
 
       gap: 20px;
     }
 
-    .product {
-      border: 1px solid #ddd;
-      border-radius: 12px;
-      overflow: hidden;
+    .gallery-card {
       background: white;
 
+      border-radius: 15px;
+
+      overflow: hidden;
+
       box-shadow:
-        0 3px 10px rgba(0,0,0,0.08);
+        0 4px 15px rgba(0,0,0,0.12);
+    }
+
+    .gallery-card img {
+      width: 100%;
+
+      height: 230px;
+
+      object-fit: cover;
+
+      display: block;
+
+      transition: transform 0.3s ease;
+    }
+
+    .gallery-card:hover img {
+      transform: scale(1.05);
+    }
+
+    /* ================= LOCATION ================= */
+
+    .location-section {
+      padding: 60px 20px;
 
       text-align: center;
-      padding-bottom: 20px;
     }
 
-    .product img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
+    .location-section p {
+      margin-bottom: 20px;
     }
 
-    .product h3 {
-      margin: 15px 0 8px;
-      font-size: 20px;
-    }
+    .location-note {
+      margin-top: 20px;
 
-    .product p {
-      color: #d71920;
-      font-size: 18px;
+      color: #555;
+
       font-weight: bold;
     }
 
-    /* ORDER */
+    /* ================= CONTACT ================= */
 
-    .order-box {
-      max-width: 600px;
-      margin: auto;
-      background: #f7f7f7;
-      padding: 25px;
-      border-radius: 15px;
-
-      box-shadow:
-        0 3px 12px rgba(0,0,0,0.1);
-    }
-
-    .order-box input,
-    .order-box select {
-      width: 100%;
-      padding: 13px;
-      margin-bottom: 15px;
-
-      border: 1px solid #ccc;
-      border-radius: 7px;
-
-      font-size: 16px;
-    }
-
-    .order-box button {
-      width: 100%;
-      font-size: 17px;
-    }
-
-    #locationStatus {
-      margin-bottom: 15px;
-      padding: 10px;
-      border-radius: 7px;
-
-      background: #fff3cd;
-      color: #664d03;
-
-      display: none;
-    }
-
-    /* LOCATION */
-
-    .location-box {
-      text-align: center;
-      background: #f7f7f7;
-
-      padding: 30px;
-      border-radius: 15px;
-    }
-
-    .location-box p {
-      margin-bottom: 20px;
-      font-size: 18px;
-    }
-
-    /* FOOTER */
-
-    footer {
+    .contact-section {
       background: #222;
+
       color: white;
 
       text-align: center;
-      padding: 25px;
 
-      margin-top: 30px;
+      padding: 45px 20px;
     }
 
-    footer a {
-      color: #fff;
+    .contact-section h2 {
+      margin-bottom: 10px;
+    }
+
+    .contact-section p {
+      margin-bottom: 8px;
+    }
+
+    .contact-section a {
+      color: #ffb703;
+
       text-decoration: none;
+
+      font-weight: bold;
     }
 
-    @media (max-width: 600px) {
+    /* ================= FOOTER ================= */
 
-      .hero {
-        min-height: 350px;
+    footer {
+      background: #111;
+
+      color: #aaa;
+
+      text-align: center;
+
+      padding: 15px;
+
+      font-size: 14px;
+    }
+
+    /* ================= MOBILE ================= */
+
+    @media (max-width: 700px) {
+
+      .nav {
+        flex-direction: column;
       }
 
-      .hero h2 {
-        font-size: 30px;
+      nav {
+        text-align: center;
+      }
+
+      nav a {
+        display: inline-block;
+
+        margin: 4px 5px;
+
+        font-size: 14px;
+      }
+
+      .hero {
+        min-height: 390px;
+      }
+
+      .hero h1 {
+        font-size: 32px;
       }
 
       .hero p {
         font-size: 17px;
       }
 
-      section {
-        padding: 35px 15px;
+      .product-card img {
+        height: 210px;
       }
 
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-card img {
+        height: 250px;
+      }
     }
   </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
 
-<header>
+  <!-- ================= HEADER ================= -->
 
-  <h1>🐔 Farm Fresh Chicken Market</h1>
+  <header>
 
-  <nav>
+    <div class="nav">
 
-    <a href="#home">Home</a>
+      <div class="logo">
+        🍗 Farm Fresh Chicken Market
+      </div>
 
-    <a href="#photos">Photos</a>
+      <nav>
 
-    <a href="#products">Products</a>
+        <a href="#home">Home</a>
 
-    <a href="#order">Order</a>
+        <a href="#products">Products</a>
 
-    <a href="#location">Location</a>
+        <a href="#order">Order</a>
 
-  </nav>
+        <a href="#shop">Shop</a>
 
-</header>
+        <a href="#location">Location</a>
+
+        <a href="#contact">Contact</a>
+
+      </nav>
+
+    </div>
+
+  </header>
 
 
-<!-- HOME -->
 
-<section class="hero" id="home">
+  <!-- ================= HOME ================= -->
 
-  <div>
+  <section class="hero" id="home">
+
+    <div class="hero-content">
+
+      <div class="tender">
+        🔥 Tender Chicken Available
+      </div>
+
+      <h1>
+        Farm Fresh Chicken Market
+      </h1>
+
+      <p>
+        Fresh • Clean • Quality Chicken
+      </p>
+
+      <p>
+        Fresh chicken products available daily in Kondapur.
+      </p>
+
+      <a href="#products" class="btn">
+        View Products
+      </a>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ================= PRODUCTS ================= -->
+
+  <section
+    class="products-section"
+    id="products"
+  >
 
     <h2>
-      Fresh Chicken, Fresh Taste!
+      Our Products
+    </h2>
+
+    <p class="section-subtitle">
+      Fresh chicken products available daily
+    </p>
+
+
+    <div class="product-grid">
+
+
+      <!-- 1. LIVE -->
+
+      <div class="product-card">
+
+        <img
+          src="images/Live%20500x500%20%281%29.jpg"
+          alt="Live Chicken"
+        >
+
+        <h3>
+          Live Chicken
+        </h3>
+
+        <p>
+          Fresh live chicken
+        </p>
+
+        <strong>
+          ₹160 / kg
+        </strong>
+
+      </div>
+
+
+      <!-- 2. DRESSED -->
+
+      <div class="product-card">
+
+        <img
+          src="images/Dressed.jpg"
+          alt="Dressed Chicken"
+        >
+
+        <h3>
+          Dressed Chicken
+        </h3>
+
+        <p>
+          Freshly dressed chicken
+        </p>
+
+        <strong>
+          ₹220 / kg
+        </strong>
+
+      </div>
+
+
+      <!-- 3. SKINLESS -->
+
+      <div class="product-card">
+
+        <img
+          src="images/Skinless.jpg"
+          alt="Skinless Chicken"
+        >
+
+        <h3>
+          Skinless
+        </h3>
+
+        <p>
+          Clean and fresh skinless chicken
+        </p>
+
+        <strong>
+          ₹240 / kg
+        </strong>
+
+      </div>
+
+
+      <!-- 4. BONELESS -->
+
+      <div class="product-card">
+
+        <img
+          src="images/Chicken_Breast_Boneless.png"
+          alt="Boneless Chicken"
+        >
+
+        <h3>
+          Boneless
+        </h3>
+
+        <p>
+          Fresh boneless chicken
+        </p>
+
+        <strong>
+          ₹420 / kg
+        </strong>
+
+      </div>
+
+
+      <!-- 5. DRUMSTICKS -->
+
+      <div class="product-card">
+
+        <img
+          src="images/Drumsticks.png"
+          alt="Chicken Drumsticks"
+        >
+
+        <h3>
+          Drumsticks
+        </h3>
+
+        <p>
+          Fresh chicken drumsticks
+        </p>
+
+        <strong>
+          ₹300 / kg
+        </strong>
+
+      </div>
+
+
+      <!-- 6. LOLLIPOPS -->
+
+      <div class="product-card">
+
+        <img
+          src="images/lollipop_1.jpg"
+          alt="Chicken Lollipops"
+        >
+
+        <h3>
+          Lollipops
+        </h3>
+
+        <p>
+          Fresh chicken lollipops
+        </p>
+
+        <strong>
+          ₹300 / kg
+        </strong>
+
+      </div>
+
+
+      <!-- 7. LEGS & BREAST -->
+
+      <div class="product-card">
+
+        <img
+          src="images/Legs%20and%20breast%20527904-114.jpg"
+          alt="Chicken Legs and Breast"
+        >
+
+        <h3>
+          Legs &amp; Breast
+        </h3>
+
+        <p>
+          Fresh chicken legs and breast
+        </p>
+
+        <strong>
+          ₹280 / kg
+        </strong>
+
+      </div>
+
+
+      <!-- 8. LIVER -->
+
+      <div class="product-card">
+
+        <img
+          src="images/Liver.jpg"
+          alt="Chicken Liver"
+        >
+
+        <h3>
+          Liver
+        </h3>
+
+        <p>
+          Fresh chicken liver
+        </p>
+
+        <strong>
+          ₹140 / kg
+        </strong>
+
+      </div>
+
+
+      <!-- 9. EGGS -->
+
+      <div class="product-card">
+
+        <img
+          src="images/Eggs.jpg"
+          alt="Fresh Eggs"
+        >
+
+        <h3>
+          Eggs
+        </h3>
+
+        <p>
+          Fresh farm eggs
+        </p>
+
+        <strong>
+          Price available at shop
+        </strong>
+
+      </div>
+
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ================= ORDER ================= -->
+
+  <section
+    class="order-section"
+    id="order"
+  >
+
+    <div class="order-box">
+
+      <h2>
+        🛒 Place Your Order
+      </h2>
+
+
+      <div class="form-group">
+
+        <label for="name">
+          Name
+        </label>
+
+        <input
+          type="text"
+          id="name"
+          placeholder="Enter your name"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="phone">
+          Phone Number
+        </label>
+
+        <input
+          type="tel"
+          id="phone"
+          placeholder="Enter your phone number"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="product">
+          Select Product
+        </label>
+
+        <select id="product">
+
+          <option value="">
+            Select a product
+          </option>
+
+          <option value="Live Chicken">
+            Live Chicken
+          </option>
+
+          <option value="Dressed Chicken">
+            Dressed Chicken
+          </option>
+
+          <option value="Skinless">
+            Skinless
+          </option>
+
+          <option value="Boneless">
+            Boneless
+          </option>
+
+          <option value="Drumsticks">
+            Drumsticks
+          </option>
+
+          <option value="Lollipops">
+            Lollipops
+          </option>
+
+          <option value="Legs & Breast">
+            Legs & Breast
+          </option>
+
+          <option value="Liver">
+            Liver
+          </option>
+
+          <option value="Eggs">
+            Eggs
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="qty">
+          Quantity
+        </label>
+
+        <input
+          type="number"
+          id="qty"
+          min="0.1"
+          step="0.1"
+          placeholder="Enter quantity in kg"
+        >
+
+      </div>
+
+
+      <button
+        class="btn order-btn"
+        onclick="sendOrder()"
+      >
+
+        📲 Place Order on WhatsApp
+
+      </button>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ================= SHOP PHOTOS ================= -->
+
+  <section
+    class="shop-gallery"
+    id="shop"
+  >
+
+    <h2>
+      🏪 Visit Our Shop
+    </h2>
+
+    <p class="gallery-subtitle">
+      A glimpse of Farm Fresh Chicken Market
+    </p>
+
+
+    <div class="gallery-grid">
+
+
+      <!-- SHOP PHOTO 1 -->
+
+      <div class="gallery-card">
+
+        <img
+          src="images/4811bcd4c11d9bffbd6b0453c955913c.png"
+          alt="Farm Fresh Chicken Market"
+        >
+
+      </div>
+
+
+      <!-- SHOP PHOTO 2 -->
+
+      <div class="gallery-card">
+
+        <img
+          src="images/Screenshot_20260915_223216.jpg"
+          alt="Farm Fresh Chicken Market Shop"
+        >
+
+      </div>
+
+
+      <!-- SHOP PHOTO 3 -->
+
+      <div class="gallery-card">
+
+        <img
+          src="images/Screenshot_20260915_223237.jpg"
+          alt="Farm Fresh Chicken Market Shop"
+        >
+
+      </div>
+
+
+      <!-- SHOP PHOTO 4 -->
+
+      <div class="gallery-card">
+
+        <img
+          src="images/Screenshot_20260916_080217.jpg"
+          alt="Farm Fresh Chicken Market Shop"
+        >
+
+      </div>
+
+
+      <!-- SHOP PHOTO 5 -->
+
+      <div class="gallery-card">
+
+        <img
+          src="images/f99a18de-d90f-4ed0-93b5-af9dc9e6372f.jpg"
+          alt="Farm Fresh Chicken Market Shop"
+        >
+
+      </div>
+
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ================= LOCATION ================= -->
+
+  <section
+    class="location-section"
+    id="location"
+  >
+
+    <h2>
+      📍 Our Location
     </h2>
 
     <p>
-      Fresh • Hygienic • Quality Chicken
+      Kondapur, Raghavendra Colony, near 1st pole.
     </p>
 
-    <p>
-      🔥 Tender Chicken Available
-    </p>
-
-    <a
-      href="#products"
-      class="btn"
-    >
-      View Products
-    </a>
-
-  </div>
-
-</section>
-
-
-<!-- SHOP PHOTOS -->
-
-<section id="photos">
-
-  <h2>📸 Our Shop</h2>
-
-  <div class="gallery">
-
-    <img
-      src="images/4811bcd4c11d9bffbd6b0453c955913c.png"
-      alt="Farm Fresh Chicken Market"
-    >
-
-    <img
-      src="images/Screenshot_20260915_223216.jpg"
-      alt="Farm Fresh Chicken Market"
-    >
-
-    <img
-      src="images/Screenshot_20260915_223237.jpg"
-      alt="Farm Fresh Chicken Market"
-    >
-
-    <img
-      src="images/Screenshot_20260916_080217.jpg"
-      alt="Farm Fresh Chicken Market"
-    >
-
-    <img
-      src="images/f99a18de-d90f-4ed0-93b5-af9dc9e6372f.jpg"
-      alt="Farm Fresh Chicken Market"
-    >
-
-  </div>
-
-</section>
-
-
-<!-- PRODUCTS -->
-
-<section id="products">
-
-  <h2>🍗 Our Products</h2>
-
-  <div class="products">
-
-    <div class="product">
-
-      <img
-        src="images/4811bcd4c11d9bffbd6b0453c955913c.png"
-        alt="Live Chicken"
-      >
-
-      <h3>Live Chicken</h3>
-
-      <p>₹160 / kg</p>
-
-    </div>
-
-
-    <div class="product">
-
-      <img
-        src="images/Screenshot_20260915_223216.jpg"
-        alt="Dressed Chicken"
-      >
-
-      <h3>Dressed Chicken</h3>
-
-      <p>₹220 / kg</p>
-
-    </div>
-
-
-    <div class="product">
-
-      <img
-        src="images/Screenshot_20260915_223237.jpg"
-        alt="Skinless Chicken"
-      >
-
-      <h3>Skinless Chicken</h3>
-
-      <p>₹240 / kg</p>
-
-    </div>
-
-
-    <div class="product">
-
-      <img
-        src="images/Screenshot_20260916_080217.jpg"
-        alt="Boneless Chicken"
-      >
-
-      <h3>Boneless Chicken</h3>
-
-      <p>₹420 / kg</p>
-
-    </div>
-
-
-    <div class="product">
-
-      <img
-        src="images/f99a18de-d90f-4ed0-93b5-af9dc9e6372f.jpg"
-        alt="Drumsticks"
-      >
-
-      <h3>Drumsticks</h3>
-
-      <p>₹300 / kg</p>
-
-    </div>
-
-
-    <div class="product">
-
-      <img
-        src="images/4811bcd4c11d9bffbd6b0453c955913c.png"
-        alt="Lollipops"
-      >
-
-      <h3>Lollipops</h3>
-
-      <p>₹300 / kg</p>
-
-    </div>
-
-
-    <div class="product">
-
-      <img
-        src="images/Screenshot_20260915_223216.jpg"
-        alt="Legs and Breast"
-      >
-
-      <h3>Legs & Breast</h3>
-
-      <p>₹280 / kg</p>
-
-    </div>
-
-
-    <div class="product">
-
-      <img
-        src="images/Screenshot_20260915_223237.jpg"
-        alt="Liver"
-      >
-
-      <h3>Liver</h3>
-
-      <p>₹140 / kg</p>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ORDER -->
-
-<section id="order">
-
-  <h2>🛒 Place Your Order</h2>
-
-  <div class="order-box">
-
-    <input
-      type="text"
-      id="name"
-      placeholder="Your Name"
-      required
-    >
-
-    <input
-      type="tel"
-      id="phone"
-      placeholder="Phone Number"
-      required
-    >
-
-    <select
-      id="product"
-      required
-    >
-
-      <option value="">
-        Select Product
-      </option>
-
-      <option value="Live Chicken">
-        Live Chicken
-      </option>
-
-      <option value="Dressed Chicken">
-        Dressed Chicken
-      </option>
-
-      <option value="Skinless Chicken">
-        Skinless Chicken
-      </option>
-
-      <option value="Boneless Chicken">
-        Boneless Chicken
-      </option>
-
-      <option value="Drumsticks">
-        Drumsticks
-      </option>
-
-      <option value="Lollipops">
-        Lollipops
-      </option>
-
-      <option value="Legs & Breast">
-        Legs & Breast
-      </option>
-
-      <option value="Liver">
-        Liver
-      </option>
-
-    </select>
-
-
-    <input
-      type="number"
-      id="qty"
-      placeholder="Quantity in kg"
-      min="0.1"
-      step="0.1"
-      required
-    >
-
-
-    <div id="locationStatus"></div>
-
-
-    <button
-      class="btn"
-      onclick="sendOrder()"
-    >
-      📲 Place Order on WhatsApp
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- LOCATION -->
-
-<section id="location">
-
-  <h2>📍 Our Location</h2>
-
-  <div class="location-box">
-
-    <p>
-      <strong>
-        Farm Fresh Chicken Market
-      </strong>
-    </p>
-
-    <p>
-      Kondapur, Raghavendra Colony, near 1st pole
-    </p>
 
     <a
       href="https://maps.app.goo.gl/FEYic1oimazVzHEh7?g_st=ac"
       target="_blank"
       class="btn"
     >
-      📍 Open Shop in Google Maps
+
+      Open Shop Location
+
     </a>
 
-  </div>
 
-</section>
+    <p class="location-note">
+
+      🚚 Orders are accepted within a
+      2 km radius of our Kondapur shop.
+
+    </p>
+
+  </section>
 
 
-<!-- CONTACT -->
 
-<section id="contact">
+  <!-- ================= CONTACT ================= -->
 
-  <h2>📞 Contact Us</h2>
+  <section
+    class="contact-section"
+    id="contact"
+  >
 
-  <div class="location-box">
+    <h2>
+      📞 Contact Us
+    </h2>
 
     <p>
       For orders and enquiries
     </p>
 
-    <a
-      href="tel:8121321120"
-      class="btn"
-    >
-      📞 Call: 8121321120
-    </a>
+    <p>
 
-  </div>
+      WhatsApp:
 
-</section>
+      <a
+        href="https://wa.me/918121321120"
+        target="_blank"
+      >
 
+        8121321120
 
-<!-- FOOTER -->
+      </a>
 
-<footer>
+    </p>
 
-  <p>
-    © 2026 Farm Fresh Chicken Market
-  </p>
+  </section>
 
-  <p>
-    Fresh Chicken • Quality • Hygiene
-  </p>
 
-</footer>
 
+  <!-- ================= FOOTER ================= -->
 
-<!-- FIREBASE -->
+  <footer>
 
-<script type="module">
+    © 2026 Farm Fresh Chicken Market.
+    All Rights Reserved.
 
-  import {
-    initializeApp
-  } from
-  "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+  </footer>
 
 
-  import {
-    getDatabase,
-    ref,
-    push
-  } from
-  "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 
+  <!-- ================= FIREBASE ================= -->
 
-  /* ==============================
-     FIREBASE CONFIG
-     ============================== */
+  <script type="module">
 
-  const firebaseConfig = {
+    import {
+      initializeApp
+    } from
+      "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 
-    apiKey:
-      "AIzaSyCcKIDaVUTCzin0tP6oN16ABrexjGOS50M",
 
-    authDomain:
-      "farm-fresh-chicken-market.firebaseapp.com",
+    import {
+      getDatabase,
+      ref,
+      push
+    } from
+      "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 
-    databaseURL:
-      "https://farm-fresh-chicken-market-default-rtdb.firebaseio.com",
 
-    projectId:
-      "farm-fresh-chicken-market",
+    /* FIREBASE CONFIG */
 
-    storageBucket:
-      "farm-fresh-chicken-market.firebasestorage.app",
+    const firebaseConfig = {
 
-    messagingSenderId:
-      "184530252526",
+      apiKey:
+        "AIzaSyCcKIDaVUTCzin0tP6oN16ABrexjGOS50M",
 
-    appId:
-      "1:184530252526:web:f7427c6a46eb76201df9ff"
+      authDomain:
+        "farm-fresh-chicken-market.firebaseapp.com",
 
-  };
+      databaseURL:
+        "https://farm-fresh-chicken-market-default-rtdb.firebaseio.com",
 
+      projectId:
+        "farm-fresh-chicken-market",
 
-  /* ==============================
-     START FIREBASE
-     ============================== */
+      storageBucket:
+        "farm-fresh-chicken-market.firebasestorage.app",
 
-  const app =
-    initializeApp(firebaseConfig);
+      messagingSenderId:
+        "184530252526",
 
+      appId:
+        "1:184530252526:web:f7427c6a46eb76201df9ff"
 
-  const db =
-    getDatabase(app);
+    };
 
 
-  /* ==============================
-     SHOP LOCATION
-     ============================== */
+    const app =
+      initializeApp(firebaseConfig);
 
-  const SHOP_LAT =
-    17.470028;
 
-  const SHOP_LNG =
-    78.364139;
+    const db =
+      getDatabase(app);
 
-  const MAX_DISTANCE_KM =
-    2;
 
 
-  /* ==============================
-     DISTANCE CALCULATOR
-     ============================== */
+    /* SHOP LOCATION */
 
-  function calculateDistance(
-    lat1,
-    lon1,
-    lat2,
-    lon2
-  ) {
+    const SHOP_LAT =
+      17.470028;
 
-    const R = 6371;
+    const SHOP_LON =
+      78.364139;
 
+    const MAX_DISTANCE_KM =
+      2;
 
-    const dLat =
-      (lat2 - lat1) *
-      Math.PI / 180;
 
 
-    const dLon =
-      (lon2 - lon1) *
-      Math.PI / 180;
+    /* ================= DISTANCE ================= */
 
-
-    const a =
-
-      Math.sin(dLat / 2) *
-      Math.sin(dLat / 2)
-
-      +
-
-      Math.cos(
-        lat1 * Math.PI / 180
-      )
-
-      *
-
-      Math.cos(
-        lat2 * Math.PI / 180
-      )
-
-      *
-
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
-
-
-    const c =
-      2 *
-      Math.atan2(
-        Math.sqrt(a),
-        Math.sqrt(1 - a)
-      );
-
-
-    return R * c;
-
-  }
-
-
-  /* ==============================
-     SEND ORDER
-     ============================== */
-
-  window.sendOrder = function () {
-
-    const name =
-      document
-        .getElementById("name")
-        .value
-        .trim();
-
-
-    const phone =
-      document
-        .getElementById("phone")
-        .value
-        .trim();
-
-
-    const product =
-      document
-        .getElementById("product")
-        .value;
-
-
-    const qty =
-      document
-        .getElementById("qty")
-        .value;
-
-
-    const status =
-      document
-        .getElementById("locationStatus");
-
-
-    /* VALIDATION */
-
-    if (
-      !name ||
-      !phone ||
-      !product ||
-      !qty
+    function calculateDistance(
+      lat1,
+      lon1,
+      lat2,
+      lon2
     ) {
 
-      alert(
-        "Please fill all order details."
-      );
+      const R = 6371;
 
-      return;
+      const dLat =
+        (lat2 - lat1) *
+        Math.PI / 180;
+
+      const dLon =
+        (lon2 - lon1) *
+        Math.PI / 180;
+
+
+      const a =
+
+        Math.sin(dLat / 2) *
+        Math.sin(dLat / 2)
+
+        +
+
+        Math.cos(
+          lat1 * Math.PI / 180
+        )
+
+        *
+
+        Math.cos(
+          lat2 * Math.PI / 180
+        )
+
+        *
+
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+
+
+      const c =
+        2 *
+        Math.atan2(
+          Math.sqrt(a),
+          Math.sqrt(1 - a)
+        );
+
+
+      return R * c;
 
     }
 
 
-    /* PHONE VALIDATION */
 
-    if (phone.length < 10) {
+    /* ================= SEND ORDER ================= */
 
-      alert(
-        "Please enter a valid phone number."
-      );
-
-      return;
-
-    }
+    window.sendOrder =
+      async function () {
 
 
-    status.style.display =
-      "block";
+        const name =
+          document
+            .getElementById("name")
+            .value
+            .trim();
 
 
-    status.innerHTML =
-      "📍 Checking your location...";
+        const phone =
+          document
+            .getElementById("phone")
+            .value
+            .trim();
 
 
-    /* GEOLOCATION */
-
-    if (!navigator.geolocation) {
-
-      status.innerHTML =
-        "❌ Location is not supported by your browser.";
-
-      return;
-
-    }
+        const product =
+          document
+            .getElementById("product")
+            .value;
 
 
-    navigator.geolocation.getCurrentPosition(
-
-      async function(position) {
-
-        const latitude =
-          position.coords.latitude;
-
-
-        const longitude =
-          position.coords.longitude;
+        const qty =
+          document
+            .getElementById("qty")
+            .value
+            .trim();
 
 
-        /* DISTANCE */
 
-        const distance =
-          calculateDistance(
+        /* VALIDATION */
 
-            latitude,
-            longitude,
-
-            SHOP_LAT,
-            SHOP_LNG
-
-          );
-
-
-        /* 2 KM CHECK */
-
-        if (
-          distance >
-          MAX_DISTANCE_KM
-        ) {
-
-          status.innerHTML =
-            "❌ Sorry! Ordering is available only within 2 km of our Kondapur shop.";
-
+        if (!name) {
 
           alert(
-            "Sorry! Your location is outside our 2 km delivery area."
+            "Please enter your name."
           );
-
 
           return;
 
         }
 
 
-        status.innerHTML =
-          "✅ Location verified. Sending order...";
-
-
-        /* CUSTOMER MAP */
-
-        const customerMapLink =
-          `https://www.google.com/maps?q=${latitude},${longitude}`;
-
-
-        /* ORDER DATA */
-
-        const orderData = {
-
-          name:
-            name,
-
-          phone:
-            phone,
-
-          product:
-            product,
-
-          quantity:
-            qty + " kg",
-
-          latitude:
-            latitude,
-
-          longitude:
-            longitude,
-
-          customerMapLink:
-            customerMapLink,
-
-          distanceFromShop:
-            distance.toFixed(2) +
-            " km",
-
-          status:
-            "NEW",
-
-          createdAt:
-            new Date().toISOString()
-
-        };
-
-
-        /* SAVE TO FIREBASE */
-
-        try {
-
-          await push(
-
-            ref(
-              db,
-              "orders"
-            ),
-
-            orderData
-
-          );
-
-        }
-
-        catch (error) {
-
-          console.error(
-            error
-          );
-
+        if (!phone) {
 
           alert(
-            "Order system error. Please try again."
+            "Please enter your phone number."
           );
-
-
-          status.innerHTML =
-            "❌ Could not save order.";
-
 
           return;
 
         }
 
 
-        /* WHATSAPP */
+        if (!product) {
 
-        const message =
-
-`🐔 NEW ORDER - Farm Fresh Chicken Market
-
-👤 Customer: ${name}
-
-📞 Phone: ${phone}
-
-🍗 Product: ${product}
-
-⚖️ Quantity: ${qty} kg
-
-📍 Customer Location:
-${customerMapLink}
-
-📏 Distance from Shop:
-${distance.toFixed(2)} km
-
-📍 Shop Location:
-https://maps.app.goo.gl/FEYic1oimazVzHEh7?g_st=ac`;
-
-
-        const whatsappURL =
-
-          "https://wa.me/918121321120?text="
-
-          +
-
-          encodeURIComponent(
-            message
+          alert(
+            "Please select a product."
           );
 
+          return;
 
-        /* OPEN WHATSAPP */
-
-        window.open(
-          whatsappURL,
-          "_blank"
-        );
-
-
-        status.innerHTML =
-          "✅ Order placed successfully!";
-
-
-      },
-
-
-      /* LOCATION ERROR */
-
-      function(error) {
-
-        console.error(
-          error
-        );
-
-
-        status.style.display =
-          "block";
+        }
 
 
         if (
-          error.code === 1
+          !qty ||
+          Number(qty) <= 0
         ) {
 
-          status.innerHTML =
-            "❌ Please allow location permission to place the order.";
-
-
           alert(
-            "Please allow location permission to place your order."
+            "Please enter a valid quantity."
           );
+
+          return;
 
         }
 
-        else {
 
-          status.innerHTML =
-            "❌ Unable to get your location. Please try again.";
 
+        /* CHECK LOCATION SUPPORT */
+
+        if (!navigator.geolocation) {
 
           alert(
-            "Unable to get your location. Please try again."
+            "Location checking is not supported on this device."
           );
+
+          return;
 
         }
 
-      },
 
 
-      /* LOCATION OPTIONS */
+        alert(
+          "Please allow location access to check whether your address is within our 2 km delivery area."
+        );
 
-      {
 
-        enableHighAccuracy:
-          true,
 
-        timeout:
-          15000,
+        /* GET CUSTOMER LOCATION */
 
-        maximumAge:
-          0
+        navigator.geolocation.getCurrentPosition(
 
-      }
+          async function(position) {
 
-    );
 
-  };
+            const customerLat =
+              position.coords.latitude;
 
-</script>
 
-</body>
-</html>
+            const customerLon =
+              position.coords.longitude;
+
+
+
+            /* CALCULATE DISTANCE */
+
+            const distance =
+              calculateDistance(
+
+                customerLat,
+                customerLon,
+
+                SHOP_LAT,
+                SHOP_LON
+
+              );
+
+
+
+            /* 2 KM CHECK */
+
+            if (
+              distance >
+              MAX_DISTANCE_KM
+            ) {
+
+              alert(
+
+                "Sorry! Orders are currently available only within 2 km of our Kondapur shop.\n\n" +
+
+                "Your distance: " +
+
+                distance.toFixed(2) +
+
+                " km"
+
+              );
+
+              return;
+
+            }
+
+
+
+            /* ORDER DATA */
+
+            const orderData = {
+
+              name:
+                name,
+
+              phone:
+                phone,
+
+              product:
+                product,
+
+              quantity:
+                qty + " kg",
+
+              /* Owner dashboar
