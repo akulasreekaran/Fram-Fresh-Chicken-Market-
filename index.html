@@ -206,4 +206,901 @@
 
     .location-box {
       text-align: center;
-      background: #f7f7
+      background: #f7f7f7;
+
+      padding: 30px;
+      border-radius: 15px;
+    }
+
+    .location-box p {
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+
+    /* FOOTER */
+
+    footer {
+      background: #222;
+      color: white;
+
+      text-align: center;
+      padding: 25px;
+
+      margin-top: 30px;
+    }
+
+    footer a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    @media (max-width: 600px) {
+
+      .hero {
+        min-height: 350px;
+      }
+
+      .hero h2 {
+        font-size: 30px;
+      }
+
+      .hero p {
+        font-size: 17px;
+      }
+
+      section {
+        padding: 35px 15px;
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header>
+
+  <h1>🐔 Farm Fresh Chicken Market</h1>
+
+  <nav>
+
+    <a href="#home">Home</a>
+
+    <a href="#photos">Photos</a>
+
+    <a href="#products">Products</a>
+
+    <a href="#order">Order</a>
+
+    <a href="#location">Location</a>
+
+  </nav>
+
+</header>
+
+
+<!-- HOME -->
+
+<section class="hero" id="home">
+
+  <div>
+
+    <h2>
+      Fresh Chicken, Fresh Taste!
+    </h2>
+
+    <p>
+      Fresh • Hygienic • Quality Chicken
+    </p>
+
+    <p>
+      🔥 Tender Chicken Available
+    </p>
+
+    <a
+      href="#products"
+      class="btn"
+    >
+      View Products
+    </a>
+
+  </div>
+
+</section>
+
+
+<!-- SHOP PHOTOS -->
+
+<section id="photos">
+
+  <h2>📸 Our Shop</h2>
+
+  <div class="gallery">
+
+    <img
+      src="images/4811bcd4c11d9bffbd6b0453c955913c.png"
+      alt="Farm Fresh Chicken Market"
+    >
+
+    <img
+      src="images/Screenshot_20260915_223216.jpg"
+      alt="Farm Fresh Chicken Market"
+    >
+
+    <img
+      src="images/Screenshot_20260915_223237.jpg"
+      alt="Farm Fresh Chicken Market"
+    >
+
+    <img
+      src="images/Screenshot_20260916_080217.jpg"
+      alt="Farm Fresh Chicken Market"
+    >
+
+    <img
+      src="images/f99a18de-d90f-4ed0-93b5-af9dc9e6372f.jpg"
+      alt="Farm Fresh Chicken Market"
+    >
+
+  </div>
+
+</section>
+
+
+<!-- PRODUCTS -->
+
+<section id="products">
+
+  <h2>🍗 Our Products</h2>
+
+  <div class="products">
+
+    <div class="product">
+
+      <img
+        src="images/4811bcd4c11d9bffbd6b0453c955913c.png"
+        alt="Live Chicken"
+      >
+
+      <h3>Live Chicken</h3>
+
+      <p>₹160 / kg</p>
+
+    </div>
+
+
+    <div class="product">
+
+      <img
+        src="images/Screenshot_20260915_223216.jpg"
+        alt="Dressed Chicken"
+      >
+
+      <h3>Dressed Chicken</h3>
+
+      <p>₹220 / kg</p>
+
+    </div>
+
+
+    <div class="product">
+
+      <img
+        src="images/Screenshot_20260915_223237.jpg"
+        alt="Skinless Chicken"
+      >
+
+      <h3>Skinless Chicken</h3>
+
+      <p>₹240 / kg</p>
+
+    </div>
+
+
+    <div class="product">
+
+      <img
+        src="images/Screenshot_20260916_080217.jpg"
+        alt="Boneless Chicken"
+      >
+
+      <h3>Boneless Chicken</h3>
+
+      <p>₹420 / kg</p>
+
+    </div>
+
+
+    <div class="product">
+
+      <img
+        src="images/f99a18de-d90f-4ed0-93b5-af9dc9e6372f.jpg"
+        alt="Drumsticks"
+      >
+
+      <h3>Drumsticks</h3>
+
+      <p>₹300 / kg</p>
+
+    </div>
+
+
+    <div class="product">
+
+      <img
+        src="images/4811bcd4c11d9bffbd6b0453c955913c.png"
+        alt="Lollipops"
+      >
+
+      <h3>Lollipops</h3>
+
+      <p>₹300 / kg</p>
+
+    </div>
+
+
+    <div class="product">
+
+      <img
+        src="images/Screenshot_20260915_223216.jpg"
+        alt="Legs and Breast"
+      >
+
+      <h3>Legs & Breast</h3>
+
+      <p>₹280 / kg</p>
+
+    </div>
+
+
+    <div class="product">
+
+      <img
+        src="images/Screenshot_20260915_223237.jpg"
+        alt="Liver"
+      >
+
+      <h3>Liver</h3>
+
+      <p>₹140 / kg</p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ORDER -->
+
+<section id="order">
+
+  <h2>🛒 Place Your Order</h2>
+
+  <div class="order-box">
+
+    <input
+      type="text"
+      id="name"
+      placeholder="Your Name"
+      required
+    >
+
+    <input
+      type="tel"
+      id="phone"
+      placeholder="Phone Number"
+      required
+    >
+
+    <select
+      id="product"
+      required
+    >
+
+      <option value="">
+        Select Product
+      </option>
+
+      <option value="Live Chicken">
+        Live Chicken
+      </option>
+
+      <option value="Dressed Chicken">
+        Dressed Chicken
+      </option>
+
+      <option value="Skinless Chicken">
+        Skinless Chicken
+      </option>
+
+      <option value="Boneless Chicken">
+        Boneless Chicken
+      </option>
+
+      <option value="Drumsticks">
+        Drumsticks
+      </option>
+
+      <option value="Lollipops">
+        Lollipops
+      </option>
+
+      <option value="Legs & Breast">
+        Legs & Breast
+      </option>
+
+      <option value="Liver">
+        Liver
+      </option>
+
+    </select>
+
+
+    <input
+      type="number"
+      id="qty"
+      placeholder="Quantity in kg"
+      min="0.1"
+      step="0.1"
+      required
+    >
+
+
+    <div id="locationStatus"></div>
+
+
+    <button
+      class="btn"
+      onclick="sendOrder()"
+    >
+      📲 Place Order on WhatsApp
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- LOCATION -->
+
+<section id="location">
+
+  <h2>📍 Our Location</h2>
+
+  <div class="location-box">
+
+    <p>
+      <strong>
+        Farm Fresh Chicken Market
+      </strong>
+    </p>
+
+    <p>
+      Kondapur, Raghavendra Colony, near 1st pole
+    </p>
+
+    <a
+      href="https://maps.app.goo.gl/FEYic1oimazVzHEh7?g_st=ac"
+      target="_blank"
+      class="btn"
+    >
+      📍 Open Shop in Google Maps
+    </a>
+
+  </div>
+
+</section>
+
+
+<!-- CONTACT -->
+
+<section id="contact">
+
+  <h2>📞 Contact Us</h2>
+
+  <div class="location-box">
+
+    <p>
+      For orders and enquiries
+    </p>
+
+    <a
+      href="tel:8121321120"
+      class="btn"
+    >
+      📞 Call: 8121321120
+    </a>
+
+  </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+  <p>
+    © 2026 Farm Fresh Chicken Market
+  </p>
+
+  <p>
+    Fresh Chicken • Quality • Hygiene
+  </p>
+
+</footer>
+
+
+<!-- FIREBASE -->
+
+<script type="module">
+
+  import {
+    initializeApp
+  } from
+  "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+
+
+  import {
+    getDatabase,
+    ref,
+    push
+  } from
+  "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
+
+
+  /* ==============================
+     FIREBASE CONFIG
+     ============================== */
+
+  const firebaseConfig = {
+
+    apiKey:
+      "AIzaSyCcKIDaVUTCzin0tP6oN16ABrexjGOS50M",
+
+    authDomain:
+      "farm-fresh-chicken-market.firebaseapp.com",
+
+    databaseURL:
+      "https://farm-fresh-chicken-market-default-rtdb.firebaseio.com",
+
+    projectId:
+      "farm-fresh-chicken-market",
+
+    storageBucket:
+      "farm-fresh-chicken-market.firebasestorage.app",
+
+    messagingSenderId:
+      "184530252526",
+
+    appId:
+      "1:184530252526:web:f7427c6a46eb76201df9ff"
+
+  };
+
+
+  /* ==============================
+     START FIREBASE
+     ============================== */
+
+  const app =
+    initializeApp(firebaseConfig);
+
+
+  const db =
+    getDatabase(app);
+
+
+  /* ==============================
+     SHOP LOCATION
+     ============================== */
+
+  const SHOP_LAT =
+    17.470028;
+
+  const SHOP_LNG =
+    78.364139;
+
+  const MAX_DISTANCE_KM =
+    2;
+
+
+  /* ==============================
+     DISTANCE CALCULATOR
+     ============================== */
+
+  function calculateDistance(
+    lat1,
+    lon1,
+    lat2,
+    lon2
+  ) {
+
+    const R = 6371;
+
+
+    const dLat =
+      (lat2 - lat1) *
+      Math.PI / 180;
+
+
+    const dLon =
+      (lon2 - lon1) *
+      Math.PI / 180;
+
+
+    const a =
+
+      Math.sin(dLat / 2) *
+      Math.sin(dLat / 2)
+
+      +
+
+      Math.cos(
+        lat1 * Math.PI / 180
+      )
+
+      *
+
+      Math.cos(
+        lat2 * Math.PI / 180
+      )
+
+      *
+
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+
+
+    const c =
+      2 *
+      Math.atan2(
+        Math.sqrt(a),
+        Math.sqrt(1 - a)
+      );
+
+
+    return R * c;
+
+  }
+
+
+  /* ==============================
+     SEND ORDER
+     ============================== */
+
+  window.sendOrder = function () {
+
+    const name =
+      document
+        .getElementById("name")
+        .value
+        .trim();
+
+
+    const phone =
+      document
+        .getElementById("phone")
+        .value
+        .trim();
+
+
+    const product =
+      document
+        .getElementById("product")
+        .value;
+
+
+    const qty =
+      document
+        .getElementById("qty")
+        .value;
+
+
+    const status =
+      document
+        .getElementById("locationStatus");
+
+
+    /* VALIDATION */
+
+    if (
+      !name ||
+      !phone ||
+      !product ||
+      !qty
+    ) {
+
+      alert(
+        "Please fill all order details."
+      );
+
+      return;
+
+    }
+
+
+    /* PHONE VALIDATION */
+
+    if (phone.length < 10) {
+
+      alert(
+        "Please enter a valid phone number."
+      );
+
+      return;
+
+    }
+
+
+    status.style.display =
+      "block";
+
+
+    status.innerHTML =
+      "📍 Checking your location...";
+
+
+    /* GEOLOCATION */
+
+    if (!navigator.geolocation) {
+
+      status.innerHTML =
+        "❌ Location is not supported by your browser.";
+
+      return;
+
+    }
+
+
+    navigator.geolocation.getCurrentPosition(
+
+      async function(position) {
+
+        const latitude =
+          position.coords.latitude;
+
+
+        const longitude =
+          position.coords.longitude;
+
+
+        /* DISTANCE */
+
+        const distance =
+          calculateDistance(
+
+            latitude,
+            longitude,
+
+            SHOP_LAT,
+            SHOP_LNG
+
+          );
+
+
+        /* 2 KM CHECK */
+
+        if (
+          distance >
+          MAX_DISTANCE_KM
+        ) {
+
+          status.innerHTML =
+            "❌ Sorry! Ordering is available only within 2 km of our Kondapur shop.";
+
+
+          alert(
+            "Sorry! Your location is outside our 2 km delivery area."
+          );
+
+
+          return;
+
+        }
+
+
+        status.innerHTML =
+          "✅ Location verified. Sending order...";
+
+
+        /* CUSTOMER MAP */
+
+        const customerMapLink =
+          `https://www.google.com/maps?q=${latitude},${longitude}`;
+
+
+        /* ORDER DATA */
+
+        const orderData = {
+
+          name:
+            name,
+
+          phone:
+            phone,
+
+          product:
+            product,
+
+          quantity:
+            qty + " kg",
+
+          latitude:
+            latitude,
+
+          longitude:
+            longitude,
+
+          customerMapLink:
+            customerMapLink,
+
+          distanceFromShop:
+            distance.toFixed(2) +
+            " km",
+
+          status:
+            "NEW",
+
+          createdAt:
+            new Date().toISOString()
+
+        };
+
+
+        /* SAVE TO FIREBASE */
+
+        try {
+
+          await push(
+
+            ref(
+              db,
+              "orders"
+            ),
+
+            orderData
+
+          );
+
+        }
+
+        catch (error) {
+
+          console.error(
+            error
+          );
+
+
+          alert(
+            "Order system error. Please try again."
+          );
+
+
+          status.innerHTML =
+            "❌ Could not save order.";
+
+
+          return;
+
+        }
+
+
+        /* WHATSAPP */
+
+        const message =
+
+`🐔 NEW ORDER - Farm Fresh Chicken Market
+
+👤 Customer: ${name}
+
+📞 Phone: ${phone}
+
+🍗 Product: ${product}
+
+⚖️ Quantity: ${qty} kg
+
+📍 Customer Location:
+${customerMapLink}
+
+📏 Distance from Shop:
+${distance.toFixed(2)} km
+
+📍 Shop Location:
+https://maps.app.goo.gl/FEYic1oimazVzHEh7?g_st=ac`;
+
+
+        const whatsappURL =
+
+          "https://wa.me/918121321120?text="
+
+          +
+
+          encodeURIComponent(
+            message
+          );
+
+
+        /* OPEN WHATSAPP */
+
+        window.open(
+          whatsappURL,
+          "_blank"
+        );
+
+
+        status.innerHTML =
+          "✅ Order placed successfully!";
+
+
+      },
+
+
+      /* LOCATION ERROR */
+
+      function(error) {
+
+        console.error(
+          error
+        );
+
+
+        status.style.display =
+          "block";
+
+
+        if (
+          error.code === 1
+        ) {
+
+          status.innerHTML =
+            "❌ Please allow location permission to place the order.";
+
+
+          alert(
+            "Please allow location permission to place your order."
+          );
+
+        }
+
+        else {
+
+          status.innerHTML =
+            "❌ Unable to get your location. Please try again.";
+
+
+          alert(
+            "Unable to get your location. Please try again."
+          );
+
+        }
+
+      },
+
+
+      /* LOCATION OPTIONS */
+
+      {
+
+        enableHighAccuracy:
+          true,
+
+        timeout:
+          15000,
+
+        maximumAge:
+          0
+
+      }
+
+    );
+
+  };
+
+</script>
+
+</body>
+</html>
