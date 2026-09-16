@@ -21,6 +21,15 @@
       text-align: center;
     }
 
+    header h1 {
+      margin: 0;
+      font-size: 25px;
+    }
+
+    header p {
+      margin: 8px 0 0;
+    }
+
     .container {
       max-width: 700px;
       margin: 25px auto;
@@ -42,6 +51,7 @@
       border: 1px solid #ccc;
       border-radius: 8px;
       box-sizing: border-box;
+      font-size: 15px;
     }
 
     button {
@@ -51,18 +61,22 @@
       cursor: pointer;
       font-weight: bold;
       margin: 5px 3px;
+      font-size: 14px;
     }
 
     .login-btn {
       width: 100%;
       background: #111;
       color: white;
+      font-size: 16px;
     }
 
     .sound-btn {
-      background: #ff9800;
+      background: #ff6d00;
       color: white;
-      font-size: 16px;
+      font-size: 17px;
+      width: 100%;
+      padding: 15px;
     }
 
     .sound-on {
@@ -88,8 +102,23 @@
     }
 
     .new-order {
-      border: 3px solid #ff9800;
-      box-shadow: 0 0 15px rgba(255,152,0,0.3);
+      border: 3px solid #ff6d00;
+      box-shadow: 0 0 20px rgba(255,109,0,0.4);
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.015);
+      }
+
+      100% {
+        transform: scale(1);
+      }
     }
 
     .status {
@@ -123,19 +152,31 @@
 
     .item {
       background: #f7f7f7;
-      padding: 10px;
-      margin: 6px 0;
+      padding: 12px;
+      margin: 7px 0;
       border-radius: 8px;
+      border-left: 5px solid #ff6d00;
     }
 
     .new-badge {
       display: inline-block;
-      background: #ff9800;
+      background: #ff6d00;
       color: white;
       padding: 5px 10px;
       border-radius: 20px;
       font-size: 12px;
       font-weight: bold;
+      margin-left: 5px;
+    }
+
+    .sound-status {
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .order-time {
+      color: #777;
+      font-size: 13px;
     }
   </style>
 </head>
@@ -147,12 +188,14 @@
   <p>Owner Order Dashboard</p>
 </header>
 
+
 <div class="container">
 
   <!-- LOGIN -->
+
   <div id="loginBox" class="box">
 
-    <h2>Owner Login</h2>
+    <h2>🔐 Owner Login</h2>
 
     <input
       type="email"
@@ -166,10 +209,1221 @@
       placeholder="Password"
     >
 
-    <button class="login-btn" onclick="login()">
+    <button
+      class="login-btn"
+      onclick="login()">
+
       Login
+
     </button>
 
     <p id="message"></p>
 
   </div>
+
+
+  <!-- DASHBOARD -->
+
+  <div id="dashboard">
+
+    <div class="box">
+
+      <h2>📦 Orders</h2>
+
+      <button
+        id="soundButton"
+        class="sound-btn"
+        onclick="enableSound()">
+
+        🔊 ENABLE LOUD ORDER ALARM
+
+      </button>
+
+      <button
+        class="logout-btn"
+        onclick="logout()">
+
+        Logout
+
+      </button>
+
+      <p
+        id="soundStatus"
+        class="sound-status">
+
+        🔕 Alarm is OFF
+
+      </p>
+
+      <p>
+        Tap the alarm button once to test the sound.
+      </p>
+
+    </div>
+
+
+    <div id="orders">
+
+      <p class="empty">
+        Waiting for orders...
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script type="module">
+
+  // =========================
+  // FIREBASE
+  // =========================
+
+  import {
+    initializeApp
+  }
+  from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+
+
+  import {
+    getDatabase,
+    ref,
+    get,
+    onChildAdded,
+    update
+  }
+  from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
+
+
+  import {
+    getAuth,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut
+  }
+  from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+
+
+  // =========================
+  // FIREBASE CONFIG
+  // =========================
+
+  const firebaseConfig = {
+
+    apiKey:
+      "AIzaSyCcKIDaVUTCzin0tP6oN16ABrexjGOS50M",
+
+    authDomain:
+      "farm-fresh-chicken-market.firebaseapp.com",
+
+    databaseURL:
+      "https://farm-fresh-chicken-market-default-rtdb.firebaseio.com",
+
+    projectId:
+      "farm-fresh-chicken-market",
+
+    storageBucket:
+      "farm-fresh-chicken-market.firebasestorage.app",
+
+    messagingSenderId:
+      "184530252526",
+
+    appId:
+      "1:184530252526:web:f7427c6a46eb76201df9ff"
+
+  };
+
+
+  // =========================
+  // INITIALIZE
+  // =========================
+
+  const app =
+    initializeApp(firebaseConfig);
+
+  const db =
+    getDatabase(app);
+
+  const auth =
+    getAuth(app);
+
+
+  // =========================
+  // VARIABLES
+  // =========================
+
+  let soundEnabled = false;
+
+  let audioContext = null;
+
+  let existingOrderIds = new Set();
+
+  let listenerStarted = false;
+
+
+  // =========================
+  // LOGIN
+  // =========================
+
+  window.login = async function() {
+
+    const email =
+      document
+        .getElementById("email")
+        .value
+        .trim();
+
+    const password =
+      document
+        .getElementById("password")
+        .value;
+
+    const message =
+      document
+        .getElementById("message");
+
+
+    if (!email || !password) {
+
+      message.textContent =
+        "Please enter email and password.";
+
+      return;
+    }
+
+
+    try {
+
+      await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      message.textContent = "";
+
+    } catch (error) {
+
+      console.error(error);
+
+      message.textContent =
+        "Login failed. Check email/password.";
+
+    }
+
+  };
+
+
+  // =========================
+  // AUTH
+  // =========================
+
+  onAuthStateChanged(
+    auth,
+    async (user) => {
+
+      if (user) {
+
+        document
+          .getElementById("loginBox")
+          .style
+          .display = "none";
+
+        document
+          .getElementById("dashboard")
+          .style
+          .display = "block";
+
+        await loadOrders();
+
+      } else {
+
+        document
+          .getElementById("loginBox")
+          .style
+          .display = "block";
+
+        document
+          .getElementById("dashboard")
+          .style
+          .display = "none";
+
+      }
+
+    }
+  );
+
+
+  // =========================
+  // ENABLE SOUND
+  // =========================
+
+  window.enableSound = async function() {
+
+    try {
+
+      if (!audioContext) {
+
+        audioContext =
+          new (
+            window.AudioContext ||
+            window.webkitAudioContext
+          )();
+
+      }
+
+
+      if (
+        audioContext.state ===
+        "suspended"
+      ) {
+
+        await audioContext.resume();
+
+      }
+
+
+      soundEnabled = true;
+
+
+      document
+        .getElementById("soundStatus")
+        .textContent =
+        "🔊 LOUD ORDER ALARM IS ON";
+
+
+      document
+        .getElementById("soundButton")
+        .textContent =
+        "🔊 ALARM ENABLED";
+
+
+      document
+        .getElementById("soundButton")
+        .classList
+        .add("sound-on");
+
+
+      // TEST ALARM
+
+      playOrderSound();
+
+
+    } catch (error) {
+
+      console.error(
+        "Sound error:",
+        error
+      );
+
+      document
+        .getElementById("soundStatus")
+        .textContent =
+        "⚠️ Sound could not be enabled.";
+
+    }
+
+  };
+
+
+  // =========================
+  // STRONG LONG BEEP
+  // =========================
+
+  function playBeep() {
+
+    if (!soundEnabled)
+      return;
+
+    if (!audioContext)
+      return;
+
+
+    if (
+      audioContext.state ===
+      "suspended"
+    ) {
+
+      audioContext.resume();
+
+    }
+
+
+    const now =
+      audioContext.currentTime;
+
+
+    const oscillator =
+      audioContext
+        .createOscillator();
+
+
+    const gain =
+      audioContext
+        .createGain();
+
+
+    oscillator.connect(gain);
+
+    gain.connect(
+      audioContext.destination
+    );
+
+
+    /*
+     * Strong alarm tone
+     */
+
+    oscillator.type =
+      "sawtooth";
+
+
+    /*
+     * Higher frequency makes
+     * the alarm easier to hear.
+     */
+
+    oscillator.frequency.setValueAtTime(
+      1200,
+      now
+    );
+
+
+    oscillator.frequency.setValueAtTime(
+      1000,
+      now + 0.8
+    );
+
+
+    /*
+     * Maximum practical gain
+     */
+
+    gain.gain.setValueAtTime(
+      1.0,
+      now
+    );
+
+
+    gain.gain.setValueAtTime(
+      1.0,
+      now + 0.8
+    );
+
+
+    /*
+     * Fade out after 1.2 seconds
+     */
+
+    gain.gain.exponentialRampToValueAtTime(
+      0.01,
+      now + 1.2
+    );
+
+
+    oscillator.start(now);
+
+    oscillator.stop(
+      now + 1.2
+    );
+
+  }
+
+
+  // =========================
+  // NEW ORDER ALARM
+  // =========================
+
+  function playOrderSound() {
+
+    if (!soundEnabled)
+      return;
+
+
+    /*
+     * 5 strong long beeps
+     */
+
+    playBeep();
+
+
+    setTimeout(
+      () => {
+        playBeep();
+      },
+      1400
+    );
+
+
+    setTimeout(
+      () => {
+        playBeep();
+      },
+      2800
+    );
+
+
+    setTimeout(
+      () => {
+        playBeep();
+      },
+      4200
+    );
+
+
+    setTimeout(
+      () => {
+        playBeep();
+      },
+      5600
+    );
+
+  }
+
+
+  // =========================
+  // LOAD ORDERS
+  // =========================
+
+  async function loadOrders() {
+
+    if (listenerStarted)
+      return;
+
+
+    listenerStarted = true;
+
+
+    const ordersRef =
+      ref(
+        db,
+        "orders"
+      );
+
+
+    try {
+
+      /*
+       * Get existing orders first.
+       */
+
+      const snapshot =
+        await get(
+          ordersRef
+        );
+
+
+      existingOrderIds.clear();
+
+
+      /*
+       * Remember existing orders.
+       */
+
+      snapshot.forEach(
+        (child) => {
+
+          existingOrderIds.add(
+            child.key
+          );
+
+        }
+      );
+
+
+      /*
+       * Display existing orders.
+       */
+
+      snapshot.forEach(
+        (child) => {
+
+          displayOrder(
+            child.key,
+            child.val()
+          );
+
+        }
+      );
+
+
+      /*
+       * Listen for new orders.
+       */
+
+      onChildAdded(
+        ordersRef,
+        (childSnapshot) => {
+
+          const orderId =
+            childSnapshot.key;
+
+
+          const order =
+            childSnapshot.val();
+
+
+          /*
+           * Ignore orders that
+           * already existed.
+           */
+
+          if (
+            existingOrderIds.has(
+              orderId
+            )
+          ) {
+
+            return;
+
+          }
+
+
+          /*
+           * Display new order.
+           */
+
+          displayOrder(
+            orderId,
+            order
+          );
+
+
+          /*
+           * Accept both:
+           * new
+           * NEW
+           */
+
+          const status =
+            String(
+              order.status ||
+              "new"
+            ).toLowerCase();
+
+
+          if (
+            status === "new"
+          ) {
+
+            /*
+             * 🔊 LOUD ALARM
+             */
+
+            playOrderSound();
+
+
+            /*
+             * 🔔 Notification
+             */
+
+            showNotification(
+              order
+            );
+
+          }
+
+        }
+      );
+
+
+    } catch (error) {
+
+      console.error(
+        "Could not load orders:",
+        error
+      );
+
+
+      document
+        .getElementById("orders")
+        .innerHTML =
+        "<p class='empty'>" +
+        "Could not load orders." +
+        "</p>";
+
+    }
+
+  }
+
+
+  // =========================
+  // DISPLAY ORDER
+  // =========================
+
+  function displayOrder(
+    id,
+    order
+  ) {
+
+    const ordersContainer =
+      document
+        .getElementById("orders");
+
+
+    const empty =
+      ordersContainer
+        .querySelector(
+          ".empty"
+        );
+
+
+    if (empty)
+      empty.remove();
+
+
+    const orderDiv =
+      document.createElement(
+        "div"
+      );
+
+
+    const status =
+      String(
+        order.status ||
+        "new"
+      ).toLowerCase();
+
+
+    orderDiv.className =
+      "order " +
+      (
+        status === "new"
+          ? "new-order"
+          : ""
+      );
+
+
+    const safeName =
+      escapeHTML(
+        order.name ||
+        ""
+      );
+
+
+    const safePhone =
+      escapeHTML(
+        order.phone ||
+        ""
+      );
+
+
+    // =========================
+    // PRODUCTS
+    // =========================
+
+    let itemsHTML = "";
+
+
+    /*
+     * New multi-product order
+     */
+
+    if (
+      Array.isArray(
+        order.items
+      ) &&
+      order.items.length > 0
+    ) {
+
+      itemsHTML =
+        order.items
+          .map(
+            (item) => {
+
+              const product =
+                escapeHTML(
+                  item.product ||
+                  ""
+                );
+
+
+              const quantity =
+                escapeHTML(
+                  String(
+                    item.quantity ||
+                    ""
+                  )
+                );
+
+
+              return `
+
+                <div class="item">
+
+                  🐔
+
+                  <strong>
+                    ${product}
+                  </strong>
+
+                  —
+
+                  ${quantity}
+
+                </div>
+
+              `;
+
+            }
+          )
+          .join("");
+
+
+    } else {
+
+      /*
+       * Old order compatibility
+       */
+
+      const product =
+        escapeHTML(
+          order.product ||
+          ""
+        );
+
+
+      const quantity =
+        escapeHTML(
+          String(
+            order.quantity ||
+            order.qty ||
+            ""
+          )
+        );
+
+
+      itemsHTML = `
+
+        <div class="item">
+
+          🐔
+
+          <strong>
+            ${product}
+          </strong>
+
+          —
+
+          ${quantity}
+
+        </div>
+
+      `;
+
+    }
+
+
+    // =========================
+    // DISTANCE
+    // =========================
+
+    const distance =
+      order.distance ??
+      order.distanceFromShop;
+
+
+    let distanceText =
+      "N/A";
+
+
+    if (
+      distance !== undefined &&
+      distance !== null &&
+      distance !== ""
+    ) {
+
+      distanceText =
+        Number(distance)
+          .toFixed(2)
+        + " km";
+
+    }
+
+
+    // =========================
+    // TIME
+    // =========================
+
+    let timeText = "";
+
+
+    if (order.createdAt) {
+
+      try {
+
+        timeText =
+          new Date(
+            order.createdAt
+          ).toLocaleString();
+
+      } catch (error) {
+
+        timeText = "";
+
+      }
+
+    }
+
+
+    // =========================
+    // ORDER HTML
+    // =========================
+
+    orderDiv.innerHTML = `
+
+      <h3>
+
+        🐔 New Order
+
+        ${
+          status === "new"
+          ? `
+
+            <span class="new-badge">
+              NEW
+            </span>
+
+          `
+          : ""
+        }
+
+      </h3>
+
+
+      ${
+        timeText
+        ? `
+
+          <p class="order-time">
+            🕒 ${escapeHTML(timeText)}
+          </p>
+
+        `
+        : ""
+      }
+
+
+      <p>
+
+        <strong>
+          Customer:
+        </strong>
+
+        ${safeName}
+
+      </p>
+
+
+      <p>
+
+        <strong>
+          Phone:
+        </strong>
+
+        ${safePhone}
+
+      </p>
+
+
+      <p>
+
+        <strong>
+          Products:
+        </strong>
+
+      </p>
+
+
+      ${itemsHTML}
+
+
+      <p>
+
+        <strong>
+          Distance:
+        </strong>
+
+        ${distanceText}
+
+      </p>
+
+
+      <p class="status">
+
+        Status:
+        ${status.toUpperCase()}
+
+      </p>
+
+
+      ${
+        status === "new"
+        ? `
+
+          <button
+            class="done-btn"
+            onclick="markDone('${id}')">
+
+            ✅ Mark Done
+
+          </button>
+
+        `
+        : ""
+      }
+
+
+      <button
+        class="call-btn"
+        onclick="callCustomer('${safePhone}')">
+
+        📞 Call Customer
+
+      </button>
+
+
+      ${
+        order.customerMapLink
+        ? `
+
+          <button
+            class="map-btn"
+            onclick="openMap('${escapeHTML(
+              order.customerMapLink
+            )}')">
+
+            📍 Customer Location
+
+          </button>
+
+        `
+        : ""
+      }
+
+    `;
+
+
+    ordersContainer.prepend(
+      orderDiv
+    );
+
+  }
+
+
+  // =========================
+  // CALL CUSTOMER
+  // =========================
+
+  window.callCustomer =
+    function(phone) {
+
+      window.location.href =
+        "tel:" + phone;
+
+    };
+
+
+  // =========================
+  // CUSTOMER MAP
+  // =========================
+
+  window.openMap =
+    function(link) {
+
+      window.open(
+        link,
+        "_blank"
+      );
+
+    };
+
+
+  // =========================
+  // MARK DONE
+  // =========================
+
+  window.markDone =
+    async function(id) {
+
+      try {
+
+        await update(
+          ref(
+            db,
+            "orders/" + id
+          ),
+          {
+            status: "done"
+          }
+        );
+
+
+        alert(
+          "Order marked as done ✅"
+        );
+
+
+        location.reload();
+
+
+      } catch (error) {
+
+        console.error(
+          error
+        );
+
+
+        alert(
+          "Could not update order."
+        );
+
+      }
+
+    };
+
+
+  // =========================
+  // NOTIFICATION
+  // =========================
+
+  async function showNotification(
+    order
+  ) {
+
+    if (
+      !("Notification" in window)
+    )
+      return;
+
+
+    try {
+
+      if (
+        Notification.permission ===
+        "default"
+      ) {
+
+        await Notification.requestPermission();
+
+      }
+
+
+      if (
+        Notification.permission ===
+        "granted"
+      ) {
+
+        let productsText =
+          "";
+
+
+        if (
+          Array.isArray(
+            order.items
+          ) &&
+          order.items.length > 0
+        ) {
+
+          productsText =
+            order.items
+              .map(
+                item =>
+                  `${item.product} - ${item.quantity}`
+              )
+              .join(", ");
+
+
+        } else {
+
+          productsText =
+            `${order.product || "Chicken"} - ${
+              order.qty ||
+              order.quantity ||
+              ""
+            }`;
+
+        }
+
+
+        new Notification(
+          "🐔 NEW CHICKEN ORDER!",
+          {
+
+            body:
+              `${order.name || "Customer"} ordered ${productsText}`
+
+          }
+        );
+
+      }
+
+    } catch (error) {
+
+      console.error(
+        "Notification error:",
+        error
+      );
+
+    }
+
+  }
+
+
+  // =========================
+  // LOGOUT
+  // =========================
+
+  window.logout =
+    async function() {
+
+      await signOut(
+        auth
+      );
+
+    };
+
+
+  // =========================
+  // SECURITY
+  // =========================
+
+  function escapeHTML(
+    value
+  ) {
+
+    return String(value)
+
+      .replaceAll(
+        "&",
+        "&amp;"
+      )
+
+      .replaceAll(
+        "<",
+        "&lt;"
+      )
+
+      .replaceAll(
+        ">",
+        "&gt;"
+      )
+
+      .replaceAll(
+        '"',
+        "&quot;"
+      )
+
+      .replaceAll(
+        "'",
+        "&#039;"
+      );
+
+  }
+
+</script>
+
+</body>
+</html>
