@@ -2015,31 +2015,37 @@
 </style>
 
 <!-- ============================= -->
-<!-- PART 10 - 2 KM LOCATION CHECK -->
-<!-- ============================= -->
+
+<!-- ================================= -->
+<!-- PART 10 - DELIVERY LOCATION CHECK -->
+<!-- ================================= -->
 
 <script>
 
 let locationVerified = false;
 
-/* YOUR KONDAPUR SHOP LOCATION */
 const SHOP_LATITUDE = 17.470218;
 const SHOP_LONGITUDE = 78.364172;
 
-
-/* Calculate distance between two locations */
 function calculateDistance(lat1, lon1, lat2, lon2) {
 
-  const R = 6371; // Earth radius in kilometres
+  const R = 6371;
 
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const dLat =
+    (lat2 - lat1) * Math.PI / 180;
+
+  const dLon =
+    (lon2 - lon1) * Math.PI / 180;
 
   const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.sin(dLat / 2) *
+    Math.sin(dLat / 2) +
+
     Math.cos(lat1 * Math.PI / 180) *
     Math.cos(lat2 * Math.PI / 180) *
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+    Math.sin(dLon / 2) *
+    Math.sin(dLon / 2);
 
   const c =
     2 * Math.atan2(
@@ -2051,8 +2057,7 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 }
 
 
-/* Check customer's current location */
-function checkCustomerLocation() {
+function checkDeliveryLocation() {
 
   const status =
     document.getElementById("locationStatus");
@@ -2061,7 +2066,6 @@ function checkCustomerLocation() {
     document.getElementById("checkLocationButton");
 
 
-  /* Check browser support */
   if (!navigator.geolocation) {
 
     status.innerHTML =
@@ -2075,9 +2079,8 @@ function checkCustomerLocation() {
   }
 
 
-  /* Start checking */
   status.innerHTML =
-    "📍 Checking your location...";
+    "📍 Checking delivery location...";
 
   status.style.color = "#222";
 
@@ -2091,7 +2094,6 @@ function checkCustomerLocation() {
 
     function(position) {
 
-      /* Customer GPS coordinates */
       const customerLatitude =
         position.coords.latitude;
 
@@ -2099,7 +2101,6 @@ function checkCustomerLocation() {
         position.coords.longitude;
 
 
-      /* Calculate distance from shop */
       const distance =
         calculateDistance(
           customerLatitude,
@@ -2110,12 +2111,12 @@ function checkCustomerLocation() {
 
 
       console.log(
-        "Customer Latitude:",
+        "Delivery Latitude:",
         customerLatitude
       );
 
       console.log(
-        "Customer Longitude:",
+        "Delivery Longitude:",
         customerLongitude
       );
 
@@ -2126,31 +2127,23 @@ function checkCustomerLocation() {
       );
 
 
-      /* ========================= */
-      /* WITHIN 2 KM */
-      /* ========================= */
-
       if (distance <= 2) {
 
         locationVerified = true;
 
         status.innerHTML =
           "✅ Delivery Available!<br>" +
-          "You are " +
+          "Delivery location is " +
           distance.toFixed(2) +
           " km from our shop.";
 
-        status.style.color = "green";
+        status.style.color =
+          "green";
 
         button.innerText =
           "✅ Location Verified";
 
       }
-
-
-      /* ========================= */
-      /* OUTSIDE 2 KM */
-      /* ========================= */
 
       else {
 
@@ -2158,15 +2151,17 @@ function checkCustomerLocation() {
 
         status.innerHTML =
           "❌ Delivery Not Available!<br>" +
-          "You are " +
+          "Delivery location is " +
           distance.toFixed(2) +
           " km from our shop.<br>" +
           "Orders are available only within 2 km.";
 
-        status.style.color = "red";
+        status.style.color =
+          "red";
 
         button.innerText =
           "📍 Check Again";
+
       }
 
 
@@ -2175,10 +2170,6 @@ function checkCustomerLocation() {
     },
 
 
-    /* ========================= */
-    /* LOCATION ERROR */
-    /* ========================= */
-
     function(error) {
 
       locationVerified = false;
@@ -2186,7 +2177,7 @@ function checkCustomerLocation() {
       button.disabled = false;
 
       button.innerText =
-        "📍 Check My Location";
+        "📍 Check Delivery Location";
 
 
       if (error.code === 1) {
@@ -2214,15 +2205,17 @@ function checkCustomerLocation() {
       else {
 
         status.innerHTML =
-          "❌ Could not check your location.";
+          "❌ Could not check the delivery location.";
+
       }
 
 
-      status.style.color = "red";
+      status.style.color =
+        "red";
+
     },
 
 
-    /* GPS settings */
     {
       enableHighAccuracy: true,
       timeout: 15000,
@@ -2234,6 +2227,7 @@ function checkCustomerLocation() {
 }
 
 </script>
+    
 <!-- ================================= -->
 <!-- PART 11 - ORDER CONFIRMATION -->
 <!-- ================================= -->
