@@ -2756,6 +2756,85 @@ function confirmOrder() {
 >
   📲 Place Order on WhatsApp
 </button>
+  <script>
+
+function sendOrderToWhatsApp() {
+
+  if (typeof cart === "undefined" || cart.length === 0) {
+    alert("❌ Your cart is empty.");
+    return;
+  }
+
+  if (typeof locationVerified === "undefined" || locationVerified !== true) {
+    alert("❌ Please verify your location first.");
+    return;
+  }
+
+  const name =
+    document.getElementById("customerName").value.trim();
+
+  const phone =
+    document.getElementById("customerPhone").value.trim();
+
+  const address =
+    document.getElementById("customerAddress").value.trim();
+
+  const landmark =
+    document.getElementById("customerLandmark").value.trim();
+
+  if (!name || !phone || !address || !landmark) {
+    alert("❌ Please complete all customer details.");
+    return;
+  }
+
+  let total = 0;
+
+  let message =
+    "🍗 FARM FRESH CHICKEN MARKET\n\n" +
+    "🛒 NEW ORDER\n" +
+    "--------------------------\n\n";
+
+  cart.forEach(function(item) {
+
+    const itemTotal =
+      item.price * item.quantity;
+
+    total += itemTotal;
+
+    message +=
+      "🍗 " + item.name + "\n" +
+      "Quantity: " + item.quantity + "\n" +
+      "Price: ₹" + item.price + "\n" +
+      "Amount: ₹" + itemTotal + "\n\n";
+  });
+
+  message +=
+    "--------------------------\n" +
+    "💰 TOTAL: ₹" + total + "\n\n" +
+
+    "👤 CUSTOMER DETAILS\n" +
+    "Name: " + name + "\n" +
+    "Mobile: " + phone + "\n" +
+    "Address: " + address + "\n" +
+    "Landmark: " + landmark + "\n\n" +
+
+    "📍 DELIVERY LOCATION\n" +
+    "✅ Location verified within 2 km of our Kondapur shop.\n\n" +
+
+    "🙏 Thank you for ordering from Farm Fresh Chicken Market!";
+
+  const shopWhatsAppNumber = "918121321120";
+
+  const whatsappURL =
+    "https://wa.me/" +
+    shopWhatsAppNumber +
+    "?text=" +
+    encodeURIComponent(message);
+
+  window.location.href = whatsappURL;
+}
+
+  </script>
 <!-- ================================= -->
 <!-- PART 13 - SHOP LOCATION -->
 <!-- ================================= -->
