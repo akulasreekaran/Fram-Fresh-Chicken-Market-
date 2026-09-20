@@ -1016,45 +1016,32 @@ function(){
 
 function playBeep(){
 
-  if(!audioContext)
-    return;
-
+  if(!audioContext) return;
 
   const oscillator =
-    audioContext
-    .createOscillator();
-
+    audioContext.createOscillator();
 
   const gain =
-    audioContext
-    .createGain();
+    audioContext.createGain();
 
+  oscillator.type = "square";
 
-  oscillator.type =
-    "sine";
-
-
-  oscillator.frequency.value =
-    800;
-
+  oscillator.frequency.value = 1000;
 
   gain.gain.setValueAtTime(
     0.001,
     audioContext.currentTime
   );
 
-
   gain.gain.exponentialRampToValueAtTime(
-    0.3,
-    audioContext.currentTime + 0.02
+    0.9,
+    audioContext.currentTime + 0.03
   );
-
 
   gain.gain.exponentialRampToValueAtTime(
     0.001,
-    audioContext.currentTime + 0.4
+    audioContext.currentTime + 0.6
   );
-
 
   oscillator.connect(gain);
 
@@ -1062,16 +1049,13 @@ function playBeep(){
     audioContext.destination
   );
 
-
   oscillator.start();
 
-
   oscillator.stop(
-    audioContext.currentTime + 0.4
+    audioContext.currentTime + 0.6
   );
 
 }
-
 
 
 /* =========================
