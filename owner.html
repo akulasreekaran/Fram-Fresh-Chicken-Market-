@@ -3,354 +3,137 @@
 
 <head>
 
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>
-    Farm Fresh Chicken Market - Owner
-  </title>
-
-
-  <style>
-
-    body {
-
-      margin: 0;
-
-      font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-      background: #f5f5f5;
-
-      color: #222;
-    }
-
-
-    header {
-
-      background: #111;
-
-      color: white;
-
-      padding: 18px;
-
-      text-align: center;
-    }
-
-
-    header h1 {
-
-      margin: 0;
-
-      font-size: 25px;
-    }
-
-
-    header p {
-
-      margin: 8px 0 0;
-    }
-
-
-    .container {
-
-      max-width: 750px;
-
-      margin: 25px auto;
-
-      padding: 15px;
-    }
-
-
-    .box {
-
-      background: white;
-
-      padding: 20px;
-
-      border-radius: 12px;
-
-      margin-bottom: 20px;
-
-      box-shadow:
-        0 3px 12px
-        rgba(0,0,0,.1);
-    }
-
-
-    input {
-
-      width: 100%;
-
-      padding: 13px;
-
-      margin: 8px 0;
-
-      border: 1px solid #ccc;
-
-      border-radius: 8px;
-
-      box-sizing: border-box;
-
-      font-size: 15px;
-    }
-
-
-    button {
-
-      border: none;
-
-      padding: 12px 18px;
-
-      border-radius: 8px;
-
-      cursor: pointer;
-
-      font-weight: bold;
-
-      margin: 5px 3px;
-
-      font-size: 14px;
-    }
-
-
-    .login-btn {
-
-      width: 100%;
-
-      background: #111;
-
-      color: white;
-
-      font-size: 16px;
-    }
-
-
-    .sound-btn {
-
-      background: #ff6d00;
-
-      color: white;
-
-      font-size: 17px;
-
-      width: 100%;
-
-      padding: 15px;
-    }
-
-
-    .sound-on {
-
-      background: #2e7d32;
-    }
-
-
-    .logout-btn {
-
-      background: #d32f2f;
-
-      color: white;
-    }
-
-
-    .done-btn {
-
-      background: #2e7d32;
-
-      color: white;
-    }
-
-
-    .order {
-
-      border: 1px solid #ddd;
-
-      border-radius: 10px;
-
-      padding: 15px;
-
-      margin-top: 15px;
-
-      background: white;
-    }
-
-
-    .new-order {
-
-      border: 3px solid #ff6d00;
-
-      box-shadow:
-        0 0 20px
-        rgba(255,109,0,.4);
-
-      animation:
-        pulse 1s infinite;
-    }
-
-
-    @keyframes pulse {
-
-      0% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.015);
-      }
-
-      100% {
-        transform: scale(1);
-      }
-    }
-
-
-    .status {
-
-      font-weight: bold;
-
-      color: #e65100;
-    }
-
-
-    .map-btn {
-
-      background: #1976d2;
-
-      color: white;
-    }
-
-
-    .call-btn {
-
-      background: #00897b;
-
-      color: white;
-    }
-
-
-    #dashboard {
-
-      display: none;
-    }
-
-
-    #message {
-
-      color: #d32f2f;
-
-      margin-top: 10px;
-    }
-
-
-    .empty {
-
-      text-align: center;
-
-      color: #777;
-    }
-
-
-    .item {
-
-      background: #f7f7f7;
-
-      padding: 12px;
-
-      margin: 7px 0;
-
-      border-radius: 8px;
-
-      border-left: 5px solid #ff6d00;
-    }
-
-
-    .new-badge {
-
-      display: inline-block;
-
-      background: #ff6d00;
-
-      color: white;
-
-      padding: 5px 10px;
-
-      border-radius: 20px;
-
-      font-size: 12px;
-
-      font-weight: bold;
-
-      margin-left: 5px;
-    }
-
-
-    .sound-status {
-
-      font-weight: bold;
-
-      font-size: 16px;
-    }
-
-
-    .order-time {
-
-      color: #777;
-
-      font-size: 13px;
-    }
-
-
-    .delivery-box {
-
-      background: #e8f5e9;
-
-      border-left: 5px solid #2e7d32;
-
-      padding: 13px;
-
-      border-radius: 7px;
-
-      margin-top: 15px;
-
-      line-height: 1.6;
-    }
-
-
-    .address {
-
-      white-space: pre-wrap;
-
-      background: #f7f7f7;
-
-      padding: 12px;
-
-      border-radius: 8px;
-    }
-
-  </style>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
+
+<title>Farm Fresh - Owner</title>
+
+<style>
+
+body{
+  margin:0;
+  font-family:Arial;
+  background:#f5f5f5;
+  color:#222;
+}
+
+header{
+  background:#222;
+  color:white;
+  padding:18px;
+  text-align:center;
+}
+
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:20px;
+}
+
+.box{
+  background:white;
+  padding:20px;
+  border-radius:15px;
+  margin-bottom:15px;
+  box-shadow:0 2px 10px #ddd;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  margin:7px 0;
+  box-sizing:border-box;
+  border:1px solid #ddd;
+  border-radius:8px;
+}
+
+button{
+  padding:12px 18px;
+  border:0;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.login{
+  background:#d43d16;
+  color:white;
+  width:100%;
+}
+
+.sound{
+  background:#222;
+  color:white;
+}
+
+#dashboard{
+  display:none;
+}
+
+#orders{
+  margin-top:20px;
+}
+
+.order{
+  background:white;
+  padding:18px;
+  border-radius:15px;
+  margin-bottom:15px;
+  box-shadow:0 2px 8px #ddd;
+}
+
+.order h3{
+  margin-top:0;
+}
+
+.status{
+  font-weight:bold;
+  margin:10px 0;
+}
+
+.actions button{
+  margin:4px;
+}
+
+.accept{
+  background:#168a3a;
+  color:white;
+}
+
+.reject{
+  background:#d62828;
+  color:white;
+}
+
+.done{
+  background:#1769aa;
+  color:white;
+}
+
+.map{
+  background:#555;
+  color:white;
+}
+
+.call{
+  background:#222;
+  color:white;
+}
+
+</style>
 
 </head>
-
 
 <body>
 
 
 <header>
 
-  <h1>
-    🐔 Farm Fresh Chicken Market
-  </h1>
+<h2>🍗 Farm Fresh Owner</h2>
 
-  <p>
-    Owner Delivery Dashboard
-  </p>
+<p>Order Dashboard</p>
 
 </header>
 
@@ -358,1179 +141,592 @@
 <div class="container">
 
 
-  <!-- LOGIN -->
+<!-- LOGIN -->
 
-  <div
-    id="loginBox"
-    class="box"
-  >
+<div id="loginBox" class="box">
 
-    <h2>
-      🔐 Owner Login
-    </h2>
+<h2>🔐 Owner Login</h2>
 
+<input
+id="email"
+type="email"
+placeholder="Owner Email">
 
-    <input
-      type="email"
-      id="email"
-      placeholder="Owner Email"
-    >
+<input
+id="password"
+type="password"
+placeholder="Password">
 
+<button
+class="login"
+onclick="login()">
 
-    <input
-      type="password"
-      id="password"
-      placeholder="Password"
-    >
+Login
 
+</button>
 
-    <button
-      class="login-btn"
-      onclick="login()"
-    >
-      Login
-    </button>
+<p id="loginStatus"></p>
+
+</div>
 
 
-    <p id="message"></p>
+<!-- DASHBOARD -->
 
-  </div>
+<div id="dashboard">
 
+<div class="box">
 
+<h2>📦 Orders</h2>
 
-  <!-- DASHBOARD -->
+<button
+class="sound"
+onclick="enableSound()">
 
-  <div id="dashboard">
+🔊 Enable Order Sound
 
+</button>
 
-    <div class="box">
+<button
+onclick="logout()">
 
-      <h2>
-        📦 Delivery Orders
-      </h2>
+Logout
 
+</button>
 
-      <button
-        id="soundButton"
-        class="sound-btn"
-        onclick="enableSound()"
-      >
-        🔊 ENABLE LOUD ORDER ALARM
-      </button>
-
-
-      <button
-        class="logout-btn"
-        onclick="logout()"
-      >
-        Logout
-      </button>
+</div>
 
 
-      <p
-        id="soundStatus"
-        class="sound-status"
-      >
-        🔕 Alarm is OFF
-      </p>
+<div id="orders"></div>
 
-
-      <p>
-        Tap the alarm button once to test it.
-      </p>
-
-    </div>
-
-
-    <div id="orders">
-
-      <p class="empty">
-        Waiting for orders...
-      </p>
-
-    </div>
-
-  </div>
+</div>
 
 </div>
 
 
 <script type="module">
 
+import {
+  initializeApp
+} from
+"https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 
-  import {
-    initializeApp
-  } from
-  "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import {
+  getDatabase,
+  ref,
+  onChildAdded
+} from
+"https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut
+} from
+"https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 
-  import {
-    getDatabase,
-    ref,
-    get,
-    onChildAdded,
-    update
-  } from
-  "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 
+/* FIREBASE */
 
-  import {
-    getAuth,
-    signInWithEmailAndPassword,
-    onAuthStateChanged,
-    signOut
-  } from
-  "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+const firebaseConfig = {
 
+apiKey:
+"AIzaSyCcKIDaVUTCzin0tP6oN16ABrexjGOS50M",
 
-  /* FIREBASE */
+authDomain:
+"farm-fresh-chicken-market.firebaseapp.com",
 
-  const firebaseConfig = {
+databaseURL:
+"https://farm-fresh-chicken-market-default-rtdb.firebaseio.com",
 
-    apiKey:
-      "AIzaSyCcKIDaVUTCzin0tP6oN16ABrexjGOS50M",
+projectId:
+"farm-fresh-chicken-market",
 
-    authDomain:
-      "farm-fresh-chicken-market.firebaseapp.com",
+storageBucket:
+"farm-fresh-chicken-market.firebasestorage.app",
 
-    databaseURL:
-      "https://farm-fresh-chicken-market-default-rtdb.firebaseio.com",
+messagingSenderId:
+"184530252526",
 
-    projectId:
-      "farm-fresh-chicken-market",
+appId:
+"1:184530252526:web:f7427c6a46eb76201df9ff"
 
-    storageBucket:
-      "farm-fresh-chicken-market.firebasestorage.app",
+};
 
-    messagingSenderId:
-      "184530252526",
 
-    appId:
-      "1:184530252526:web:f7427c6a46eb76201df9ff"
-  };
+const app =
+initializeApp(firebaseConfig);
 
+const db =
+getDatabase(app);
 
-  const app =
-    initializeApp(firebaseConfig);
+const auth =
+getAuth(app);
 
 
-  const db =
-    getDatabase(app);
+/* LOGIN */
 
+window.login = async function(){
 
-  const auth =
-    getAuth(app);
+const email =
+document.getElementById("email").value;
 
+const password =
+document.getElementById("password").value;
 
-  let soundEnabled = false;
+try{
 
-  let audioContext = null;
+await signInWithEmailAndPassword(
+auth,
+email,
+password
+);
 
-  let existingOrderIds =
-    new Set();
+}catch(error){
 
-  let listenerStarted = false;
+document.getElementById(
+"loginStatus"
+).innerText =
+"Login failed: " + error.message;
 
+}
 
+};
 
-  /* LOGIN */
 
-  window.login =
-    async function() {
+/* LOGOUT */
 
-      const email =
-        document
-          .getElementById("email")
-          .value
-          .trim();
+window.logout = function(){
 
+signOut(auth);
 
-      const password =
-        document
-          .getElementById("password")
-          .value;
+};
 
 
-      const message =
-        document
-          .getElementById("message");
+/* CHECK LOGIN */
 
+onAuthStateChanged(
+auth,
+user => {
 
-      if (!email || !password) {
+if(user){
 
-        message.textContent =
-          "Please enter email and password.";
+document.getElementById(
+"loginBox"
+).style.display="none";
 
-        return;
-      }
+document.getElementById(
+"dashboard"
+).style.display="block";
 
+loadOrders();
 
-      try {
+}else{
 
-        await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
+document.getElementById(
+"loginBox"
+).style.display="block";
 
-        message.textContent = "";
+document.getElementById(
+"dashboard"
+).style.display="none";
 
-      } catch (error) {
+}
 
-        console.error(error);
+});
 
-        message.textContent =
-          "Login failed. Check email/password.";
-      }
-    };
 
+/* LOAD ORDERS */
 
+function loadOrders(){
 
-  /* AUTH */
+const ordersRef =
+ref(db,"orders");
 
-  onAuthStateChanged(
-    auth,
-    async user => {
+onChildAdded(
+ordersRef,
+snapshot => {
 
-      if (user) {
+const order =
+snapshot.val();
 
-        document
-          .getElementById("loginBox")
-          .style.display = "none";
+displayOrder(
+snapshot.key,
+order
+);
 
+if(order.status === "new"){
 
-        document
-          .getElementById("dashboard")
-          .style.display = "block";
+playOrderSound();
 
+}
 
-        await loadOrders();
+});
 
-      } else {
+}
+  function displayOrder(id,order){
 
-        document
-          .getElementById("loginBox")
-          .style.display = "block";
+const div=document.createElement("div");
 
+div.className="order";
 
-        document
-          .getElementById("dashboard")
-          .style.display = "none";
-      }
-    }
-  );
+div.id="order-"+id;
 
 
+const status =
+order.status || "new";
 
-  /* SOUND */
 
-  window.enableSound =
-    async function() {
+let buttons="";
 
-      try {
 
-        if (!audioContext) {
+if(status==="new"){
 
-          audioContext =
-            new (
-              window.AudioContext ||
-              window.webkitAudioContext
-            )();
-        }
+buttons=`
 
+<button class="accept"
+onclick="updateStatus('${id}','accepted')">
+✅ Accept
+</button>
 
-        if (
-          audioContext.state ===
-          "suspended"
-        ) {
+<button class="reject"
+onclick="updateStatus('${id}','rejected')">
+❌ Reject
+</button>
 
-          await audioContext.resume();
-        }
+`;
 
+}
 
-        soundEnabled = true;
 
+if(status==="accepted"){
 
-        document
-          .getElementById("soundStatus")
-          .textContent =
-          "🔊 LOUD ORDER ALARM IS ON";
+buttons=`
 
+<button class="done"
+onclick="updateStatus('${id}','delivered')">
+🚚 Mark Delivered
+</button>
 
-        document
-          .getElementById("soundButton")
-          .textContent =
-          "🔊 ALARM ENABLED";
+`;
 
+}
 
-        document
-          .getElementById("soundButton")
-          .classList
-          .add("sound-on");
 
+const mapLink =
+order.customerMapLink ||
+(
+order.customerLatitude &&
+order.customerLongitude
+?
+"https://www.google.com/maps?q="+
+order.customerLatitude+","+
+order.customerLongitude
+:
+"#"
+);
 
-        playOrderSound();
 
-      } catch (error) {
+const directionLink =
+order.directionsLink ||
+(
+order.customerLatitude &&
+order.customerLongitude
+?
+"https://www.google.com/maps/dir/?api=1"+
+"&origin=17.470028,78.364139"+
+"&destination="+
+order.customerLatitude+","+
+order.customerLongitude
+:
+mapLink
+);
 
-        console.error(error);
-      }
-    };
 
+div.innerHTML=`
 
+<h3>📦 New Order</h3>
 
-  function playBeep() {
+<p>
+<b>Name:</b>
+${order.name || "-"}
+</p>
 
-    if (
-      !soundEnabled ||
-      !audioContext
-    ) {
-      return;
-    }
+<p>
+<b>Phone:</b>
+${order.phone || "-"}
+</p>
 
+<p>
+<b>Product:</b>
+${order.product || "-"}
+</p>
 
-    if (
-      audioContext.state ===
-      "suspended"
-    ) {
+<p>
+<b>Quantity:</b>
+${order.quantity || "-"}
+</p>
 
-      audioContext.resume();
-    }
+<p>
+<b>Delivery:</b>
+${order.deliveryFor || "-"}
+</p>
 
+<p>
+<b>Address:</b>
+${order.address || "-"}
+</p>
 
-    const now =
-      audioContext.currentTime;
+<p>
+<b>Distance:</b>
+${order.distanceFromShop || "-"} km
+</p>
 
+<p>
+<b>Total:</b>
+₹${order.total || 0}
+</p>
 
-    const oscillator =
-      audioContext.createOscillator();
+<p class="status">
+Status:
+${status.toUpperCase()}
+</p>
 
+<div class="actions">
 
-    const gain =
-      audioContext.createGain();
+${buttons}
 
+<a
+class="btn map"
+href="${mapLink}"
+target="_blank">
 
-    oscillator.connect(gain);
+📍 Customer Map
 
-    gain.connect(
-      audioContext.destination
-    );
+</a>
 
+<a
+class="btn map"
+href="${directionLink}"
+target="_blank">
 
-    oscillator.type =
-      "sawtooth";
+🧭 Directions
 
+</a>
 
-    oscillator.frequency.setValueAtTime(
-      1200,
-      now
-    );
+<a
+class="btn call"
+href="tel:${order.phone || ""}">
 
+📞 Call Customer
 
-    oscillator.frequency.setValueAtTime(
-      1000,
-      now + 0.8
-    );
+</a>
 
+</div>
 
-    gain.gain.setValueAtTime(
-      1.0,
-      now
-    );
+`;
 
+document
+.getElementById("orders")
+.prepend(div);
 
-    gain.gain.setValueAtTime(
-      1.0,
-      now + 0.8
-    );
+}
 
 
-    gain.gain.exponentialRampToValueAtTime(
-      0.01,
-      now + 1.2
-    );
+/* UPDATE STATUS */
 
+window.updateStatus =
+async function(id,status){
 
-    oscillator.start(now);
+try{
 
-    oscillator.stop(
-      now + 1.2
-    );
-  }
+const {update,ref} =
+await import(
+"https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js"
+);
 
+await update(
+ref(db,"orders/"+id),
+{
+status:status
+}
+);
 
+const card =
+document.getElementById(
+"order-"+id
+);
 
-  function playOrderSound() {
+if(card){
 
-    if (!soundEnabled)
-      return;
+const statusText =
+card.querySelector(".status");
 
+if(statusText){
 
-    playBeep();
+statusText.innerText =
+"Status: "+
+status.toUpperCase();
 
+}
 
-    setTimeout(
-      () => playBeep(),
-      1400
-    );
+const actions =
+card.querySelector(".actions");
 
+if(actions){
 
-    setTimeout(
-      () => playBeep(),
-      2800
-    );
+if(status==="accepted"){
 
+actions.innerHTML=`
 
-    setTimeout(
-      () => playBeep(),
-      4200
-    );
+<button
+class="done"
+onclick="updateStatus('${id}','delivered')">
 
+🚚 Mark Delivered
 
-    setTimeout(
-      () => playBeep(),
-      5600
-    );
-  }
+</button>
 
+`;
 
+}else{
 
-  /* LOAD ORDERS */
+actions.innerHTML=`
 
-  async function loadOrders() {
+<b>
+${status==="rejected"
+?"❌ Order Rejected"
+:"🚚 Order Delivered"}
 
-    if (listenerStarted)
-      return;
+</b>
 
+`;
 
-    listenerStarted = true;
+}
 
+}
 
-    const ordersRef =
-      ref(db, "orders");
+}
 
+alert(
+"Order status updated: "+
+status
+);
 
-    try {
+}catch(error){
 
-      const snapshot =
-        await get(ordersRef);
+alert(
+"Could not update order: "+
+error.message
+);
 
+}
 
-      existingOrderIds.clear();
+};
+  let audioContext;
 
 
-      snapshot.forEach(child => {
+/* ENABLE SOUND */
 
-        existingOrderIds.add(
-          child.key
-        );
+window.enableSound = function(){
 
-        displayOrder(
-          child.key,
-          child.val()
-        );
-      });
+try{
 
+audioContext =
+new (window.AudioContext ||
+window.webkitAudioContext)();
 
-      onChildAdded(
-        ordersRef,
-        childSnapshot => {
+audioContext.resume();
 
-          const orderId =
-            childSnapshot.key;
+playBeep();
 
+if("Notification" in window){
 
-          const order =
-            childSnapshot.val();
+Notification.requestPermission();
 
+}
 
-          if (
-            existingOrderIds.has(
-              orderId
-            )
-          ) {
-            return;
-          }
+alert("🔊 Order sound enabled!");
 
+}catch(error){
 
-          displayOrder(
-            orderId,
-            order
-          );
+alert("Sound could not be enabled.");
 
+}
 
-          const status =
-            String(
-              order.status || "new"
-            ).toLowerCase();
+};
 
 
-          if (status === "new") {
+/* BEEP */
 
-            playOrderSound();
+function playBeep(){
 
-            showNotification(
-              order
-            );
-          }
-        }
-      );
+if(!audioContext) return;
 
-    } catch (error) {
+const oscillator =
+audioContext.createOscillator();
 
-      console.error(error);
+const gain =
+audioContext.createGain();
 
-      document
-        .getElementById("orders")
-        .innerHTML =
-        "<p class='empty'>" +
-        "Could not load orders." +
-        "</p>";
-    }
-  }
+oscillator.connect(gain);
 
+gain.connect(audioContext.destination);
 
+oscillator.frequency.value=800;
 
+gain.gain.value=0.4;
 
-           /* DISPLAY ORDER */
+oscillator.start();
 
-function displayOrder(
-  id,
-  order
-) {
+setTimeout(()=>{
 
-  const container =
-    document.getElementById(
-      "orders"
-    );
+oscillator.stop();
 
+},500);
 
-  const empty =
-    container.querySelector(
-      ".empty"
-    );
+}
 
 
-  if (empty)
-    empty.remove();
+/* NEW ORDER SOUND */
 
+function playOrderSound(){
 
-  const div =
-    document.createElement(
-      "div"
-    );
+if(audioContext){
 
+playBeep();
 
-  const status =
-    String(
-      order.status || "new"
-    ).toLowerCase();
+setTimeout(
+playBeep,
+700
+);
 
+setTimeout(
+playBeep,
+1400
+);
 
-  div.className =
-    "order " +
-    (
-      status === "new"
-      ? "new-order"
-      : ""
-    );
+}
 
 
-  /* CUSTOMER DETAILS */
+/* NOTIFICATION */
 
-  const name =
-    escapeHTML(
-      order.name || "-"
-    );
+if(
+"Notification" in window &&
+Notification.permission==="granted"
+){
 
+new Notification(
+"🍗 New Chicken Order!",
+{
+body:"A new order has arrived."
+}
+);
 
-  const phone =
-    escapeHTML(
-      order.phone || "-"
-    );
+}
 
+}
 
-  const address =
-    escapeHTML(
-      order.deliveryAddress ||
-      "Not provided"
-    );
-
-
-  const landmark =
-    escapeHTML(
-      order.landmark ||
-      "Not provided"
-    );
-
-
-  /* DISTANCE */
-
-  const distance =
-    order.distance ??
-    order.distanceFromShop;
-
-
-  let distanceText =
-    "N/A";
-
-
-  if (
-    distance !== undefined &&
-    distance !== null
-  ) {
-
-    distanceText =
-      Number(distance).toFixed(2) +
-      " km";
-  }
-
-
-  /* ORDER TOTAL */
-
-  const orderTotal =
-    Number(
-      order.total || 0
-    );
-
-
-  /* ORDER TIME */
-
-  let timeText = "";
-
-
-  if (order.createdAt) {
-
-    try {
-
-      timeText =
-        new Date(
-          order.createdAt
-        ).toLocaleString();
-
-    } catch (e) {}
-
-  }
-
-
-  /* PRODUCTS */
-
-  let productsHTML = "";
-
-
-  if (
-    Array.isArray(order.items) &&
-    order.items.length > 0
-  ) {
-
-    productsHTML =
-      order.items.map(item => {
-
-        const product =
-          escapeHTML(
-            item.product || "Chicken"
-          );
-
-
-        const quantity =
-          Number(
-            item.quantity || 0
-          );
-
-
-        const price =
-          Number(
-            item.price || 0
-          );
-
-
-        const itemTotal =
-          quantity * price;
-
-
-        return `
-
-          <div class="item">
-
-            🐔
-
-            <strong>
-              ${product}
-            </strong>
-
-            <br>
-
-            Quantity:
-            ${quantity}
-
-            ×
-
-            ₹${price}
-
-            =
-
-            <strong>
-              ₹${itemTotal}
-            </strong>
-
-          </div>
-
-        `;
-
-      }).join("");
-
-
-  } else {
-
-    productsHTML = `
-
-      <div class="item">
-
-        🐔
-
-        <strong>
-          ${escapeHTML(
-            order.product ||
-            "Chicken"
-          )}
-        </strong>
-
-        —
-
-        ${escapeHTML(
-          String(
-            order.quantity ||
-            order.qty ||
-            ""
-          )
-        )}
-
-      </div>
-
-    `;
-
-  }
-
-
-  /* CUSTOMER MAP */
-
-  let mapButton = "";
-
-
-  if (
-    order.customerMapLink
-  ) {
-
-    mapButton = `
-
-      <button
-        class="map-btn"
-        onclick="openMap(
-          '${escapeHTML(
-            order.customerMapLink
-          )}'
-        )"
-      >
-        📍 Open Customer GPS
-      </button>
-
-    `;
-
-  } else if (
-    order.customerLatitude &&
-    order.customerLongitude
-  ) {
-
-    const mapLink =
-      `https://www.google.com/maps?q=${
-        order.customerLatitude
-      },${
-        order.customerLongitude
-      }`;
-
-
-    mapButton = `
-
-      <button
-        class="map-btn"
-        onclick="openMap(
-          '${mapLink}'
-        )"
-      >
-        📍 Open Customer GPS
-      </button>
-
-    `;
-
-  }
-
-
-  /* ORDER HTML */
-
-  div.innerHTML = `
-
-    <h3>
-
-      🐔 Delivery Order
-
-      ${
-        status === "new"
-        ? `
-          <span class="new-badge">
-            NEW
-          </span>
-        `
-        : ""
-      }
-
-    </h3>
-
-
-    ${
-      timeText
-      ? `
-        <p class="order-time">
-          🕒 ${escapeHTML(timeText)}
-        </p>
-      `
-      : ""
-    }
-
-
-    <!-- CUSTOMER -->
-
-    <p>
-
-      <strong>
-        👤 Customer:
-      </strong>
-
-      ${name}
-
-    </p>
-
-
-    <p>
-
-      <strong>
-        📞 Phone:
-      </strong>
-
-      ${phone}
-
-    </p>
-
-
-    <!-- PRODUCTS -->
-
-    <p>
-
-      <strong>
-        🛒 Products:
-      </strong>
-
-    </p>
-
-
-    ${productsHTML}
-
-
-    <!-- DELIVERY DETAILS -->
-
-    <div class="delivery-box">
-
-      <strong>
-        🚚 DELIVERY DETAILS
-      </strong>
-
-
-      <p>
-
-        <strong>
-          🏠 Address:
-        </strong>
-
-      </p>
-
-
-      <div class="address">
-
-        ${address}
-
-      </div>
-
-
-      <p>
-
-        <strong>
-          📌 Landmark:
-        </strong>
-
-        ${landmark}
-
-      </p>
-
-
-      <p>
-
-        <strong>
-          📏 Distance:
-        </strong>
-
-        ${distanceText}
-
-      </p>
-
-    </div>
-
-
-    <!-- ORDER TOTAL -->
-
-    <div class="delivery-box">
-
-      <strong>
-        💰 ORDER TOTAL
-      </strong>
-
-
-      <p style="
-        font-size:22px;
-        font-weight:bold;
-        margin:10px 0;
-      ">
-
-        ₹${orderTotal}
-
-      </p>
-
-    </div>
-
-
-    <!-- STATUS -->
-
-    <p class="status">
-
-      Status:
-      ${status.toUpperCase()}
-
-    </p>
-
-
-    <!-- DONE BUTTON -->
-
-    ${
-      status === "new"
-      ? `
-        <button
-          class="done-btn"
-          onclick="markDone('${id}')"
-        >
-          ✅ Mark Delivered / Done
-        </button>
-      `
-      : ""
-    }
-
-
-    <!-- CALL CUSTOMER -->
-
-    <button
-      class="call-btn"
-      onclick="callCustomer('${phone}')"
-    >
-
-      📞 Call Customer
-
-    </button>
-
-
-    <!-- CUSTOMER GPS -->
-
-    ${mapButton}
-
-  `;
-
-
-  container.prepend(div);
-
-}   
-    
-
-
-  /* CALL */
-
-  window.callCustomer =
-    function(phone) {
-
-      window.location.href =
-        "tel:" + phone;
-    };
-
-
-
-  /* MAP */
-
-  window.openMap =
-    function(link) {
-
-      window.open(
-        link,
-        "_blank"
-      );
-    };
-
-
-
-  /* MARK DONE */
-
-  window.markDone =
-    async function(id) {
-
-      try {
-
-        await update(
-          ref(
-            db,
-            "orders/" + id
-          ),
-          {
-            status: "done"
-          }
-        );
-
-
-        alert(
-          "Order marked as delivered ✅"
-        );
-
-
-        location.reload();
-
-      } catch (error) {
-
-        console.error(error);
-
-        alert(
-          "Could not update order."
-        );
-      }
-    };
-
-
-
-  /* NOTIFICATION */
-
-  async function showNotification(
-    order
-  ) {
-
-    if (
-      !("Notification" in window)
-    ) {
-      return;
-    }
-
-
-    try {
-
-      if (
-        Notification.permission ===
-        "default"
-      ) {
-
-        await Notification.requestPermission();
-      }
-
-
-      if (
-        Notification.permission ===
-        "granted"
-      ) {
-
-        let products = "";
-
-
-        if (
-          Array.isArray(order.items)
-        ) {
-
-          products =
-            order.items
-              .map(
-                item =>
-                  `${item.product} × ${item.quantity}`
-              )
-              .join(", ");
-
-        } else {
-
-          products =
-            order.product ||
-            "Chicken";
-        }
-
-
-        new Notification(
-          "🐔 NEW DELIVERY ORDER!",
-          {
-
-            body:
-              `${order.name || "Customer"} ordered ${products}`
-
-          }
-        );
-      }
-
-    } catch (error) {
-
-      console.error(error);
-    }
-  }
-
-
-
-  /* LOGOUT */
-
-  window.logout =
-    async function() {
-
-      await signOut(auth);
-
-    };
-
-
-
-  /* ESCAPE HTML */
-
-  function escapeHTML(value) {
-
-    return String(value)
-
-      .replaceAll(
-        "&",
-        "&amp;"
-      )
-
-      .replaceAll(
-        "<",
-        "&lt;"
-      )
-
-      .replaceAll(
-        ">",
-        "&gt;"
-      )
-
-      .replaceAll(
-        '"',
-        "&quot;"
-      )
-
-      .replaceAll(
-        "'",
-        "&#039;"
-      );
-  }
 
 </script>
 
