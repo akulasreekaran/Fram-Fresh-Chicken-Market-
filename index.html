@@ -1351,10 +1351,23 @@ window.sendOrder = async function(){
 
 
     message +=
-      "%0A🧭 Directions: " +
-      encodeURIComponent(
-        directionsLink
-      );
+  "%0A🧭 Directions: " +
+  encodeURIComponent(
+    directionsLink
+  );
+
+
+/* OWNER DASHBOARD LINK */
+
+const ownerDashboard =
+  "https://akulasreekaran.github.io/Fram-Fresh-Chicken-Market-/owner.html";
+
+
+message +=
+  "%0A%0A🔐 Owner Dashboard: " +
+  encodeURIComponent(
+    ownerDashboard
+  );
 
 
     /* SUCCESS */
