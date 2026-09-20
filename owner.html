@@ -5,135 +5,149 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
+<meta
+name="viewport"
 content="width=device-width,initial-scale=1">
 
-<title>Farm Fresh - Owner</title>
+<title>Farm Fresh Chicken Market - Owner</title>
 
 <style>
 
+*{
+box-sizing:border-box;
+}
+
 body{
-  margin:0;
-  font-family:Arial;
-  background:#f5f5f5;
-  color:#222;
+margin:0;
+font-family:Arial,sans-serif;
+background:#f5f5f5;
+color:#222;
 }
 
 header{
-  background:#222;
-  color:white;
-  padding:18px;
-  text-align:center;
+background:#222;
+color:white;
+padding:18px;
+text-align:center;
 }
 
 .container{
-  max-width:900px;
-  margin:auto;
-  padding:20px;
+max-width:900px;
+margin:auto;
+padding:15px;
 }
 
-.box{
-  background:white;
-  padding:20px;
-  border-radius:15px;
-  margin-bottom:15px;
-  box-shadow:0 2px 10px #ddd;
+.card{
+background:white;
+padding:20px;
+margin-bottom:15px;
+border-radius:15px;
+box-shadow:0 2px 10px #ddd;
 }
 
 input{
-  width:100%;
-  padding:12px;
-  margin:7px 0;
-  box-sizing:border-box;
-  border:1px solid #ddd;
-  border-radius:8px;
+width:100%;
+padding:12px;
+margin:7px 0;
+border:1px solid #ddd;
+border-radius:8px;
+font-size:15px;
 }
 
-button{
-  padding:12px 18px;
-  border:0;
-  border-radius:8px;
-  cursor:pointer;
-  font-weight:bold;
+button,
+.btn{
+padding:11px 15px;
+border:0;
+border-radius:8px;
+background:#d43d16;
+color:white;
+font-weight:bold;
+cursor:pointer;
+text-decoration:none;
+display:inline-block;
+margin:4px;
 }
 
-.login{
-  background:#d43d16;
-  color:white;
-  width:100%;
-}
-
-.sound{
-  background:#222;
-  color:white;
-}
-
-#dashboard{
-  display:none;
-}
-
-#orders{
-  margin-top:20px;
-}
-
-.order{
-  background:white;
-  padding:18px;
-  border-radius:15px;
-  margin-bottom:15px;
-  box-shadow:0 2px 8px #ddd;
-}
-
-.order h3{
-  margin-top:0;
-}
-
-.status{
-  font-weight:bold;
-  margin:10px 0;
-}
-
-.actions button{
-  margin:4px;
+.logout{
+background:#555;
 }
 
 .accept{
-  background:#168a3a;
-  color:white;
+background:#168a35;
 }
 
 .reject{
-  background:#d62828;
-  color:white;
+background:#d62828;
 }
 
-.done{
-  background:#1769aa;
-  color:white;
+.delivered{
+background:#1769aa;
 }
 
-.map{
-  background:#555;
-  color:white;
+.order{
+border:2px solid #eee;
+border-radius:12px;
+padding:15px;
+margin:12px 0;
 }
 
-.call{
-  background:#222;
-  color:white;
+.order h3{
+margin-top:0;
+}
+
+.product{
+padding:8px 0;
+border-bottom:1px solid #eee;
+}
+
+.status{
+font-weight:bold;
+padding:8px 0;
+}
+
+.new{
+color:#d43d16;
+}
+
+.accepted{
+color:#168a35;
+}
+
+.rejected{
+color:#d62828;
+}
+
+.delivered-status{
+color:#1769aa;
+}
+
+.hidden{
+display:none;
+}
+
+.small{
+font-size:13px;
+color:#666;
+}
+
+#soundStatus{
+margin:10px 0;
+font-weight:bold;
 }
 
 </style>
 
 </head>
 
+
 <body>
 
 
 <header>
 
-<h2>🍗 Farm Fresh Owner</h2>
+<h2>🍗 Farm Fresh Chicken Market</h2>
 
-<p>Order Dashboard</p>
+<p>Owner Order Dashboard</p>
 
 </header>
 
@@ -143,43 +157,48 @@ button{
 
 <!-- LOGIN -->
 
-<div id="loginBox" class="box">
+<div
+class="card"
+id="loginBox">
 
 <h2>🔐 Owner Login</h2>
 
 <input
-id="email"
 type="email"
+id="email"
 placeholder="Owner Email">
 
 <input
-id="password"
 type="password"
+id="password"
 placeholder="Password">
 
 <button
-class="login"
 onclick="login()">
 
 Login
 
 </button>
 
-<p id="loginStatus"></p>
+<p
+id="loginStatus">
+</p>
 
 </div>
 
 
 <!-- DASHBOARD -->
 
-<div id="dashboard">
+<div
+id="dashboard"
+class="hidden">
 
-<div class="box">
+
+<div class="card">
 
 <h2>📦 Orders</h2>
 
 <button
-class="sound"
 onclick="enableSound()">
 
 🔊 Enable Order Sound
@@ -187,18 +206,34 @@ onclick="enableSound()">
 </button>
 
 <button
+class="logout"
 onclick="logout()">
 
 Logout
 
 </button>
 
+<p id="soundStatus">
+
+🔕 Order sound not enabled.
+
+</p>
+
 </div>
 
 
-<div id="orders"></div>
+<div
+id="orders">
+
+<p>
+Loading orders...
+</p>
 
 </div>
+
+
+</div>
+
 
 </div>
 
@@ -206,27 +241,31 @@ Logout
 <script type="module">
 
 import {
-  initializeApp
-} from
-"https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
 
 import {
-  getDatabase,
-  ref,
-  onChildAdded
-} from
-"https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
+getDatabase,
+ref,
+onValue,
+update
+}
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
 
 import {
-  getAuth,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut
-} from
-"https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+getAuth,
+signInWithEmailAndPassword,
+onAuthStateChanged,
+signOut
+}
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-
-/* FIREBASE */
 
 const firebaseConfig = {
 
@@ -257,8 +296,10 @@ appId:
 const app =
 initializeApp(firebaseConfig);
 
+
 const db =
 getDatabase(app);
+
 
 const auth =
 getAuth(app);
@@ -269,10 +310,16 @@ getAuth(app);
 window.login = async function(){
 
 const email =
-document.getElementById("email").value;
+document
+.getElementById("email")
+.value
+.trim();
 
 const password =
-document.getElementById("password").value;
+document
+.getElementById("password")
+.value;
+
 
 try{
 
@@ -282,12 +329,14 @@ email,
 password
 );
 
-}catch(error){
+}
+catch(error){
 
-document.getElementById(
-"loginStatus"
-).innerText =
-"Login failed: " + error.message;
+document
+.getElementById("loginStatus")
+.innerText =
+"❌ Login failed: " +
+error.message;
 
 }
 
@@ -296,14 +345,14 @@ document.getElementById(
 
 /* LOGOUT */
 
-window.logout = function(){
+window.logout = async function(){
 
-signOut(auth);
+await signOut(auth);
 
 };
 
 
-/* CHECK LOGIN */
+/* AUTH STATE */
 
 onAuthStateChanged(
 auth,
@@ -311,29 +360,39 @@ user => {
 
 if(user){
 
-document.getElementById(
-"loginBox"
-).style.display="none";
+document
+.getElementById("loginBox")
+.classList
+.add("hidden");
 
-document.getElementById(
-"dashboard"
-).style.display="block";
+document
+.getElementById("dashboard")
+.classList
+.remove("hidden");
 
 loadOrders();
 
-}else{
+}
+else{
 
-document.getElementById(
-"loginBox"
-).style.display="block";
+document
+.getElementById("loginBox")
+.classList
+.remove("hidden");
 
-document.getElementById(
-"dashboard"
-).style.display="none";
+document
+.getElementById("dashboard")
+.classList
+.add("hidden");
 
 }
 
 });
+
+
+let firstLoad = true;
+
+let knownOrderIds = new Set();
 
 
 /* LOAD ORDERS */
@@ -343,19 +402,59 @@ function loadOrders(){
 const ordersRef =
 ref(db,"orders");
 
-onChildAdded(
+
+onValue(
 ordersRef,
 snapshot => {
 
-const order =
-snapshot.val();
+const data =
+snapshot.val() || {};
 
-displayOrder(
-snapshot.key,
+
+const ordersDiv =
+document.getElementById("orders");
+
+
+const orderIds =
+Object.keys(data)
+.reverse();
+
+
+if(orderIds.length === 0){
+
+ordersDiv.innerHTML =
+"<p>📭 No orders yet.</p>";
+
+firstLoad = false;
+
+return;
+
+}
+
+
+let html = "";
+
+
+orderIds.forEach(
+orderId => {
+
+const order =
+data[orderId];
+
+
+html += displayOrder(
+orderId,
 order
 );
 
-if(order.status === "new"){
+
+/* NEW ORDER SOUND */
+
+if(
+!firstLoad &&
+!knownOrderIds.has(orderId) &&
+order.status === "new"
+){
 
 playOrderSound();
 
@@ -363,296 +462,392 @@ playOrderSound();
 
 });
 
+
+knownOrderIds =
+new Set(orderIds);
+
+
+firstLoad = false;
+
+
+ordersDiv.innerHTML =
+html;
+
+});
+
 }
-  function displayOrder(id,order){
-
-const div=document.createElement("div");
-
-div.className="order";
-
-div.id="order-"+id;
 
 
-const status =
+/* DISPLAY ORDER */
+
+function displayOrder(
+orderId,
+order
+){
+
+let productsHTML = "";
+
+
+/* NEW MULTI PRODUCT ORDER */
+
+if(
+Array.isArray(order.products)
+){
+
+order.products.forEach(
+item => {
+
+productsHTML += `
+
+<div class="product">
+
+<b>
+${escapeHTML(item.name)}
+</b>
+
+<br>
+
+${item.quantity} kg × ₹${item.price}
+
+=
+
+<b>
+₹${item.subtotal}
+</b>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+/* OLD ORDER FORMAT */
+
+else if(order.product){
+
+productsHTML = `
+
+<div class="product">
+
+<b>
+${escapeHTML(order.product)}
+</b>
+
+<br>
+
+Quantity:
+${order.quantity}
+
+</div>
+
+`;
+
+}
+
+
+let statusClass =
 order.status || "new";
 
 
-let buttons="";
+let statusText =
+(order.status || "new")
+.toUpperCase();
 
 
-if(status==="new"){
+return `
 
-buttons=`
+<div class="order">
 
-<button class="accept"
-onclick="updateStatus('${id}','accepted')">
-✅ Accept
-</button>
+<h3>
+📦 Order
+</h3>
 
-<button class="reject"
-onclick="updateStatus('${id}','rejected')">
-❌ Reject
-</button>
-
-`;
-
-}
-
-
-if(status==="accepted"){
-
-buttons=`
-
-<button class="done"
-onclick="updateStatus('${id}','delivered')">
-🚚 Mark Delivered
-</button>
-
-`;
-
-}
-
-
-const mapLink =
-order.customerMapLink ||
-(
-order.customerLatitude &&
-order.customerLongitude
-?
-"https://www.google.com/maps?q="+
-order.customerLatitude+","+
-order.customerLongitude
-:
-"#"
-);
-
-
-const directionLink =
-order.directionsLink ||
-(
-order.customerLatitude &&
-order.customerLongitude
-?
-"https://www.google.com/maps/dir/?api=1"+
-"&origin=17.470028,78.364139"+
-"&destination="+
-order.customerLatitude+","+
-order.customerLongitude
-:
-mapLink
-);
-
-
-div.innerHTML=`
-
-<h3>📦 New Order</h3>
-
-<p>
-<b>Name:</b>
-${order.name || "-"}
+<p class="small">
+Order ID:
+${orderId}
 </p>
 
 <p>
-<b>Phone:</b>
-${order.phone || "-"}
+
+<b>👤 Customer:</b>
+${escapeHTML(order.name || "")}
+
 </p>
 
 <p>
-<b>Product:</b>
-${order.product || "-"}
+
+<b>📱 Phone:</b>
+${escapeHTML(order.phone || "")}
+
 </p>
 
 <p>
-<b>Quantity:</b>
-${order.quantity || "-"}
+
+<b>🚚 Delivery:</b>
+${escapeHTML(order.deliveryFor || "")}
+
 </p>
 
-<p>
-<b>Delivery:</b>
-${order.deliveryFor || "-"}
-</p>
+<h4>
+🛒 Products
+</h4>
 
-<p>
-<b>Address:</b>
-${order.address || "-"}
-</p>
+${productsHTML}
 
-<p>
-<b>Distance:</b>
-${order.distanceFromShop || "-"} km
-</p>
-
-<p>
-<b>Total:</b>
+<h3>
+💰 Total:
 ₹${order.total || 0}
+</h3>
+
+<p>
+
+<b>📍 Address:</b><br>
+
+${escapeHTML(order.address || "Not provided")}
+
 </p>
 
-<p class="status">
+<p>
+
+<b>📏 Distance:</b>
+
+${order.distanceFromShop || "-"}
+km
+
+</p>
+
+<p class="status ${statusClass}">
+
 Status:
-${status.toUpperCase()}
+${statusText}
+
 </p>
 
-<div class="actions">
+<div>
 
-${buttons}
+${getActionButtons(
+orderId,
+order
+)}
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+/* ACTION BUTTONS */
+
+function getActionButtons(
+orderId,
+order
+){
+
+if(order.status === "new"){
+
+return `
+
+<button
+class="accept"
+onclick="updateStatus('${orderId}','accepted')">
+
+✅ Accept
+
+</button>
+
+<button
+class="reject"
+onclick="updateStatus('${orderId}','rejected')">
+
+❌ Reject
+
+</button>
+
+${mapButtons(order)}
+
+`;
+
+}
+
+
+if(order.status === "accepted"){
+
+return `
+
+<button
+class="delivered"
+onclick="updateStatus('${orderId}','delivered')">
+
+🚚 Mark Delivered
+
+</button>
+
+${mapButtons(order)}
+
+`;
+
+}
+
+
+return mapButtons(order);
+
+}
+
+
+/* MAP / CALL BUTTONS */
+
+function mapButtons(order){
+
+let html = "";
+
+
+if(order.customerMapLink){
+
+html += `
 
 <a
-class="btn map"
-href="${mapLink}"
+class="btn"
+href="${order.customerMapLink}"
 target="_blank">
 
 📍 Customer Map
 
 </a>
 
+`;
+
+}
+
+
+if(order.directionsLink){
+
+html += `
+
 <a
-class="btn map"
-href="${directionLink}"
+class="btn"
+href="${order.directionsLink}"
 target="_blank">
 
 🧭 Directions
 
 </a>
 
-<a
-class="btn call"
-href="tel:${order.phone || ""}">
+`;
 
-📞 Call Customer
+}
+
+
+if(order.phone){
+
+html += `
+
+<a
+class="btn"
+href="tel:${order.phone}">
+
+📞 Call
 
 </a>
 
-</div>
-
-`;
-
-document
-.getElementById("orders")
-.prepend(div);
-
-}
-
-
-/* UPDATE STATUS */
-
-window.updateStatus =
-async function(id,status){
-
-try{
-
-const {update,ref} =
-await import(
-"https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js"
-);
-
-await update(
-ref(db,"orders/"+id),
-{
-status:status
-}
-);
-
-const card =
-document.getElementById(
-"order-"+id
-);
-
-if(card){
-
-const statusText =
-card.querySelector(".status");
-
-if(statusText){
-
-statusText.innerText =
-"Status: "+
-status.toUpperCase();
-
-}
-
-const actions =
-card.querySelector(".actions");
-
-if(actions){
-
-if(status==="accepted"){
-
-actions.innerHTML=`
-
-<button
-class="done"
-onclick="updateStatus('${id}','delivered')">
-
-🚚 Mark Delivered
-
-</button>
-
-`;
-
-}else{
-
-actions.innerHTML=`
-
-<b>
-${status==="rejected"
-?"❌ Order Rejected"
-:"🚚 Order Delivered"}
-
-</b>
-
 `;
 
 }
 
-}
+
+return html;
 
 }
 
-alert(
-"Order status updated: "+
-status
-);
 
-}catch(error){
+/* ESCAPE HTML */
 
-alert(
-"Could not update order: "+
-error.message
-);
+function escapeHTML(value){
+
+return String(value || "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 
 }
+
+</script>
+/* =========================
+   UPDATE ORDER STATUS
+========================= */
+
+window.updateStatus = async function(orderId, newStatus){
+
+  try{
+
+    await update(
+      ref(db, "orders/" + orderId),
+      {
+        status: newStatus
+      }
+    );
+
+  }catch(error){
+
+    alert(
+      "❌ Could not update order:\n" +
+      error.message
+    );
+
+  }
 
 };
-  let audioContext;
+
+
+/* =========================
+   ORDER SOUND
+========================= */
+
+let audioContext = null;
 
 
 /* ENABLE SOUND */
 
 window.enableSound = function(){
 
-try{
+  try{
 
-audioContext =
-new (window.AudioContext ||
-window.webkitAudioContext)();
+    audioContext = new (
+      window.AudioContext ||
+      window.webkitAudioContext
+    )();
 
-audioContext.resume();
+    if(audioContext.state === "suspended"){
+      audioContext.resume();
+    }
 
-playBeep();
+    playBeep();
 
-if("Notification" in window){
+    document.getElementById("soundStatus").innerText =
+      "🔊 Order sound enabled.";
 
-Notification.requestPermission();
+    if(
+      "Notification" in window &&
+      Notification.permission === "default"
+    ){
 
-}
+      Notification.requestPermission();
 
-alert("🔊 Order sound enabled!");
+    }
 
-}catch(error){
+  }catch(error){
 
-alert("Sound could not be enabled.");
+    document.getElementById("soundStatus").innerText =
+      "❌ Sound could not be enabled.";
 
-}
+  }
 
 };
 
@@ -661,74 +856,93 @@ alert("Sound could not be enabled.");
 
 function playBeep(){
 
-if(!audioContext) return;
+  if(!audioContext) return;
 
-const oscillator =
-audioContext.createOscillator();
+  const oscillator =
+    audioContext.createOscillator();
 
-const gain =
-audioContext.createGain();
+  const gain =
+    audioContext.createGain();
 
-oscillator.connect(gain);
 
-gain.connect(audioContext.destination);
+  oscillator.type = "sine";
 
-oscillator.frequency.value=800;
+  oscillator.frequency.value = 800;
 
-gain.gain.value=0.4;
 
-oscillator.start();
+  gain.gain.setValueAtTime(
+    0.001,
+    audioContext.currentTime
+  );
 
-setTimeout(()=>{
+  gain.gain.exponentialRampToValueAtTime(
+    0.3,
+    audioContext.currentTime + 0.02
+  );
 
-oscillator.stop();
+  gain.gain.exponentialRampToValueAtTime(
+    0.001,
+    audioContext.currentTime + 0.4
+  );
 
-},500);
+
+  oscillator.connect(gain);
+
+  gain.connect(
+    audioContext.destination
+  );
+
+
+  oscillator.start();
+
+  oscillator.stop(
+    audioContext.currentTime + 0.4
+  );
 
 }
 
 
-/* NEW ORDER SOUND */
+/* =========================
+   NEW ORDER ALERT
+========================= */
 
 function playOrderSound(){
 
-if(audioContext){
+  if(audioContext){
 
-playBeep();
+    playBeep();
 
-setTimeout(
-playBeep,
-700
-);
+    setTimeout(
+      playBeep,
+      500
+    );
 
-setTimeout(
-playBeep,
-1400
-);
+    setTimeout(
+      playBeep,
+      1000
+    );
+
+  }
+
+
+  if(
+    "Notification" in window &&
+    Notification.permission === "granted"
+  ){
+
+    new Notification(
+      "🍗 New Chicken Order!",
+      {
+        body:
+        "A new order has arrived."
+      }
+    );
+
+  }
 
 }
-
-
-/* NOTIFICATION */
-
-if(
-"Notification" in window &&
-Notification.permission==="granted"
-){
-
-new Notification(
-"🍗 New Chicken Order!",
-{
-body:"A new order has arrived."
-}
-);
-
-}
-
-}
-
-
-</script>
+  </script>
 
 </body>
+
 </html>
