@@ -2,1156 +2,762 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Farm Fresh Chicken Market</title>
 
 <style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial;background:#fffaf5;color:#222}
+header{background:white;padding:15px;text-align:center;position:sticky;top:0}
+nav a{margin:6px;text-decoration:none;color:#222;font-weight:bold;font-size:13px}
+section{padding:35px 15px;max-width:1000px;margin:auto}
+.hero{text-align:center;background:#ffe4c4;padding:55px 15px}
+.hero h1{font-size:42px;margin:10px}
+.hero span{color:#d43d16}
+.btn{padding:12px 18px;border:0;border-radius:10px;background:#d43d16;color:white;font-weight:bold}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.card{background:white;padding:15px;border-radius:15px;box-shadow:0 2px 10px #ddd}
+.card h3{margin:8px 0}
+.price{color:#d43d16;font-weight:bold;margin-bottom:10px}
+.order{background:#222;color:white;border-radius:18px;padding:20px}
+input,select,textarea{width:100%;padding:12px;margin:6px 0;border:0;border-radius:8px}
+textarea{height:80px}
+.photos{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.photos img{width:100%;height:180px;object-fit:cover;border-radius:12px}
+.map{width:100%;height:300px;border:0;border-radius:12px}
+footer{text-align:center;background:#111;color:white;padding:20px}
 
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+@media(max-width:600px){
+.hero h1{font-size:35px}
 }
-
-html{
-  scroll-behavior:smooth;
-}
-
-body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:#fffaf5;
-  color:#1d1d1d;
-  line-height:1.5;
-}
-
-header{
-  position:sticky;
-  top:0;
-  z-index:20;
-  background:#fff;
-  box-shadow:0 2px 12px rgba(0,0,0,.08);
-}
-
-.nav{
-  max-width:1100px;
-  margin:auto;
-  padding:14px 18px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.logo{
-  font-weight:800;
-  font-size:18px;
-}
-
-.logo span{
-  display:block;
-  font-size:11px;
-  font-weight:500;
-  color:#777;
-}
-
-nav a{
-  text-decoration:none;
-  color:#222;
-  margin-left:16px;
-  font-size:14px;
-  font-weight:600;
-}
-
-.hero{
-  background:linear-gradient(135deg,#fff1df,#ffe3c2);
-  padding:72px 20px 60px;
-  text-align:center;
-}
-
-.badge{
-  display:inline-block;
-  background:#fff;
-  border-radius:999px;
-  padding:7px 13px;
-  font-size:12px;
-  font-weight:700;
-  margin-bottom:18px;
-}
-
-.hero h1{
-  font-size:clamp(36px,8vw,68px);
-  line-height:1.02;
-  margin-bottom:14px;
-}
-
-.hero h1 span{
-  color:#d9481e;
-}
-
-.hero p{
-  max-width:560px;
-  margin:0 auto 25px;
-  color:#555;
-}
-
-.btn{
-  display:inline-block;
-  padding:13px 20px;
-  border-radius:12px;
-  text-decoration:none;
-  font-weight:800;
-  border:0;
-  cursor:pointer;
-  font-size:14px;
-}
-
-.primary{
-  background:#d9481e;
-  color:#fff;
-}
-
-.secondary{
-  background:#fff;
-  color:#222;
-  margin-left:8px;
-}
-
-section{
-  max-width:1100px;
-  margin:auto;
-  padding:58px 20px;
-}
-
-.section-title{
-  text-align:center;
-  margin-bottom:28px;
-}
-
-.section-title h2{
-  font-size:30px;
-}
-
-.section-title p{
-  color:#777;
-  margin-top:6px;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:16px;
-}
-
-.card{
-  background:#fff;
-  border:1px solid #eee;
-  border-radius:18px;
-  padding:20px;
-  box-shadow:0 5px 20px rgba(0,0,0,.05);
-}
-
-.icon{
-  font-size:34px;
-  margin-bottom:10px;
-}
-
-.card h3{
-  font-size:17px;
-}
-
-.price{
-  color:#d9481e;
-  font-weight:800;
-  margin:8px 0 14px;
-}
-
-.card input{
-  width:100%;
-  padding:10px;
-  border:1px solid #ddd;
-  border-radius:10px;
-  margin-bottom:10px;
-}
-
-.add{
-  width:100%;
-  background:#222;
-  color:#fff;
-}
-
-.order{
-  background:#1f1f1f;
-  color:#fff;
-  border-radius:24px;
-  padding:32px;
-}
-
-.order p{
-  color:#ccc;
-  margin:6px 0 20px;
-}
-
-.form{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-
-.form input,
-.form textarea,
-.form select{
-  width:100%;
-  padding:13px;
-  border-radius:10px;
-  border:0;
-  font-size:14px;
-}
-
-.form textarea{
-  grid-column:1/-1;
-  min-height:90px;
-}
-
-.form button{
-  grid-column:1/-1;
-}
-
-.contact{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:18px;
-}
-
-.contact-box{
-  background:#fff;
-  padding:24px;
-  border-radius:18px;
-  border:1px solid #eee;
-}
-
-.contact-box h3{
-  margin-bottom:8px;
-}
-
-.contact-box p{
-  color:#666;
-}
-
-.location-section{
-  max-width:1100px;
-  margin:auto;
-  padding:20px 20px 58px;
-}
-
-.location-container{
-  background:#fff;
-  border:1px solid #eee;
-  border-radius:18px;
-  padding:24px;
-  text-align:center;
-  box-shadow:0 5px 20px rgba(0,0,0,.05);
-}
-
-.location-container h2{
-  margin-bottom:10px;
-}
-
-.location-container h3{
-  margin-bottom:8px;
-}
-
-.location-container p{
-  color:#666;
-  margin-bottom:18px;
-}
-
-.directions-btn{
-  display:inline-block;
-  background:#d9481e;
-  color:#fff;
-  text-decoration:none;
-  padding:13px 20px;
-  border-radius:12px;
-  font-weight:800;
-}
-
-footer{
-  text-align:center;
-  padding:25px;
-  background:#111;
-  color:#bbb;
-  font-size:13px;
-}
-
-.toast{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#222;
-  color:#fff;
-  padding:12px 18px;
-  border-radius:999px;
-  display:none;
-  z-index:50;
-}
-
-@media(max-width:800px){
-
-  .grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .contact{
-    grid-template-columns:1fr;
-  }
-
-}
-
-@media(max-width:560px){
-
-  nav{
-    display:none;
-  }
-
-  .hero{
-    padding-top:52px;
-  }
-
-  .grid{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .card{
-    padding:15px;
-  }
-
-  .form{
-    grid-template-columns:1fr;
-  }
-
-  .form textarea,
-  .form button{
-    grid-column:auto;
-  }
-
-  .secondary{
-    margin-left:4px;
-  }
-
-}
-
 </style>
 </head>
 
 <body>
 
 <header>
-
-  <div class="nav">
-
-    <div class="logo">
-      🍗 Farm Fresh Chicken Market
-      <span>Fresh • Tender • Quality You Can Trust</span>
-    </div>
-
-    <nav>
-      <a href="#home">Home</a>
-      <a href="#products">Products</a>
-      <a href="#order">Order</a>
-      <a href="#contact">Contact</a>
-    </nav>
-
-  </div>
-
+<h2>🍗 Farm Fresh Chicken Market</h2>
+<nav>
+<a href="#home">Home</a>
+<a href="#products">Products</a>
+<a href="#order">Order</a>
+<a href="#location">Location</a>
+<a href="#photos">Photos</a>
+</nav>
 </header>
 
-
-<main>
-
-
-<!-- HOME -->
-
 <section class="hero" id="home">
-
-  <div class="badge">
-    🐔 Fresh every day
-  </div>
-
-  <h1>
-    Farm Fresh<br>
-    <span>Chicken Market</span>
-  </h1>
-
-  <p>
-    Freshness you can taste. Tenderness you’ll love.
-  </p>
-
-  <a class="btn primary" href="#products">
-    Order Fresh Chicken →
-  </a>
-
-  <a class="btn secondary" href="tel:8121321120">
-    Call Us
-  </a>
-
+<h1>Fresh & <span>Tender</span> Chicken</h1>
+<p>Fresh quality chicken available in Kondapur, Hyderabad.</p>
+<a class="btn" href="#products">Order Now</a>
 </section>
-
-
-<!-- PRODUCTS -->
 
 <section id="products">
-
-  <div class="section-title">
-
-    <h2>Our Fresh Products</h2>
-
-    <p>
-      Choose your favorite cut and add your own price later.
-    </p>
-
-  </div>
-
-
-  <div class="grid">
-
-
-    <div class="card">
-
-      <div class="icon">🐔</div>
-
-      <h3>Live Chicken</h3>
-
-      <div class="price">
-        ₹ 160/ kg
-      </div>
-
-      <button
-        class="btn add"
-        onclick="add('Live Chicken')">
-        Add to Order
-      </button>
-
-    </div>
-
-
-    <div class="card">
-
-      <div class="icon">🍗</div>
-
-      <h3>Dressed Chicken</h3>
-
-      <div class="price">
-        ₹ 220 / kg
-      </div>
-
-      <button
-        class="btn add"
-        onclick="add('Dressed Chicken')">
-        Add to Order
-      </button>
-
-    </div>
-
-
-    <div class="card">
-
-      <div class="icon">✨</div>
-
-      <h3>Skinless Chicken</h3>
-
-      <div class="price">
-        ₹ 240/ kg
-      </div>
-
-      <button
-        class="btn add"
-        onclick="add('Skinless Chicken')">
-        Add to Order
-      </button>
-
-    </div>
-
-
-    <div class="card">
-
-      <div class="icon">🥩</div>
-
-      <h3>Boneless Chicken</h3>
-
-      <div class="price">
-        ₹ 420/ kg
-      </div>
-
-      <button
-        class="btn add"
-        onclick="add('Boneless Chicken')">
-        Add to Order
-      </button>
-
-    </div>
-
-
-    <div class="card">
-
-      <div class="icon">🍗</div>
-
-      <h3>Drumsticks</h3>
-
-      <div class="price">
-        ₹ 300/ kg
-      </div>
-
-      <button
-        class="btn add"
-        onclick="add('Drumsticks')">
-        Add to Order
-      </button>
-
-    </div>
-
-
-    <div class="card">
-
-      <div class="icon">🍗</div>
-
-      <h3>Chicken Lollipops</h3>
-
-      <div class="price">
-        ₹ 300/ kg
-      </div>
-
-      <button
-        class="btn add"
-        onclick="add('Chicken Lollipops')">
-        Add to Order
-      </button>
-
-    </div>
-
-
-    <div class="card">
-
-      <div class="icon">🍗</div>
-
-      <h3>Legs &amp; Breast</h3>
-
-      <div class="price">
-        ₹ 280/ kg
-      </div>
-
-      <button
-        class="btn add"
-        onclick="add('Legs & Breast')">
-        Add to Order
-      </button>
-
-    </div>
-
-
-    <div class="card">
-
-      <div class="icon">❤️</div>
-
-      <h3>Chicken Liver</h3>
-
-      <div class="price">
-        ₹ 140 / kg
-      </div>
-
-      <button
-        class="btn add"
-        onclick="add('Chicken Liver')">
-        Add to Order
-      </button>
-
-    </div>
-
-
-  </div>
-
+<h2>🐔 Our Products</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>Live Chicken</h3>
+<div class="price">₹160/kg</div>
+<button class="btn" onclick="addProduct('Live Chicken',160)">Add</button>
+</div>
+
+<div class="card">
+<h3>Dressed Chicken</h3>
+<div class="price">₹220/kg</div>
+<button class="btn" onclick="addProduct('Dressed Chicken',220)">Add</button>
+</div>
+
+<div class="card">
+<h3>Skinless Chicken</h3>
+<div class="price">₹240/kg</div>
+<button class="btn" onclick="addProduct('Skinless Chicken',240)">Add</button>
+</div>
+
+<div class="card">
+<h3>Boneless Chicken</h3>
+<div class="price">₹420/kg</div>
+<button class="btn" onclick="addProduct('Boneless Chicken',420)">Add</button>
+</div>
+
+<div class="card">
+<h3>Drumsticks</h3>
+<div class="price">₹300/kg</div>
+<button class="btn" onclick="addProduct('Drumsticks',300)">Add</button>
+</div>
+
+<div class="card">
+<h3>Chicken Lollipops</h3>
+<div class="price">₹300/kg</div>
+<button class="btn" onclick="addProduct('Chicken Lollipops',300)">Add</button>
+</div>
+
+<div class="card">
+<h3>Legs & Breast</h3>
+<div class="price">₹280/kg</div>
+<button class="btn" onclick="addProduct('Legs & Breast',280)">Add</button>
+</div>
+
+<div class="card">
+<h3>Chicken Liver</h3>
+<div class="price">₹140/kg</div>
+<button class="btn" onclick="addProduct('Chicken Liver',140)">Add</button>
+</div>
+
+</div>
 </section>
-
-
-<!-- ORDER -->
 
 <section id="order">
+<div class="order">
+<h2>📦 Place Order</h2>
 
-  <div class="order">
+<input id="name" placeholder="Your Name">
+<input id="phone" placeholder="Phone Number">
 
-    <h2>📦 Place Your Order</h2>
+<select id="deliveryType">
+<option value="">Delivery For?</option>
+<option value="me">📍 For Me</option>
+<option value="someone">👤 For Someone Else</option>
+</select>
 
-    <p>
-      Select a product above or type your order below.
-    </p>
+<select id="product">
+<option value="">Select Product</option>
+<option>Live Chicken</option>
+<option>Dressed Chicken</option>
+<option>Skinless Chicken</option>
+<option>Boneless Chicken</option>
+<option>Drumsticks</option>
+<option>Chicken Lollipops</option>
+<option>Legs & Breast</option>
+<option>Chicken Liver</option>
+</select>
 
+<input id="qty" placeholder="Quantity">
 
-    <div class="form">
+<textarea id="address" placeholder="Delivery Address"></textarea>
 
-      <input
-        id="name"
-        placeholder="Your name"
-      >
+<p id="locationStatus">
+📍 Location will be checked before ordering.
+</p>
 
-      <input
-        id="phone"
-        placeholder="Phone number"
-      >
+<button class="btn" onclick="sendOrder()">Confirm Order</button>
+</div>
+</section>;
+  <!-- SHOP LOCATION -->
 
-      <select id="product">
+<section id="location">
 
-        <option value="">
-          Select product
-        </option>
+<h2>📍 Our Shop Location</h2>
 
-        <option>Live Chicken</option>
-        <option>Dressed Chicken</option>
-        <option>Skinless Chicken</option>
-        <option>Boneless Chicken</option>
-        <option>Drumsticks</option>
-        <option>Chicken Lollipops</option>
-        <option>Legs & Breast</option>
-        <option>Chicken Liver</option>
+<p>
+Farm Fresh Chicken Market<br>
+Kondapur, Raghavendra Colony,<br>
+Near 1st Pole, Hyderabad
+</p>
 
-      </select>
+<a class="btn"
+href="https://maps.app.goo.gl/FEYic1oimazVzHEh7?g_st=ac"
+target="_blank">
+Open Shop in Google Maps
+</a>
 
+<br><br>
 
-      <input
-        id="qty"
-        placeholder="Quantity (e.g. 2 kg)"
-      >
+<a class="btn"
+href="https://www.google.com/maps/dir/?api=1&destination=17.470028,78.364139"
+target="_blank">
+🧭 Get Directions
+</a>
 
+<br><br>
 
-      <textarea
-        id="address"
-        placeholder="Delivery address / pickup note"
-      ></textarea>
-
-
-      <button
-        class="btn primary"
-        onclick="sendOrder()">
-
-        Send Order on WhatsApp →
-
-      </button>
-
-    </div>
-
-  </div>
+<iframe
+class="map"
+src="https://www.google.com/maps?q=17.470028,78.364139&output=embed">
+</iframe>
 
 </section>
 
 
-<!-- SHOP LOCATION -->
+<!-- SHOP PHOTOS -->
 
-<section
-  id="location"
-  class="location-section"
->
+<section id="photos">
 
-  <div class="location-container">
+<h2>📸 Shop Photos</h2>
 
-    <h2>📍 Our Shop Location</h2>
+<div class="photos">
 
-    <h3>
-      Farm Fresh Chicken Market
-    </h3>
+<img src="images/4811bcd4c11d9bffbd6b0453c955913c.png">
 
-    <p>
+<img src="images/Screenshot_20260915_223216.jpg">
 
-      High-Tension Line Rd, Kondapur,<br>
-      Hanuman Nagar, Raghavendra Colony,<br>
-      Gachibowli, Hyderabad,<br>
-      Telangana – 500084
+<img src="images/Screenshot_20260915_223237.jpg">
 
-    </p>
+<img src="images/Screenshot_20260916_080217.jpg">
 
+<img src="images/f99a18de-d90f-4ed0-93b5-af9dc9e6372f.jpg">
 
-    <!-- GOOGLE MAPS LINK -->
-
-    <a
-      href="https://maps.app.goo.gl/FEYic1oimazVzHEh7?g_st=ac"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="directions-btn"
-    >
-
-      📍 View Shop on Google Maps
-
-    </a>
-
-  </div>
+</div>
 
 </section>
 
 
 <!-- CONTACT -->
 
-<section id="contact">
+<section>
 
-  <div class="section-title">
+<h2>📞 Contact Us</h2>
 
-    <h2>
-      Visit or Contact Us
-    </h2>
+<p>Call / WhatsApp: <b>8121321120</b></p>
 
-    <p>
-      We’re ready for your fresh chicken order.
-    </p>
-
-  </div>
-
-
-  <div class="contact">
-
-
-    <div class="contact-box">
-
-      <h3>
-        📍 Shop Location
-      </h3>
-
-      <p>
-        Kondapur, Raghavendra Colony,<br>
-        Near 1st Pole, Hyderabad
-      </p>
-
-    </div>
-
-
-    <div class="contact-box">
-
-      <h3>
-        📞 Call / WhatsApp
-      </h3>
-
-      <p>
-
-        <a href="tel:8121321120">
-          8121321120
-        </a>
-
-      </p>
-
-      <br>
-
-      <a
-        class="btn primary"
-        href="https://wa.me/918121321120"
-        target="_blank"
-      >
-
-        WhatsApp Us
-
-      </a>
-
-    </div>
-
-
-  </div>
+<a class="btn"
+href="https://wa.me/918121321120"
+target="_blank">
+WhatsApp Us
+</a>
 
 </section>
+  <!-- JAVASCRIPT -->
 
-</main>
+<script type="module">
 
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 
-<footer>
-
-  © 2026 Farm Fresh Chicken Market
-  • Fresh • Tender • Quality You Can Trust
-
-</footer>
-
-
-<div
-  class="toast"
-  id="toast">
-</div>
+import {
+  getDatabase,
+  ref,
+  push
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 
 
-<script>
+/* FIREBASE */
+
+const firebaseConfig = {
+  apiKey:"AIzaSyCcKIDaVUTCzin0tP6oN16ABrexjGOS50M",
+  authDomain:"farm-fresh-chicken-market.firebaseapp.com",
+  databaseURL:"https://farm-fresh-chicken-market-default-rtdb.firebaseio.com",
+  projectId:"farm-fresh-chicken-market",
+  storageBucket:"farm-fresh-chicken-market.firebasestorage.app",
+  messagingSenderId:"184530252526",
+  appId:"1:184530252526:web:f7427c6a46eb76201df9ff"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
 
-/* =========================
-   ADD PRODUCT
-========================= */
+/* SHOP LOCATION */
 
-let selected = "";
+const SHOP_LAT = 17.470028;
+const SHOP_LNG = 78.364139;
 
-function add(product){
-
-  selected = product;
-
-  document.getElementById("product").value = product;
-
-  document
-    .getElementById("order")
-    .scrollIntoView({
-      behavior:"smooth"
-    });
-
-  show(
-    product + " added to your order"
-  );
-
-}
+const MAX_DISTANCE_KM = 2;
 
 
-/* =========================
-   TOAST
-========================= */
+/* PRODUCTS */
 
-function show(msg){
+const prices = {
+  "Live Chicken":160,
+  "Dressed Chicken":220,
+  "Skinless Chicken":240,
+  "Boneless Chicken":420,
+  "Drumsticks":300,
+  "Chicken Lollipops":300,
+  "Legs & Breast":280,
+  "Chicken Liver":140
+};
+
+
+/* ADD PRODUCT */
+
+window.addProduct = function(name,price){
+
+  document.getElementById("product").value = name;
+
+  show("Added: " + name);
+
+  document.getElementById("order")
+    .scrollIntoView({behavior:"smooth"});
+
+};
+
+
+/* TOAST */
+
+function show(message){
 
   const toast =
     document.getElementById("toast");
 
-  toast.textContent = msg;
+  if(toast){
 
-  toast.style.display = "block";
+    toast.innerText = message;
+    toast.style.display = "block";
 
-  setTimeout(
-    function(){
-
+    setTimeout(()=>{
       toast.style.display = "none";
+    },2500);
 
-    },
-    1800
-  );
+  }else{
+
+    alert(message);
+
+  }
 
 }
 
 
-/* =========================
-   DISTANCE CALCULATION
-========================= */
+/* DISTANCE */
 
-function calculateDistance(
-  lat1,
-  lon1,
-  lat2,
-  lon2
-){
+function distanceKm(lat1,lon1,lat2,lon2){
 
-  const earthRadius = 6371;
+  const R = 6371;
 
   const dLat =
-    (lat2 - lat1) *
-    Math.PI / 180;
+    (lat2-lat1) * Math.PI/180;
 
   const dLon =
-    (lon2 - lon1) *
-    Math.PI / 180;
+    (lon2-lon1) * Math.PI/180;
 
   const a =
+    Math.sin(dLat/2)**2 +
+    Math.cos(lat1*Math.PI/180) *
+    Math.cos(lat2*Math.PI/180) *
+    Math.sin(dLon/2)**2;
 
-    Math.sin(dLat / 2) *
-    Math.sin(dLat / 2)
-
-    +
-
-    Math.cos(
-      lat1 * Math.PI / 180
-    )
-
-    *
-
-    Math.cos(
-      lat2 * Math.PI / 180
-    )
-
-    *
-
-    Math.sin(dLon / 2) *
-    Math.sin(dLon / 2);
-
-  const c =
-
+  return R *
     2 *
     Math.atan2(
       Math.sqrt(a),
-      Math.sqrt(1 - a)
+      Math.sqrt(1-a)
     );
-
-  return earthRadius * c;
 
 }
 
 
-/* =========================
-   SEND ORDER
-========================= */
+/* LOCATION STATUS */
 
-function sendOrder(){
+function locationMessage(text){
 
-  const name =
-    document
-      .getElementById("name")
-      .value
-      .trim();
+  document.getElementById(
+    "locationStatus"
+  ).innerText = text;
 
-  const phone =
-    document
-      .getElementById("phone")
-      .value
-      .trim();
-
-  const product =
-    document
-      .getElementById("product")
-      .value;
-
-  const qty =
-    document
-      .getElementById("qty")
-      .value
-      .trim();
-
-  const address =
-    document
-      .getElementById("address")
-      .value
-      .trim();
+}
 
 
-  /* REQUIRED FIELDS */
+/* FOR ME */
 
-  if(
-    !name ||
-    !phone ||
-    !product ||
-    !qty
-  ){
+function getMyLocation(){
 
-    show(
-      "Please fill name, phone, product and quantity"
+  return new Promise((resolve,reject)=>{
+
+    if(!navigator.geolocation){
+
+      reject(
+        new Error("GPS is not supported.")
+      );
+
+      return;
+
+    }
+
+    locationMessage(
+      "📍 Getting your current location..."
     );
 
-    return;
+    navigator.geolocation.getCurrentPosition(
+
+      position => {
+
+        resolve({
+
+          lat:position.coords.latitude,
+
+          lng:position.coords.longitude
+
+        });
+
+      },
+
+      error => {
+
+        reject(
+          new Error(
+            "Please allow location permission."
+          )
+        );
+
+      },
+
+      {
+        enableHighAccuracy:true,
+        timeout:15000,
+        maximumAge:0
+      }
+
+    );
+
+  });
+
+}
+
+
+/* FOR SOMEONE ELSE */
+
+async function getOtherLocation(){
+
+  const input =
+    document.getElementById(
+      "address"
+    ).value.trim();
+
+  if(!input){
+
+    throw new Error(
+      "Enter the delivery address."
+    );
 
   }
 
-
-  /* LOCATION SUPPORT */
-
-  if(
-    !navigator.geolocation
-  ){
-
-    alert(
-      "❌ Location is not supported by your browser."
-    );
-
-    return;
-
-  }
-
-
-  show(
+  locationMessage(
     "📍 Checking delivery location..."
   );
 
 
-  /* GET CUSTOMER LOCATION */
+  const url =
+    "https://nominatim.openstreetmap.org/search" +
+    "?format=jsonv2" +
+    "&limit=1" +
+    "&countrycodes=in" +
+    "&q=" +
+    encodeURIComponent(input);
 
-  navigator.geolocation.getCurrentPosition(
 
-    function(position){
+  const response =
+    await fetch(url);
 
-      const customerLatitude =
-        position.coords.latitude;
 
-      const customerLongitude =
-        position.coords.longitude;
+  if(!response.ok){
 
+    throw new Error(
+      "Could not check this location."
+    );
 
-      /* YOUR KONDAPUR SHOP */
+  }
 
-      const shopLatitude =
-        17.470028;
 
-      const shopLongitude =
-        78.364139;
+  const results =
+    await response.json();
 
 
-      /* CALCULATE DISTANCE */
+  if(!results.length){
 
-      const distance =
-        calculateDistance(
+    throw new Error(
+      "Location not found. Enter a more complete address."
+    );
 
-          customerLatitude,
-          customerLongitude,
+  }
 
-          shopLatitude,
-          shopLongitude
 
-        );
+  return {
 
+    lat:parseFloat(results[0].lat),
 
-      /* =========================
-         WITHIN 2 KM
-      ========================= */
+    lng:parseFloat(results[0].lon)
 
-      if(
-        distance <= 2
-      ){
-
-        const msg =
-
-          "Hello Farm Fresh Chicken Market!%0A%0A" +
-
-          "Name: " +
-          encodeURIComponent(name) +
-
-          "%0A" +
-
-          "Phone: " +
-          encodeURIComponent(phone) +
-
-          "%0A" +
-
-          "Product: " +
-          encodeURIComponent(product) +
-
-          "%0A" +
-
-          "Quantity: " +
-          encodeURIComponent(qty) +
-
-          "%0A" +
-
-          "Address/Note: " +
-          encodeURIComponent(
-            address || "Pickup"
-          ) +
-
-          "%0A%0A" +
-
-          "Distance from shop: " +
-          distance.toFixed(2) +
-          " km";
-
-
-        show(
-          "✅ Delivery available! Opening WhatsApp..."
-        );
-
-
-        setTimeout(
-          function(){
-
-            window.location.href =
-              "https://wa.me/918121321120?text=" +
-              msg;
-
-          },
-          700
-        );
-
-      }
-
-
-      /* =========================
-         OUTSIDE 2 KM
-      ========================= */
-
-      else{
-
-        alert(
-
-          "❌ Delivery Not Available\n\n" +
-
-          "You are approximately " +
-
-          distance.toFixed(2) +
-
-          " km from our Kondapur branch.\n\n" +
-
-          "🚚 We currently deliver only within 2 km."
-
-        );
-
-      }
-
-    },
-
-
-    /* =========================
-       LOCATION ERROR
-    ========================= */
-
-    function(error){
-
-      if(
-        error.code === 1
-      ){
-
-        alert(
-
-          "⚠️ Location permission is required to place an order.\n\n" +
-
-          "Please allow location access and try again."
-
-        );
-
-      }
-
-      else if(
-        error.code === 2
-      ){
-
-        alert(
-
-          "❌ Unable to detect your location.\n\n" +
-
-          "Please turn on GPS/location and try again."
-
-        );
-
-      }
-
-      else if(
-        error.code === 3
-      ){
-
-        alert(
-
-          "❌ Location request timed out.\n\n" +
-
-          "Please try again."
-
-        );
-
-      }
-
-      else{
-
-        alert(
-
-          "❌ Unable to get your location.\n\n" +
-
-          "Please try again."
-
-        );
-
-      }
-
-    },
-
-
-    {
-      enableHighAccuracy:true,
-      timeout:10000,
-      maximumAge:0
-    }
-
-  );
+  };
 
 }
+
+
+/* SEND ORDER */
+
+window.sendOrder = async function(){
+
+  const name =
+    document.getElementById("name")
+      .value.trim();
+
+  const phone =
+    document.getElementById("phone")
+      .value.trim();
+
+  const deliveryType =
+    document.getElementById("deliveryType")
+      .value;
+
+  const product =
+    document.getElementById("product")
+      .value;
+
+  const qty =
+    document.getElementById("qty")
+      .value.trim();
+
+  const address =
+    document.getElementById("address")
+      .value.trim();
+
+
+  if(!name ||
+     !phone ||
+     !deliveryType ||
+     !product ||
+     !qty ||
+     !address){
+
+    alert(
+      "Please fill all order details."
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    let location;
+
+
+    /* FOR ME */
+
+    if(deliveryType === "me"){
+
+      location =
+        await getMyLocation();
+
+    }
+
+
+    /* FOR SOMEONE ELSE */
+
+    else{
+
+      location =
+        await getOtherLocation();
+
+    }
+
+
+    const distance =
+      distanceKm(
+        SHOP_LAT,
+        SHOP_LNG,
+        location.lat,
+        location.lng
+      );
+
+
+    locationMessage(
+      "📍 Distance from shop: " +
+      distance.toFixed(2) +
+      " km"
+    );
+
+
+    /* 2 KM CHECK */
+
+    if(distance > MAX_DISTANCE_KM){
+
+      alert(
+        "Sorry. Delivery is available only within 2 km of our Kondapur shop."
+      );
+
+      return;
+
+    }
+
+
+    const price =
+      prices[product] || 0;
+
+
+    const quantity =
+      parseFloat(
+        qty.replace(/[^0-9.]/g,"")
+      ) || 0;
+
+
+    const total =
+      price * quantity;
+
+
+    const customerMapLink =
+      "https://www.google.com/maps?q=" +
+      location.lat +
+      "," +
+      location.lng;
+
+
+    const directionsLink =
+      "https://www.google.com/maps/dir/?api=1" +
+      "&origin=" +
+      SHOP_LAT +
+      "," +
+      SHOP_LNG +
+      "&destination=" +
+      location.lat +
+      "," +
+      location.lng;
+
+
+    /* FIREBASE ORDER */
+
+    const orderData = {
+
+      name:name,
+
+      phone:phone,
+
+      deliveryFor:
+        deliveryType === "me"
+          ? "For Me"
+          : "For Someone Else",
+
+      product:product,
+
+      quantity:qty,
+
+      address:address,
+
+      customerLatitude:
+        location.lat,
+
+      customerLongitude:
+        location.lng,
+
+      customerMapLink:
+        customerMapLink,
+
+      directionsLink:
+        directionsLink,
+
+      distanceFromShop:
+        Number(distance.toFixed(2)),
+
+      price:price,
+
+      total:total,
+
+      status:"new",
+
+      createdAt:
+        new Date().toISOString()
+
+    };
+
+
+    const newOrder =
+      await push(
+        ref(db,"orders"),
+        orderData
+      );
+
+
+    /* WHATSAPP */
+
+    const message =
+
+      "🍗 NEW ORDER\n\n" +
+
+      "Name: " + name + "\n" +
+
+      "Phone: " + phone + "\n\n" +
+
+      "Product: " + product + "\n" +
+
+      "Quantity: " + qty + "\n" +
+
+      "Total: ₹" +
+      total.toFixed(2) + "\n\n" +
+
+      "Delivery: " +
+      orderData.deliveryFor + "\n" +
+
+      "Address: " +
+      address + "\n\n" +
+
+      "Distance: " +
+      distance.toFixed(2) +
+      " km\n\n" +
+
+      "Customer Location:\n" +
+      customerMapLink;
+
+
+    const whatsapp =
+      "https://wa.me/918121321120?text=" +
+      encodeURIComponent(message);
+
+
+    locationMessage(
+      "✅ Location verified: " +
+      distance.toFixed(2) +
+      " km"
+    );
+
+
+    alert(
+      "Order accepted for delivery area!\n\n" +
+      "Distance: " +
+      distance.toFixed(2) +
+      " km"
+    );
+
+
+    window.location.href =
+      whatsapp;
+
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      error.message ||
+      "Something went wrong. Please try again."
+    );
+
+  }
+
+};
+
+
+/* DELIVERY OPTION */
+
+document
+  .getElementById("deliveryType")
+  .addEventListener(
+    "change",
+    function(){
+
+      if(this.value === "me"){
+
+        locationMessage(
+          "📍 Your GPS location will be checked when you order."
+        );
+
+      }
+
+      else if(this.value === "someone"){
+
+        locationMessage(
+          "👤 Enter the delivery address. We will check the 2 km distance."
+        );
+
+      }
+
+    }
+  );
 
 </script>
 
 
 </body>
 </html>
+  
