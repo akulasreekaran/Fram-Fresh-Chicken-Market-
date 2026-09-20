@@ -332,6 +332,9 @@ Add
 <div class="order">
 
 <h2>📦 Place Order</h2>
+  <p>
+⏰ <b>Order Timing: 8:00 AM - 9:00 PM</b>
+  </p>
 
 <div class="cart">
 
@@ -571,6 +574,8 @@ const SHOP_LAT = 17.470028;
 const SHOP_LNG = 78.364139;
 
 const MAX_DISTANCE_KM = 2;
+  const ORDER_START_HOUR = 8;
+const ORDER_END_HOUR = 21;
 
 
 /* ADD PRODUCT */
@@ -1006,7 +1011,57 @@ document
 
   }
 );
+function checkOrderTime(){
 
+  const now = new Date();
+
+  const indiaTime = new Intl.DateTimeFormat(
+    "en-IN",
+    {
+      timeZone: "Asia/Kolkata",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: false
+    }
+  ).formatToParts(now);
+
+  let hour = 0;
+  let minute = 0;
+
+  indiaTime.forEach(part => {
+
+    if(part.type === "hour"){
+      hour = Number(part.value);
+    }
+
+    if(part.type === "minute"){
+      minute = Number(part.value);
+    }
+
+  });
+
+  const currentMinutes =
+    (hour * 60) + minute;
+
+  const openingMinutes =
+    ORDER_START_HOUR * 60;
+
+  const closingMinutes =
+    ORDER_END_HOUR * 60;
+
+
+  if(
+    currentMinutes < openingMinutes ||
+    currentMinutes >= closingMinutes
+  ){
+
+    return false;
+
+  }
+
+  return true;
+
+}
 
 /* =========================
    SEND ORDER
@@ -1016,6 +1071,21 @@ window.sendOrder = async function(){
 
   try{
 
+    if(!checkOrderTime()){
+
+      alert(
+        "⏰ Orders are currently closed.\n\n" +
+        "🕗 Order timing: 8:00 AM - 9:00 PM\n\n" +
+        "Please place your order during these hours."
+      );
+
+      setStatus(
+        "⏰ Orders are available from 8:00 AM to 9:00 PM."
+      );
+
+      return;
+
+    }
     const name =
       document
       .getElementById("name")
