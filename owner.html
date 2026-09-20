@@ -6,133 +6,155 @@
 <meta charset="UTF-8">
 
 <meta
-name="viewport"
-content="width=device-width,initial-scale=1">
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
 <title>Farm Fresh Chicken Market - Owner</title>
 
 <style>
 
 *{
-box-sizing:border-box;
+  box-sizing:border-box;
 }
 
 body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#f5f5f5;
-color:#222;
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f5f5f5;
+  color:#222;
 }
 
 header{
-background:#222;
-color:white;
-padding:18px;
-text-align:center;
+  background:#222;
+  color:white;
+  padding:20px 15px;
+  text-align:center;
+}
+
+header h2{
+  margin:5px 0;
 }
 
 .container{
-max-width:900px;
-margin:auto;
-padding:15px;
+  max-width:900px;
+  margin:auto;
+  padding:15px;
 }
 
 .card{
-background:white;
-padding:20px;
-margin-bottom:15px;
-border-radius:15px;
-box-shadow:0 2px 10px #ddd;
+  background:white;
+  padding:20px;
+  margin-bottom:15px;
+  border-radius:15px;
+  box-shadow:0 2px 10px #ddd;
 }
 
 input{
-width:100%;
-padding:12px;
-margin:7px 0;
-border:1px solid #ddd;
-border-radius:8px;
-font-size:15px;
+  width:100%;
+  padding:13px;
+  margin:7px 0;
+  border:1px solid #ddd;
+  border-radius:8px;
+  font-size:15px;
 }
 
 button,
 .btn{
-padding:11px 15px;
-border:0;
-border-radius:8px;
-background:#d43d16;
-color:white;
-font-weight:bold;
-cursor:pointer;
-text-decoration:none;
-display:inline-block;
-margin:4px;
+  padding:11px 15px;
+  border:0;
+  border-radius:8px;
+  background:#d43d16;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-block;
+  margin:4px;
 }
 
 .logout{
-background:#555;
+  background:#555;
 }
 
 .accept{
-background:#168a35;
+  background:#168a35;
 }
 
 .reject{
-background:#d62828;
+  background:#d62828;
 }
 
 .delivered{
-background:#1769aa;
-}
-
-.order{
-border:2px solid #eee;
-border-radius:12px;
-padding:15px;
-margin:12px 0;
-}
-
-.order h3{
-margin-top:0;
-}
-
-.product{
-padding:8px 0;
-border-bottom:1px solid #eee;
-}
-
-.status{
-font-weight:bold;
-padding:8px 0;
-}
-
-.new{
-color:#d43d16;
-}
-
-.accepted{
-color:#168a35;
-}
-
-.rejected{
-color:#d62828;
-}
-
-.delivered-status{
-color:#1769aa;
+  background:#1769aa;
 }
 
 .hidden{
-display:none;
+  display:none;
+}
+
+.order{
+  background:white;
+  border:2px solid #eee;
+  border-radius:12px;
+  padding:15px;
+  margin:15px 0;
+}
+
+.order h3{
+  margin-top:0;
+}
+
+.product{
+  padding:9px 0;
+  border-bottom:1px solid #eee;
+}
+
+.product:last-child{
+  border-bottom:0;
+}
+
+.status{
+  font-weight:bold;
+  padding:8px 0;
+}
+
+.new{
+  color:#d43d16;
+}
+
+.accepted{
+  color:#168a35;
+}
+
+.rejected{
+  color:#d62828;
+}
+
+.delivered-status{
+  color:#1769aa;
 }
 
 .small{
-font-size:13px;
-color:#666;
+  font-size:13px;
+  color:#666;
+}
+
+.sound-box{
+  background:#fff7e6;
+  border-radius:10px;
+  padding:12px;
+  margin-top:10px;
 }
 
 #soundStatus{
-margin:10px 0;
-font-weight:bold;
+  font-weight:bold;
+}
+
+.empty{
+  text-align:center;
+  padding:30px;
+  color:#777;
 }
 
 </style>
@@ -155,77 +177,77 @@ font-weight:bold;
 <div class="container">
 
 
-<!-- LOGIN -->
+<!-- =========================
+     LOGIN
+========================= -->
 
 <div
-class="card"
-id="loginBox">
+  class="card"
+  id="loginBox"
+>
 
 <h2>🔐 Owner Login</h2>
 
 <input
-type="email"
-id="email"
-placeholder="Owner Email">
+  type="email"
+  id="email"
+  placeholder="Owner Email"
+>
 
 <input
-type="password"
-id="password"
-placeholder="Password">
+  type="password"
+  id="password"
+  placeholder="Password"
+>
 
-<button
-onclick="login()">
-
+<button onclick="login()">
 Login
-
 </button>
 
-<p
-id="loginStatus">
-</p>
+<p id="loginStatus"></p>
 
 </div>
 
 
-<!-- DASHBOARD -->
+<!-- =========================
+     DASHBOARD
+========================= -->
 
 <div
-id="dashboard"
-class="hidden">
+  id="dashboard"
+  class="hidden"
+>
 
 
 <div class="card">
 
 <h2>📦 Orders</h2>
 
-<button
-onclick="enableSound()">
+<div class="sound-box">
 
+<button onclick="enableSound()">
 🔊 Enable Order Sound
-
-</button>
-
-<button
-class="logout"
-onclick="logout()">
-
-Logout
-
 </button>
 
 <p id="soundStatus">
-
-🔕 Order sound not enabled.
-
+🔕 Order sound is not enabled.
 </p>
 
 </div>
 
+<button
+  class="logout"
+  onclick="logout()"
+>
+Logout
+</button>
 
-<div
-id="orders">
+</div>
 
-<p>
+
+<div id="orders">
+
+<p class="empty">
 Loading orders...
 </p>
 
@@ -234,34 +256,39 @@ Loading orders...
 
 </div>
 
-
 </div>
+
 
 
 <script type="module">
 
+
+/* =========================
+   FIREBASE
+========================= */
+
 import {
-initializeApp
+  initializeApp
 }
 from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 
 import {
-getDatabase,
-ref,
-onValue,
-update
+  getDatabase,
+  ref,
+  onValue,
+  update
 }
 from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 
 import {
-getAuth,
-signInWithEmailAndPassword,
-onAuthStateChanged,
-signOut
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut
 }
 from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -269,26 +296,26 @@ from
 
 const firebaseConfig = {
 
-apiKey:
-"AIzaSyCcKIDaVUTCzin0tP6oN16ABrexjGOS50M",
+  apiKey:
+  "AIzaSyCcKIDaVUTCzin0tP6oN16ABrexjGOS50M",
 
-authDomain:
-"farm-fresh-chicken-market.firebaseapp.com",
+  authDomain:
+  "farm-fresh-chicken-market.firebaseapp.com",
 
-databaseURL:
-"https://farm-fresh-chicken-market-default-rtdb.firebaseio.com",
+  databaseURL:
+  "https://farm-fresh-chicken-market-default-rtdb.firebaseio.com",
 
-projectId:
-"farm-fresh-chicken-market",
+  projectId:
+  "farm-fresh-chicken-market",
 
-storageBucket:
-"farm-fresh-chicken-market.firebasestorage.app",
+  storageBucket:
+  "farm-fresh-chicken-market.firebasestorage.app",
 
-messagingSenderId:
-"184530252526",
+  messagingSenderId:
+  "184530252526",
 
-appId:
-"1:184530252526:web:f7427c6a46eb76201df9ff"
+  appId:
+  "1:184530252526:web:f7427c6a46eb76201df9ff"
 
 };
 
@@ -296,505 +323,617 @@ appId:
 const app =
 initializeApp(firebaseConfig);
 
-
 const db =
 getDatabase(app);
-
 
 const auth =
 getAuth(app);
 
 
-/* LOGIN */
+
+/* =========================
+   LOGIN
+========================= */
 
 window.login = async function(){
 
-const email =
-document
-.getElementById("email")
-.value
-.trim();
+  const email =
+    document
+    .getElementById("email")
+    .value
+    .trim();
 
-const password =
-document
-.getElementById("password")
-.value;
+  const password =
+    document
+    .getElementById("password")
+    .value;
 
 
-try{
+  if(!email || !password){
 
-await signInWithEmailAndPassword(
-auth,
-email,
-password
-);
+    document
+    .getElementById("loginStatus")
+    .innerText =
+    "❌ Enter email and password.";
 
-}
-catch(error){
+    return;
 
-document
-.getElementById("loginStatus")
-.innerText =
-"❌ Login failed: " +
-error.message;
+  }
 
-}
+
+  try{
+
+    await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+  }
+  catch(error){
+
+    document
+    .getElementById("loginStatus")
+    .innerText =
+    "❌ Login failed: " +
+    error.message;
+
+  }
 
 };
 
 
-/* LOGOUT */
+
+/* =========================
+   LOGOUT
+========================= */
 
 window.logout = async function(){
 
-await signOut(auth);
+  await signOut(auth);
 
 };
 
 
-/* AUTH STATE */
+
+/* =========================
+   AUTH STATE
+========================= */
 
 onAuthStateChanged(
-auth,
-user => {
+  auth,
+  user => {
 
-if(user){
+    if(user){
 
-document
-.getElementById("loginBox")
-.classList
-.add("hidden");
-
-document
-.getElementById("dashboard")
-.classList
-.remove("hidden");
-
-loadOrders();
-
-}
-else{
-
-document
-.getElementById("loginBox")
-.classList
-.remove("hidden");
-
-document
-.getElementById("dashboard")
-.classList
-.add("hidden");
-
-}
-
-});
+      document
+      .getElementById("loginBox")
+      .classList
+      .add("hidden");
 
 
-let firstLoad = true;
-
-let knownOrderIds = new Set();
-
-
-/* LOAD ORDERS */
-
-function loadOrders(){
-
-const ordersRef =
-ref(db,"orders");
+      document
+      .getElementById("dashboard")
+      .classList
+      .remove("hidden");
 
 
-onValue(
-ordersRef,
-snapshot => {
+      loadOrders();
 
-const data =
-snapshot.val() || {};
+    }
+    else{
 
-
-const ordersDiv =
-document.getElementById("orders");
-
-
-const orderIds =
-Object.keys(data)
-.reverse();
+      document
+      .getElementById("loginBox")
+      .classList
+      .remove("hidden");
 
 
-if(orderIds.length === 0){
+      document
+      .getElementById("dashboard")
+      .classList
+      .add("hidden");
 
-ordersDiv.innerHTML =
-"<p>📭 No orders yet.</p>";
+    }
 
-firstLoad = false;
-
-return;
-
-}
-
-
-let html = "";
-
-
-orderIds.forEach(
-orderId => {
-
-const order =
-data[orderId];
-
-
-html += displayOrder(
-orderId,
-order
+  }
 );
 
 
-/* NEW ORDER SOUND */
 
-if(
-!firstLoad &&
-!knownOrderIds.has(orderId) &&
-order.status === "new"
-){
+/* =========================
+   ORDER TRACKING
+========================= */
 
-playOrderSound();
+let firstLoad = true;
+
+let knownOrderIds =
+new Set();
+
+
+
+/* =========================
+   LOAD ORDERS
+========================= */
+
+function loadOrders(){
+
+  const ordersRef =
+    ref(db,"orders");
+
+
+  onValue(
+    ordersRef,
+    snapshot => {
+
+      const data =
+        snapshot.val() || {};
+
+
+      const ordersDiv =
+        document.getElementById("orders");
+
+
+      const orderIds =
+        Object.keys(data).reverse();
+
+
+      if(orderIds.length === 0){
+
+        ordersDiv.innerHTML = `
+
+          <div class="card empty">
+
+            📭 No orders yet.
+
+          </div>
+
+        `;
+
+        firstLoad = false;
+
+        return;
+
+      }
+
+
+      let html = "";
+
+
+      orderIds.forEach(
+        orderId => {
+
+          const order =
+            data[orderId];
+
+
+          html +=
+            displayOrder(
+              orderId,
+              order
+            );
+
+
+          /* NEW ORDER */
+
+          if(
+            !firstLoad &&
+            !knownOrderIds.has(orderId) &&
+            order.status === "new"
+          ){
+
+            playOrderSound();
+
+          }
+
+        }
+      );
+
+
+      knownOrderIds =
+        new Set(orderIds);
+
+
+      firstLoad = false;
+
+
+      ordersDiv.innerHTML =
+        html;
+
+    }
+  );
 
 }
 
-});
 
 
-knownOrderIds =
-new Set(orderIds);
-
-
-firstLoad = false;
-
-
-ordersDiv.innerHTML =
-html;
-
-});
-
-}
-
-
-/* DISPLAY ORDER */
+/* =========================
+   DISPLAY ORDER
+========================= */
 
 function displayOrder(
-orderId,
-order
+  orderId,
+  order
 ){
 
-let productsHTML = "";
+  let productsHTML = "";
 
 
-/* NEW MULTI PRODUCT ORDER */
+  /* MULTI PRODUCT ORDER */
 
-if(
-Array.isArray(order.products)
-){
+  if(
+    Array.isArray(order.products)
+  ){
 
-order.products.forEach(
-item => {
+    order.products.forEach(
+      item => {
 
-productsHTML += `
+        productsHTML += `
 
-<div class="product">
+          <div class="product">
 
-<b>
-${escapeHTML(item.name)}
-</b>
+            <b>
+              ${escapeHTML(item.name)}
+            </b>
 
-<br>
+            <br>
 
-${item.quantity} kg × ₹${item.price}
+            ${item.quantity} kg
+            × ₹${item.price}
 
-=
+            =
 
-<b>
-₹${item.subtotal}
-</b>
+            <b>
+              ₹${item.subtotal}
+            </b>
 
-</div>
+          </div>
 
-`;
+        `;
 
-});
+      }
+    );
+
+  }
+
+
+  /* OLD SINGLE PRODUCT ORDER */
+
+  else if(order.product){
+
+    productsHTML = `
+
+      <div class="product">
+
+        <b>
+          ${escapeHTML(order.product)}
+        </b>
+
+        <br>
+
+        Quantity:
+        ${escapeHTML(order.quantity)}
+
+      </div>
+
+    `;
+
+  }
+
+
+  const status =
+    order.status || "new";
+
+
+  let statusClass =
+    "new";
+
+
+  if(status === "accepted"){
+    statusClass = "accepted";
+  }
+
+  if(status === "rejected"){
+    statusClass = "rejected";
+  }
+
+  if(status === "delivered"){
+    statusClass = "delivered-status";
+  }
+
+
+  return `
+
+    <div class="order">
+
+      <h3>
+        🍗 Order
+      </h3>
+
+
+      <p class="small">
+
+        Order ID:
+        ${escapeHTML(orderId)}
+
+      </p>
+
+
+      <p>
+
+        <b>👤 Customer:</b><br>
+
+        ${escapeHTML(order.name || "")}
+
+      </p>
+
+
+      <p>
+
+        <b>📱 Phone:</b><br>
+
+        ${escapeHTML(order.phone || "")}
+
+      </p>
+
+
+      <p>
+
+        <b>🚚 Delivery:</b><br>
+
+        ${escapeHTML(
+          order.deliveryFor || ""
+        )}
+
+      </p>
+
+
+      <h4>
+        🛒 Products
+      </h4>
+
+
+      ${productsHTML}
+
+
+      <h3>
+
+        💰 Total:
+        ₹${escapeHTML(order.total || 0)}
+
+      </h3>
+
+
+      <p>
+
+        <b>📍 Address:</b><br>
+
+        ${escapeHTML(
+          order.address ||
+          "Not provided"
+        )}
+
+      </p>
+
+
+      <p>
+
+        <b>📏 Distance:</b>
+
+        ${escapeHTML(
+          order.distanceFromShop || "-"
+        )}
+
+        km
+
+      </p>
+
+
+      <p class="status ${statusClass}">
+
+        Status:
+        ${escapeHTML(
+          status.toUpperCase()
+        )}
+
+      </p>
+
+
+      <div>
+
+        ${getActionButtons(
+          orderId,
+          order
+        )}
+
+      </div>
+
+
+    </div>
+
+  `;
 
 }
 
 
-/* OLD ORDER FORMAT */
 
-else if(order.product){
-
-productsHTML = `
-
-<div class="product">
-
-<b>
-${escapeHTML(order.product)}
-</b>
-
-<br>
-
-Quantity:
-${order.quantity}
-
-</div>
-
-`;
-
-}
-
-
-let statusClass =
-order.status || "new";
-
-
-let statusText =
-(order.status || "new")
-.toUpperCase();
-
-
-return `
-
-<div class="order">
-
-<h3>
-📦 Order
-</h3>
-
-<p class="small">
-Order ID:
-${orderId}
-</p>
-
-<p>
-
-<b>👤 Customer:</b>
-${escapeHTML(order.name || "")}
-
-</p>
-
-<p>
-
-<b>📱 Phone:</b>
-${escapeHTML(order.phone || "")}
-
-</p>
-
-<p>
-
-<b>🚚 Delivery:</b>
-${escapeHTML(order.deliveryFor || "")}
-
-</p>
-
-<h4>
-🛒 Products
-</h4>
-
-${productsHTML}
-
-<h3>
-💰 Total:
-₹${order.total || 0}
-</h3>
-
-<p>
-
-<b>📍 Address:</b><br>
-
-${escapeHTML(order.address || "Not provided")}
-
-</p>
-
-<p>
-
-<b>📏 Distance:</b>
-
-${order.distanceFromShop || "-"}
-km
-
-</p>
-
-<p class="status ${statusClass}">
-
-Status:
-${statusText}
-
-</p>
-
-<div>
-
-${getActionButtons(
-orderId,
-order
-)}
-
-</div>
-
-</div>
-
-`;
-
-}
-
-
-/* ACTION BUTTONS */
+/* =========================
+   ACTION BUTTONS
+========================= */
 
 function getActionButtons(
-orderId,
-order
+  orderId,
+  order
 ){
 
-if(order.status === "new"){
+  if(order.status === "new"){
 
-return `
+    return `
 
-<button
-class="accept"
-onclick="updateStatus('${orderId}','accepted')">
+      <button
+        class="accept"
+        onclick="updateStatus(
+          '${orderId}',
+          'accepted'
+        )"
+      >
 
-✅ Accept
+        ✅ Accept
 
-</button>
+      </button>
 
-<button
-class="reject"
-onclick="updateStatus('${orderId}','rejected')">
 
-❌ Reject
+      <button
+        class="reject"
+        onclick="updateStatus(
+          '${orderId}',
+          'rejected'
+        )"
+      >
 
-</button>
+        ❌ Reject
 
-${mapButtons(order)}
+      </button>
 
-`;
+
+      ${mapButtons(order)}
+
+    `;
+
+  }
+
+
+  if(order.status === "accepted"){
+
+    return `
+
+      <button
+        class="delivered"
+        onclick="updateStatus(
+          '${orderId}',
+          'delivered'
+        )"
+      >
+
+        🚚 Mark Delivered
+
+      </button>
+
+
+      ${mapButtons(order)}
+
+    `;
+
+  }
+
+
+  return mapButtons(order);
 
 }
 
 
-if(order.status === "accepted"){
 
-return `
-
-<button
-class="delivered"
-onclick="updateStatus('${orderId}','delivered')">
-
-🚚 Mark Delivered
-
-</button>
-
-${mapButtons(order)}
-
-`;
-
-}
-
-
-return mapButtons(order);
-
-}
-
-
-/* MAP / CALL BUTTONS */
+/* =========================
+   MAP / DIRECTIONS / CALL
+========================= */
 
 function mapButtons(order){
 
-let html = "";
+  let html = "";
 
 
-if(order.customerMapLink){
+  if(order.customerMapLink){
 
-html += `
+    html += `
 
-<a
-class="btn"
-href="${order.customerMapLink}"
-target="_blank">
+      <a
+        class="btn"
+        href="${escapeAttribute(
+          order.customerMapLink
+        )}"
+        target="_blank"
+      >
 
-📍 Customer Map
+        📍 Customer Map
 
-</a>
+      </a>
 
-`;
+    `;
 
-}
-
-
-if(order.directionsLink){
-
-html += `
-
-<a
-class="btn"
-href="${order.directionsLink}"
-target="_blank">
-
-🧭 Directions
-
-</a>
-
-`;
-
-}
+  }
 
 
-if(order.phone){
+  if(order.directionsLink){
 
-html += `
+    html += `
 
-<a
-class="btn"
-href="tel:${order.phone}">
+      <a
+        class="btn"
+        href="${escapeAttribute(
+          order.directionsLink
+        )}"
+        target="_blank"
+      >
 
-📞 Call
+        🧭 Directions
 
-</a>
+      </a>
 
-`;
+    `;
 
-}
-
-
-return html;
-
-}
+  }
 
 
-/* ESCAPE HTML */
+  if(order.phone){
 
-function escapeHTML(value){
+    html += `
 
-return String(value || "")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
+      <a
+        class="btn"
+        href="tel:${escapeAttribute(
+          order.phone
+        )}"
+      >
+
+        📞 Call
+
+      </a>
+
+    `;
+
+  }
+
+
+  return html;
 
 }
 
-</script>
+
+
 /* =========================
    UPDATE ORDER STATUS
 ========================= */
 
-window.updateStatus = async function(orderId, newStatus){
+window.updateStatus =
+async function(
+  orderId,
+  newStatus
+){
 
   try{
 
     await update(
-      ref(db, "orders/" + orderId),
+      ref(
+        db,
+        "orders/" + orderId
+      ),
       {
-        status: newStatus
+        status:newStatus
       }
     );
 
-  }catch(error){
+  }
+  catch(error){
 
     alert(
       "❌ Could not update order:\n" +
@@ -806,6 +945,7 @@ window.updateStatus = async function(orderId, newStatus){
 };
 
 
+
 /* =========================
    ORDER SOUND
 ========================= */
@@ -813,25 +953,39 @@ window.updateStatus = async function(orderId, newStatus){
 let audioContext = null;
 
 
+
 /* ENABLE SOUND */
 
-window.enableSound = function(){
+window.enableSound =
+function(){
 
   try{
 
-    audioContext = new (
-      window.AudioContext ||
-      window.webkitAudioContext
-    )();
+    audioContext =
+      new (
+        window.AudioContext ||
+        window.webkitAudioContext
+      )();
 
-    if(audioContext.state === "suspended"){
+
+    if(
+      audioContext.state ===
+      "suspended"
+    ){
+
       audioContext.resume();
+
     }
+
 
     playBeep();
 
-    document.getElementById("soundStatus").innerText =
-      "🔊 Order sound enabled.";
+
+    document
+    .getElementById("soundStatus")
+    .innerText =
+    "🔊 Order sound enabled.";
+
 
     if(
       "Notification" in window &&
@@ -842,32 +996,46 @@ window.enableSound = function(){
 
     }
 
-  }catch(error){
+  }
+  catch(error){
 
-    document.getElementById("soundStatus").innerText =
-      "❌ Sound could not be enabled.";
+    document
+    .getElementById("soundStatus")
+    .innerText =
+    "❌ Sound could not be enabled.";
 
   }
 
 };
 
 
-/* BEEP */
+
+/* =========================
+   BEEP
+========================= */
 
 function playBeep(){
 
-  if(!audioContext) return;
+  if(!audioContext)
+    return;
+
 
   const oscillator =
-    audioContext.createOscillator();
+    audioContext
+    .createOscillator();
+
 
   const gain =
-    audioContext.createGain();
+    audioContext
+    .createGain();
 
 
-  oscillator.type = "sine";
+  oscillator.type =
+    "sine";
 
-  oscillator.frequency.value = 800;
+
+  oscillator.frequency.value =
+    800;
 
 
   gain.gain.setValueAtTime(
@@ -875,10 +1043,12 @@ function playBeep(){
     audioContext.currentTime
   );
 
+
   gain.gain.exponentialRampToValueAtTime(
     0.3,
     audioContext.currentTime + 0.02
   );
+
 
   gain.gain.exponentialRampToValueAtTime(
     0.001,
@@ -895,11 +1065,13 @@ function playBeep(){
 
   oscillator.start();
 
+
   oscillator.stop(
     audioContext.currentTime + 0.4
   );
 
 }
+
 
 
 /* =========================
@@ -912,10 +1084,12 @@ function playOrderSound(){
 
     playBeep();
 
+
     setTimeout(
       playBeep,
       500
     );
+
 
     setTimeout(
       playBeep,
@@ -941,7 +1115,74 @@ function playOrderSound(){
   }
 
 }
-  </script>
+
+
+
+/* =========================
+   HTML SECURITY
+========================= */
+
+function escapeHTML(value){
+
+  return String(value || "")
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+function escapeAttribute(value){
+
+  return String(value || "")
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    );
+
+}
+
+
+</script>
+
 
 </body>
 
