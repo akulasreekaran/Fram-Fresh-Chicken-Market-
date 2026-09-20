@@ -85,8 +85,16 @@ button,
   background:#d62828;
 }
 
+.delivery{
+  background:#e67e22;
+}
+
 .delivered{
   background:#1769aa;
+}
+
+.track{
+  background:#7b1fa2;
 }
 
 .hidden{
@@ -127,6 +135,10 @@ button,
   color:#168a35;
 }
 
+.out-for-delivery{
+  color:#e67e22;
+}
+
 .rejected{
   color:#d62828;
 }
@@ -155,6 +167,13 @@ button,
   text-align:center;
   padding:30px;
   color:#777;
+}
+
+.tracking-box{
+  background:#f3e8ff;
+  border-radius:10px;
+  padding:12px;
+  margin:10px 0;
 }
 
 </style>
@@ -633,6 +652,10 @@ function displayOrder(
     statusClass = "accepted";
   }
 
+  if(status === "out_for_delivery"){
+    statusClass = "out-for-delivery";
+  }
+
   if(status === "rejected"){
     statusClass = "rejected";
   }
@@ -739,6 +762,27 @@ function displayOrder(
       </p>
 
 
+      ${
+        order.trackingActive === true
+        ?
+        `
+        <div class="tracking-box">
+
+          <b>📡 Live Delivery Tracking Active</b>
+
+          <br>
+
+          <span class="small">
+            Customer can currently track the delivery partner.
+          </span>
+
+        </div>
+        `
+        :
+        ""
+      }
+
+
       <div>
 
         ${getActionButtons(
@@ -808,14 +852,57 @@ function getActionButtons(
     return `
 
       <button
-        class="delivered"
-        onclick="updateStatus(
-          '${orderId}',
-          'delivered'
+        class="delivery"
+        onclick="startDelivery(
+          '${orderId}'
         )"
       >
 
-        🚚 Mark Delivered
+        🚚 Start Delivery
+
+      </button>
+
+
+      ${mapButtons(order)}
+
+    `;
+
+  }
+
+
+  if(order.status === "out_for_delivery"){
+
+    return `
+
+      ${
+        order.trackingActive === true
+        ?
+        `
+        <a
+          class="btn track"
+          href="${escapeAttribute(
+            getTrackingLink(orderId)
+          )}"
+          target="_blank"
+        >
+
+          📍 Track Delivery
+
+        </a>
+        `
+        :
+        ""
+      }
+
+
+      <button
+        class="delivered"
+        onclick="markDelivered(
+          '${orderId}'
+        )"
+      >
+
+        ✅ Mark Delivered
 
       </button>
 
@@ -828,6 +915,179 @@ function getActionButtons(
 
 
   return mapButtons(order);
+
+}
+
+
+
+/* =========================
+   START DELIVERY
+========================= */
+
+window.startDelivery =
+async function(orderId){
+
+  try{
+
+    await update(
+      ref(
+        db,
+        "orders/" + orderId
+      ),
+      {
+
+        status:
+        "out_for_delivery",
+
+        trackingActive:
+        true,
+
+        deliveryStartedAt:
+        new Date().toISOString()
+
+      }
+    );
+
+
+    alert(
+      "🚚 Delivery started.\n\n" +
+      "Live location tracking is now active."
+    );
+
+  }
+  catch(error){
+
+    alert(
+      "❌ Could not start delivery:\n" +
+      error.message
+    );
+
+  }
+
+};
+
+
+
+/* =========================
+   MARK DELIVERED
+========================= */
+
+window.markDelivered =
+async function(orderId){
+
+  const confirmDelivery =
+    confirm(
+      "Mark this order as DELIVERED?\n\n" +
+      "This will also STOP live delivery location sharing."
+    );
+
+
+  if(!confirmDelivery){
+    return;
+  }
+
+
+  try{
+
+    await update(
+      ref(
+        db,
+        "orders/" + orderId
+      ),
+      {
+
+        status:
+        "delivered",
+
+        trackingActive:
+        false,
+
+        deliveryLatitude:
+        null,
+
+        deliveryLongitude:
+        null,
+
+        deliveryAccuracy:
+        null,
+
+        deliveryUpdatedAt:
+        null,
+
+        deliveryStoppedAt:
+        new Date().toISOString()
+
+      }
+    );
+
+
+    alert(
+      "✅ Order marked as delivered.\n\n" +
+      "🛑 Live delivery location sharing has been stopped."
+    );
+
+  }
+  catch(error){
+
+    alert(
+      "❌ Could not mark delivered:\n" +
+      error.message
+    );
+
+  }
+
+};
+
+
+
+/* =========================
+   NORMAL STATUS UPDATE
+========================= */
+
+window.updateStatus =
+async function(
+  orderId,
+  newStatus
+){
+
+  try{
+
+    await update(
+      ref(
+        db,
+        "orders/" + orderId
+      ),
+      {
+        status:newStatus
+      }
+    );
+
+  }
+  catch(error){
+
+    alert(
+      "❌ Could not update order:\n" +
+      error.message
+    );
+
+  }
+
+};
+
+
+
+/* =========================
+   CUSTOMER TRACKING LINK
+========================= */
+
+function getTrackingLink(orderId){
+
+  return (
+    "https://akulasreekaran.github.io/" +
+    "Fram-Fresh-Chicken-Market-/" +
+    "track.html?order=" +
+    encodeURIComponent(orderId)
+  );
 
 }
 
@@ -907,42 +1167,6 @@ function mapButtons(order){
   return html;
 
 }
-
-
-
-/* =========================
-   UPDATE ORDER STATUS
-========================= */
-
-window.updateStatus =
-async function(
-  orderId,
-  newStatus
-){
-
-  try{
-
-    await update(
-      ref(
-        db,
-        "orders/" + orderId
-      ),
-      {
-        status:newStatus
-      }
-    );
-
-  }
-  catch(error){
-
-    alert(
-      "❌ Could not update order:\n" +
-      error.message
-    );
-
-  }
-
-};
 
 
 
@@ -1058,6 +1282,7 @@ function playBeep(){
 }
 
 
+
 /* =========================
    NEW ORDER ALERT
 ========================= */
@@ -1068,12 +1293,10 @@ function playOrderSound(){
 
     playBeep();
 
-
     setTimeout(
       playBeep,
       500
     );
-
 
     setTimeout(
       playBeep,
