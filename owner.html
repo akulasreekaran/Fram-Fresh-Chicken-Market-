@@ -176,6 +176,10 @@ button,
   margin:10px 0;
 }
 
+
+.direct-order{border:3px solid #ff9800 !important;box-shadow:0 0 0 4px rgba(255,152,0,.18),0 10px 30px rgba(0,0,0,.18) !important;}
+.direct-order-title{background:#fff3cd;color:#8a5a00;padding:10px 14px;border-radius:10px;margin-bottom:12px;font-weight:700;}
+.location-sharing{background:#e8f7e8;color:#168316;padding:10px;border-radius:10px;margin:10px 0;font-weight:bold;}
 </style>
 
 </head>
@@ -297,6 +301,7 @@ import {
   getDatabase,
   ref,
   onValue,
+  get,
   update
 }
 from
@@ -439,6 +444,8 @@ onAuthStateChanged(
 
       loadOrders();
 
+      resumeActiveDelivery();
+
     }
     else{
 
@@ -468,6 +475,10 @@ let firstLoad = true;
 
 let knownOrderIds =
 new Set();
+
+let deliveryWatchId = null;
+let activeDeliveryOrderId = null;
+const requestedOrderId = new URLSearchParams(window.location.search).get("order");
 
 
 
@@ -559,12 +570,55 @@ function loadOrders(){
       ordersDiv.innerHTML =
         html;
 
+      if(requestedOrderId){
+        const card = document.querySelector('[data-order-id="'+CSS.escape(requestedOrderId)+'"]');
+        if(card){
+          const note=document.createElement("div");
+          note.className="direct-order-title";
+          note.textContent="🔗 Direct order opened from WhatsApp";
+          ordersDiv.prepend(note);
+          setTimeout(()=>card.scrollIntoView({behavior:"smooth",block:"center"}),100);
+        }
+      }
+
     }
   );
 
 }
 
 
+
+async function resumeActiveDelivery(){
+
+  const savedOrderId = localStorage.getItem("farmFreshActiveDeliveryOrder");
+  if(!savedOrderId || !navigator.geolocation) return;
+
+  try{
+    const snap = await get(ref(db,"orders/" + savedOrderId));
+    if(!snap.exists()) return;
+    const order = snap.val();
+    if(order.status !== "out_for_delivery" || order.trackingActive !== true) return;
+
+    if(deliveryWatchId !== null) navigator.geolocation.clearWatch(deliveryWatchId);
+    activeDeliveryOrderId = savedOrderId;
+    deliveryWatchId = navigator.geolocation.watchPosition(
+      async position => {
+        if(activeDeliveryOrderId !== savedOrderId) return;
+        try{
+          await update(ref(db,"orders/" + savedOrderId),{
+            deliveryLatitude:position.coords.latitude,
+            deliveryLongitude:position.coords.longitude,
+            deliveryAccuracy:position.coords.accuracy,
+            deliveryUpdatedAt:new Date().toISOString(),
+            trackingActive:true
+          });
+        }catch(e){ console.error(e); }
+      },
+      error => console.error("GPS resume error:",error),
+      {enableHighAccuracy:true,maximumAge:5000,timeout:15000}
+    );
+  }catch(e){ console.error("Could not resume delivery tracking:",e); }
+}
 
 /* =========================
    DISPLAY ORDER
@@ -597,7 +651,7 @@ function displayOrder(
 
             <br>
 
-            ${item.quantity} kg
+            ${item.quantity} ${item.unit || "kg"}
             × ₹${item.price}
 
             =
@@ -667,7 +721,7 @@ function displayOrder(
 
   return `
 
-    <div class="order">
+    <div class="order ${requestedOrderId === orderId ? "direct-order" : ""}" data-order-id="${escapeAttribute(orderId)}">
 
       <h3>
         🍗 Order
@@ -773,8 +827,12 @@ function displayOrder(
           <br>
 
           <span class="small">
-            Customer can currently track the delivery partner.
+            Customer can currently track the delivery partner live.
           </span>
+
+          <div class="location-sharing">
+            📡 Your live GPS location is being shared with the customer.
+          </div>
 
         </div>
         `
@@ -927,41 +985,75 @@ function getActionButtons(
 window.startDelivery =
 async function(orderId){
 
+  if(!navigator.geolocation){
+    alert("❌ This browser does not support GPS location.");
+    return;
+  }
+
+  if(deliveryWatchId !== null && activeDeliveryOrderId !== orderId){
+    navigator.geolocation.clearWatch(deliveryWatchId);
+    deliveryWatchId = null;
+  }
+
   try{
+    await new Promise((resolve,reject)=>{
+      navigator.geolocation.getCurrentPosition(resolve,reject,{
+        enableHighAccuracy:true,
+        timeout:15000,
+        maximumAge:0
+      });
+    });
 
     await update(
-      ref(
-        db,
-        "orders/" + orderId
-      ),
+      ref(db,"orders/" + orderId),
       {
-
-        status:
-        "out_for_delivery",
-
-        trackingActive:
-        true,
-
-        deliveryStartedAt:
-        new Date().toISOString()
-
+        status:"out_for_delivery",
+        trackingActive:true,
+        deliveryStartedAt:new Date().toISOString(),
+        deliveryLatitude:null,
+        deliveryLongitude:null,
+        deliveryAccuracy:null,
+        deliveryUpdatedAt:null
       }
     );
 
+    activeDeliveryOrderId = orderId;
+    localStorage.setItem("farmFreshActiveDeliveryOrder", orderId);
 
-    alert(
-      "🚚 Delivery started.\n\n" +
-      "Live location tracking is now active."
+    deliveryWatchId = navigator.geolocation.watchPosition(
+      async position => {
+        if(activeDeliveryOrderId !== orderId) return;
+
+        try{
+          await update(
+            ref(db,"orders/" + orderId),
+            {
+              deliveryLatitude:position.coords.latitude,
+              deliveryLongitude:position.coords.longitude,
+              deliveryAccuracy:position.coords.accuracy,
+              deliveryUpdatedAt:new Date().toISOString(),
+              trackingActive:true
+            }
+          );
+        }catch(error){
+          console.error("Live location update failed:",error);
+        }
+      },
+      error => {
+        console.error("GPS error:",error);
+        alert("⚠️ Delivery started, but live GPS could not be updated. Please allow location permission.");
+      },
+      {enableHighAccuracy:true,maximumAge:5000,timeout:15000}
     );
 
-  }
-  catch(error){
+    alert("🚚 Delivery started.
 
-    alert(
-      "❌ Could not start delivery:\n" +
-      error.message
-    );
+📍 Your live location is now being shared with the customer.");
 
+  }catch(error){
+    alert("❌ Could not start live delivery tracking.
+
+Please allow location permission and try again.");
   }
 
 };
@@ -975,65 +1067,45 @@ async function(orderId){
 window.markDelivered =
 async function(orderId){
 
-  const confirmDelivery =
-    confirm(
-      "Mark this order as DELIVERED?\n\n" +
-      "This will also STOP live delivery location sharing."
-    );
+  const confirmDelivery = confirm(
+    "Mark this order as DELIVERED?
 
+This will also STOP live delivery location sharing."
+  );
 
-  if(!confirmDelivery){
-    return;
-  }
-
+  if(!confirmDelivery) return;
 
   try{
+    if(activeDeliveryOrderId === orderId && deliveryWatchId !== null){
+      navigator.geolocation.clearWatch(deliveryWatchId);
+      deliveryWatchId = null;
+      activeDeliveryOrderId = null;
+    }
+
+    if(localStorage.getItem("farmFreshActiveDeliveryOrder") === orderId){
+      localStorage.removeItem("farmFreshActiveDeliveryOrder");
+    }
 
     await update(
-      ref(
-        db,
-        "orders/" + orderId
-      ),
+      ref(db,"orders/" + orderId),
       {
-
-        status:
-        "delivered",
-
-        trackingActive:
-        false,
-
-        deliveryLatitude:
-        null,
-
-        deliveryLongitude:
-        null,
-
-        deliveryAccuracy:
-        null,
-
-        deliveryUpdatedAt:
-        null,
-
-        deliveryStoppedAt:
-        new Date().toISOString()
-
+        status:"delivered",
+        trackingActive:false,
+        deliveryLatitude:null,
+        deliveryLongitude:null,
+        deliveryAccuracy:null,
+        deliveryUpdatedAt:null,
+        deliveryStoppedAt:new Date().toISOString()
       }
     );
 
+    alert("✅ Order marked as delivered.
 
-    alert(
-      "✅ Order marked as delivered.\n\n" +
-      "🛑 Live delivery location sharing has been stopped."
-    );
+🛑 Live delivery location sharing has been stopped.");
 
-  }
-  catch(error){
-
-    alert(
-      "❌ Could not mark delivered:\n" +
-      error.message
-    );
-
+  }catch(error){
+    alert("❌ Could not mark delivered:
+" + error.message);
   }
 
 };
@@ -1317,15 +1389,7 @@ function playOrderSound(){
         body:
         "A new order has arrived."
       }
-    );
-
-  }
-
-}
-
-
-
-/* =========================
+    /* =========================
    HTML SECURITY
 ========================= */
 
