@@ -4,52 +4,247 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Farm Fresh Chicken Market</title>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#fffaf5;color:#222}
-header{background:#fff;padding:14px 12px;text-align:center;position:sticky;top:0;z-index:10;box-shadow:0 2px 8px #ddd}
-header h2{margin:4px 0 10px}
-nav a{margin:5px;text-decoration:none;color:#222;font-weight:bold;font-size:13px}
-section{padding:35px 15px;max-width:1000px;margin:auto}
-.hero{text-align:center;background:#ffe4c4;padding:55px 15px}
-.hero h1{font-size:42px;margin:10px}
-.hero span{color:#d43d16}
-.btn{padding:12px 18px;border:0;border-radius:10px;background:#d43d16;color:#fff;font-weight:bold;cursor:pointer;text-decoration:none;display:inline-block}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.card{background:#fff;padding:15px;border-radius:15px;box-shadow:0 2px 10px #ddd}
-.card h3{margin:8px 0}
-.price{color:#d43d16;font-weight:bold;margin-bottom:10px}
-.card button{width:100%}
-.order{background:#222;color:#fff;border-radius:18px;padding:20px}
-input,select,textarea{width:100%;padding:12px;margin:6px 0;border:0;border-radius:8px;font-size:15px}
-textarea{height:80px}
-.cart{background:#fff;color:#222;border-radius:12px;padding:15px;margin:15px 0}
-.cart-item{border-bottom:1px solid #ddd;padding:12px 0}
-.cart-item:last-child{border-bottom:0}
-.cart-row{display:flex;justify-content:space-between;gap:10px;align-items:center}
-.qty-controls{display:flex;align-items:center;gap:8px;margin-top:8px}
-.qty-controls button{border:0;border-radius:7px;padding:7px 12px;cursor:pointer}
-.remove{background:#d62828;color:#fff}
-.total{font-size:20px;font-weight:bold;text-align:right;margin-top:12px}
-.status{min-height:24px}
-.photos{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.photos img{width:100%;height:180px;object-fit:cover;border-radius:12px}
-.map{width:100%;height:300px;border:0;border-radius:12px}
-.qr{text-align:center;background:#fff;padding:25px;border-radius:15px;box-shadow:0 2px 10px #ddd}
-.qr img{width:220px;height:220px;max-width:80%;border-radius:8px}
-footer{text-align:center;background:#111;color:#fff;padding:20px}
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#fffaf5;
+  color:#222;
+}
+
+header{
+  background:#fff;
+  padding:14px 12px;
+  text-align:center;
+  position:sticky;
+  top:0;
+  z-index:10;
+  box-shadow:0 2px 8px #ddd;
+}
+
+header h2{
+  margin:4px 0 10px;
+}
+
+nav a{
+  margin:5px;
+  text-decoration:none;
+  color:#222;
+  font-weight:bold;
+  font-size:13px;
+}
+
+section{
+  padding:35px 15px;
+  max-width:1000px;
+  margin:auto;
+}
+
+.hero{
+  text-align:center;
+  background:#ffe4c4;
+  padding:55px 15px;
+}
+
+.hero h1{
+  font-size:42px;
+  margin:10px;
+}
+
+.hero span{
+  color:#d43d16;
+}
+
+.btn{
+  padding:12px 18px;
+  border:0;
+  border-radius:10px;
+  background:#d43d16;
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-block;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+
+.card{
+  background:#fff;
+  padding:15px;
+  border-radius:15px;
+  box-shadow:0 2px 10px #ddd;
+}
+
+.card h3{
+  margin:8px 0;
+}
+
+.price{
+  color:#d43d16;
+  font-weight:bold;
+  margin-bottom:10px;
+}
+
+.card button{
+  width:100%;
+}
+
+.order{
+  background:#222;
+  color:#fff;
+  border-radius:18px;
+  padding:20px;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  padding:12px;
+  margin:6px 0;
+  border:0;
+  border-radius:8px;
+  font-size:15px;
+}
+
+textarea{
+  height:80px;
+}
+
+.cart{
+  background:#fff;
+  color:#222;
+  border-radius:12px;
+  padding:15px;
+  margin:15px 0;
+}
+
+.cart-item{
+  border-bottom:1px solid #ddd;
+  padding:12px 0;
+}
+
+.cart-item:last-child{
+  border-bottom:0;
+}
+
+.cart-row{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+}
+
+.qty-controls{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:8px;
+}
+
+.qty-controls button{
+  border:0;
+  border-radius:7px;
+  padding:7px 12px;
+  cursor:pointer;
+}
+
+.remove{
+  background:#d62828;
+  color:#fff;
+}
+
+.total{
+  font-size:20px;
+  font-weight:bold;
+  text-align:right;
+  margin-top:12px;
+}
+
+.status{
+  min-height:24px;
+}
+
+.photos{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.photos img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  border-radius:12px;
+}
+
+.map{
+  width:100%;
+  height:300px;
+  border:0;
+  border-radius:12px;
+}
+
+.qr{
+  text-align:center;
+  background:#fff;
+  padding:25px;
+  border-radius:15px;
+  box-shadow:0 2px 10px #ddd;
+}
+
+.qr img{
+  width:220px;
+  height:220px;
+  max-width:80%;
+  border-radius:8px;
+}
+
+footer{
+  text-align:center;
+  background:#111;
+  color:#fff;
+  padding:20px;
+}
+
 @media(max-width:600px){
-.hero h1{font-size:35px}
-.grid{grid-template-columns:repeat(2,1fr)}
-.photos{grid-template-columns:repeat(2,1fr)}
-.card{padding:10px}
+
+  .hero h1{
+    font-size:35px;
+  }
+
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .photos{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .card{
+    padding:10px;
+  }
+
 }
 </style>
 </head>
+
 <body>
 
 <header>
+
 <h2>🍗 Farm Fresh Chicken Market</h2>
+
 <nav>
 <a href="#home">Home</a>
 <a href="#products">Products</a>
@@ -58,370 +253,1387 @@ footer{text-align:center;background:#111;color:#fff;padding:20px}
 <a href="#photos">Photos</a>
 <a href="#qr">QR</a>
 </nav>
+
 </header>
 
+
 <section class="hero" id="home">
+
 <h1>Fresh & <span>Tender</span> Chicken</h1>
-<p>Fresh quality chicken available in Kondapur, Hyderabad.</p>
-<a class="btn" href="#products">Order Now</a>
+
+<p>
+Fresh quality chicken available in Kondapur, Hyderabad.
+</p>
+
+<a class="btn" href="#products">
+Order Now
+</a>
+
 </section>
+
 
 <section id="products">
+
 <h2>🐔 Our Products</h2>
-<p>Add as many products as you want. They will be sent together as one order.</p>
+
+<p>
+Add as many products as you want. They will be sent together as one order.
+</p>
+
 <div class="grid">
-<div class="card"><h3>Live Chicken</h3><div class="price">₹160/kg</div><button class="btn" onclick="addToCart('Live Chicken',160)">Add</button></div>
-<div class="card"><h3>Dressed Chicken</h3><div class="price">₹220/kg</div><button class="btn" onclick="addToCart('Dressed Chicken',220)">Add</button></div>
-<div class="card"><h3>Skinless Chicken</h3><div class="price">₹240/kg</div><button class="btn" onclick="addToCart('Skinless Chicken',240)">Add</button></div>
-<div class="card"><h3>Boneless Chicken</h3><div class="price">₹420/kg</div><button class="btn" onclick="addToCart('Boneless Chicken',420)">Add</button></div>
-<div class="card"><h3>Drumsticks</h3><div class="price">₹300/kg</div><button class="btn" onclick="addToCart('Drumsticks',300)">Add</button></div>
-<div class="card"><h3>Chicken Lollipops</h3><div class="price">₹300/kg</div><button class="btn" onclick="addToCart('Chicken Lollipops',300)">Add</button></div>
-<div class="card"><h3>Legs & Breast</h3><div class="price">₹280/kg</div><button class="btn" onclick="addToCart('Legs & Breast',280)">Add</button></div>
-<div class="card"><h3>Chicken Liver</h3><div class="price">₹140/kg</div><button class="btn" onclick="addToCart('Chicken Liver',140,'kg')">Add</button></div>
-<div class="card"><h3>🥚 Eggs - Dozen</h3><div class="price">₹70 / dozen</div><button class="btn" onclick="addToCart('Eggs - Dozen',70,'dozen')">Add</button></div>
-<div class="card"><h3>🥚 Eggs - Tray</h3><div class="price">₹180 / tray</div><button class="btn" onclick="addToCart('Eggs - Tray',180,'tray')">Add</button></div>
+
+<div class="card">
+<h3>Live Chicken</h3>
+<div class="price">₹160/kg</div>
+<button class="btn"
+onclick="addToCart('Live Chicken',160)">
+Add
+</button>
 </div>
+
+
+<div class="card">
+<h3>Dressed Chicken</h3>
+<div class="price">₹220/kg</div>
+<button class="btn"
+onclick="addToCart('Dressed Chicken',220)">
+Add
+</button>
+</div>
+
+
+<div class="card">
+<h3>Skinless Chicken</h3>
+<div class="price">₹240/kg</div>
+<button class="btn"
+onclick="addToCart('Skinless Chicken',240)">
+Add
+</button>
+</div>
+
+
+<div class="card">
+<h3>Boneless Chicken</h3>
+<div class="price">₹420/kg</div>
+<button class="btn"
+onclick="addToCart('Boneless Chicken',420)">
+Add
+</button>
+</div>
+
+
+<div class="card">
+<h3>Drumsticks</h3>
+<div class="price">₹300/kg</div>
+<button class="btn"
+onclick="addToCart('Drumsticks',300)">
+Add
+</button>
+</div>
+
+
+<div class="card">
+<h3>Chicken Lollipops</h3>
+<div class="price">₹300/kg</div>
+<button class="btn"
+onclick="addToCart('Chicken Lollipops',300)">
+Add
+</button>
+</div>
+
+
+<div class="card">
+<h3>Legs & Breast</h3>
+<div class="price">₹280/kg</div>
+<button class="btn"
+onclick="addToCart('Legs & Breast',280)">
+Add
+</button>
+</div>
+
+
+<div class="card">
+<h3>Chicken Liver</h3>
+<div class="price">₹140/kg</div>
+<button class="btn"
+onclick="addToCart('Chicken Liver',140,'kg')">
+Add
+</button>
+</div>
+
+
+<div class="card">
+<h3>🥚 Eggs - Dozen</h3>
+<div class="price">₹70 / dozen</div>
+<button class="btn"
+onclick="addToCart('Eggs - Dozen',70,'dozen')">
+Add
+</button>
+</div>
+
+
+<div class="card">
+<h3>🥚 Eggs - Tray</h3>
+<div class="price">₹180 / tray</div>
+<button class="btn"
+onclick="addToCart('Eggs - Tray',180,'tray')">
+Add
+</button>
+</div>
+
+</div>
+
 </section>
+
 
 <section id="order">
+
 <div class="order">
+
 <h2>📦 Place Order</h2>
 
+
 <div class="cart">
+
 <h3>🛒 Your Cart</h3>
-<div id="cartItems"><p>Your cart is empty.</p></div>
-<div class="total">Total: ₹<span id="cartTotal">0.00</span></div>
+
+<div id="cartItems">
+<p>Your cart is empty.</p>
 </div>
 
-<input id="name" placeholder="Your Name">
-<input id="phone" placeholder="Phone Number">
+<div class="total">
+Total: ₹<span id="cartTotal">0.00</span>
+</div>
+
+</div>
+
+
+<input
+id="name"
+placeholder="Your Name"
+>
+
+
+<input
+id="phone"
+placeholder="Phone Number"
+>
+
 
 <select id="deliveryType">
-<option value="">Delivery For?</option>
-<option value="me">📍 For Me</option>
-<option value="someone">👤 For Someone Else</option>
+
+<option value="">
+Delivery For?
+</option>
+
+<option value="me">
+📍 For Me
+</option>
+
+<option value="someone">
+👤 For Someone Else
+</option>
+
 </select>
 
-<textarea id="address" placeholder="Delivery Address"></textarea>
 
-<p id="locationStatus" class="status">📍 Location will be checked before ordering.</p>
+<textarea
+id="address"
+placeholder="Delivery Address">
+</textarea>
 
-<button class="btn" style="width:100%" onclick="sendOrder()">Confirm Order</button>
+
+<p
+id="locationStatus"
+class="status">
+📍 Location will be checked before ordering.
+</p>
+
+
+<button
+class="btn"
+style="width:100%"
+onclick="sendOrder()">
+
+Confirm Order
+
+</button>
+
 </div>
+
 </section>
+
 
 <section id="location">
+
 <h2>📍 Our Shop Location</h2>
+
 <p>
+
 Farm Fresh Chicken Market<br>
+
 Kondapur, Raghavendra Colony,<br>
+
 Near 1st Pole, Hyderabad
+
 </p>
-<a class="btn" href="https://maps.app.goo.gl/FEYic1oimazVzHEh7?g_st=ac" target="_blank">Open Shop in Google Maps</a>
+
+
+<a
+class="btn"
+href="https://maps.app.goo.gl/FEYic1oimazVzHEh7?g_st=ac"
+target="_blank">
+
+Open Shop in Google Maps
+
+</a>
+
 <br><br>
-<a class="btn" href="https://www.google.com/maps/dir/?api=1&destination=17.470028,78.364139" target="_blank">🧭 Get Directions</a>
+
+
+<a
+class="btn"
+href="https://www.google.com/maps/dir/?api=1&destination=17.470028,78.364139"
+target="_blank">
+
+🧭 Get Directions
+
+</a>
+
 <br><br>
-<iframe class="map" src="https://www.google.com/maps?q=17.470028,78.364139&output=embed" loading="lazy"></iframe>
+
+
+<iframe
+class="map"
+src="https://www.google.com/maps?q=17.470028,78.364139&output=embed"
+loading="lazy">
+</iframe>
+
 </section>
+
 
 <section id="photos">
+
 <h2>📸 Shop Photos</h2>
+
 <div class="photos">
-<img src="images/4811bcd4c11d9bffbd6b0453c955913c.png" alt="Shop photo">
-<img src="images/Screenshot_20260915_223216.jpg" alt="Shop photo">
-<img src="images/Screenshot_20260915_223237.jpg" alt="Shop photo">
-<img src="images/Screenshot_20260916_080217.jpg" alt="Shop photo">
-<img src="images/f99a18de-d90f-4ed0-93b5-af9dc9e6372f.jpg" alt="Shop photo">
+
+<img
+src="images/4811bcd4c11d9bffbd6b0453c955913c.png"
+alt="Shop photo"
+>
+
+<img
+src="images/Screenshot_20260915_223216.jpg"
+alt="Shop photo"
+>
+
+<img
+src="images/Screenshot_20260915_223237.jpg"
+alt="Shop photo"
+>
+
+<img
+src="images/Screenshot_20260916_080217.jpg"
+alt="Shop photo"
+>
+
+<img
+src="images/f99a18de-d90f-4ed0-93b5-af9dc9e6372f.jpg"
+alt="Shop photo"
+>
+
 </div>
+
 </section>
+
 
 <section id="qr">
+
 <div class="qr">
+
 <h2>📱 Scan to Open Our Website</h2>
-<p>Scan this QR code with your phone camera.</p>
-<img src="https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=https%3A%2F%2Fakulasreekaran.github.io%2FFram-Fresh-Chicken-Market-%2F" alt="Farm Fresh Chicken Market website QR code">
-<p><b>Farm Fresh Chicken Market</b></p>
+
+<p>
+Scan this QR code with your phone camera.
+</p>
+
+<img
+src="https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=https%3A%2F%2Fakulasreekaran.github.io%2FFram-Fresh-Chicken-Market-%2F"
+alt="Farm Fresh Chicken Market website QR code"
+>
+
+<p>
+<b>Farm Fresh Chicken Market</b>
+</p>
+
 </div>
+
 </section>
+
 
 <section>
+
 <h2>📞 Contact Us</h2>
-<p>Call / WhatsApp: <b>8121321120</b></p>
-<a class="btn" href="https://wa.me/918121321120" target="_blank">WhatsApp Us</a>
+
+<p>
+Call / WhatsApp:
+<b>8121321120</b>
+</p>
+
+<a
+class="btn"
+href="https://wa.me/918121321120"
+target="_blank">
+
+WhatsApp Us
+
+</a>
+
 </section>
 
+
 <footer>
+
 © Farm Fresh Chicken Market
+
 </footer>
 
+
 <script type="module">
-import {initializeApp} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-import {getDatabase,ref,push,update} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
+
+import {
+initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+
+
+import {
+getDatabase,
+ref,
+push,
+update
+}
+from
+"https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
+
 
 const firebaseConfig={
-apiKey:"AIzaSyCcKIDaVUTCzin0tP6oN16ABrexjGOS50M",
-authDomain:"farm-fresh-chicken-market.firebaseapp.com",
-databaseURL:"https://farm-fresh-chicken-market-default-rtdb.firebaseio.com",
-projectId:"farm-fresh-chicken-market",
-storageBucket:"farm-fresh-chicken-market.firebasestorage.app",
-messagingSenderId:"184530252526",
-appId:"1:184530252526:web:f7427c6a46eb76201df9ff"
+
+apiKey:
+"AIzaSyCcKIDaVUTCzin0tP6oN16ABrexjGOS50M",
+
+authDomain:
+"farm-fresh-chicken-market.firebaseapp.com",
+
+databaseURL:
+"https://farm-fresh-chicken-market-default-rtdb.firebaseio.com",
+
+projectId:
+"farm-fresh-chicken-market",
+
+storageBucket:
+"farm-fresh-chicken-market.firebasestorage.app",
+
+messagingSenderId:
+"184530252526",
+
+appId:
+"1:184530252526:web:f7427c6a46eb76201df9ff"
+
 };
 
+
 const app=initializeApp(firebaseConfig);
+
 const db=getDatabase(app);
 
+
 const SHOP_LAT=17.470028;
+
 const SHOP_LNG=78.364139;
+
 const MAX_DISTANCE_KM=2;
+
 
 const cart={};
 
-window.addToCart=function(name,price,unit='kg'){
-if(!cart[name])cart[name]={price:price,quantity:0,unit:unit};
-cart[name].quantity+=1;
-renderCart();
-document.getElementById("order").scrollIntoView({behavior:"smooth"});
+
+/* =========================
+   CART
+========================= */
+
+window.addToCart=function(
+name,
+price,
+unit='kg'
+){
+
+if(!cart[name]){
+
+cart[name]={
+price:price,
+quantity:0,
+unit:unit
 };
 
-window.changeQuantity=function(name,change){
-if(!cart[name])return;
-cart[name].quantity+=change;
-if(cart[name].quantity<=0)delete cart[name];
+}
+
+cart[name].quantity+=1;
+
 renderCart();
+
+document
+.getElementById("order")
+.scrollIntoView({
+behavior:"smooth"
+});
+
 };
+
+
+window.changeQuantity=function(
+name,
+change
+){
+
+if(!cart[name])return;
+
+cart[name].quantity+=change;
+
+if(cart[name].quantity<=0){
+
+delete cart[name];
+
+}
+
+renderCart();
+
+};
+
 
 window.removeFromCart=function(name){
+
 delete cart[name];
+
 renderCart();
+
 };
+
 
 function renderCart(){
-const box=document.getElementById("cartItems");
-const names=Object.keys(cart);
+
+const box=
+document.getElementById("cartItems");
+
+const names=
+Object.keys(cart);
+
 let total=0;
 
+
 if(names.length===0){
-box.innerHTML="<p>Your cart is empty. Add products above.</p>";
-document.getElementById("cartTotal").innerText="0.00";
+
+box.innerHTML=
+"<p>Your cart is empty. Add products above.</p>";
+
+document
+.getElementById("cartTotal")
+.innerText="0.00";
+
 return;
+
 }
+
 
 box.innerHTML="";
+
+
 names.forEach(name=>{
+
 const item=cart[name];
-const itemTotal=item.price*item.quantity;
+
+const itemTotal=
+item.price*item.quantity;
+
 total+=itemTotal;
 
-const div=document.createElement("div");
+
+const div=
+document.createElement("div");
+
 div.className="cart-item";
+
+
 div.innerHTML=`
+
 <div class="cart-row">
-<div><b>${escapeHtml(name)}</b><br>₹${item.price}/${escapeHtml(item.unit || 'kg')}</div>
-<div><b>₹${itemTotal.toFixed(2)}</b></div>
+
+<div>
+<b>${escapeHtml(name)}</b>
+<br>
+₹${item.price}/${escapeHtml(item.unit || 'kg')}
 </div>
+
+<div>
+<b>₹${itemTotal.toFixed(2)}</b>
+</div>
+
+</div>
+
+
 <div class="qty-controls">
-<button onclick="changeQuantity('${escapeJs(name)}',-1)">−</button>
-<b>${item.quantity} ${escapeHtml(item.unit || 'kg')}${item.quantity===1 ? '' : (item.unit==='dozen'?'s':item.unit==='tray'?'s':'')}</b>
-<button onclick="changeQuantity('${escapeJs(name)}',1)">+</button>
-<button class="remove" onclick="removeFromCart('${escapeJs(name)}')">Remove</button>
-</div>`;
+
+<button
+onclick="changeQuantity('${escapeJs(name)}',-1)">
+−
+</button>
+
+<b>
+${item.quantity}
+${escapeHtml(item.unit || 'kg')}
+${item.quantity===1
+?
+''
+:
+(item.unit==='dozen'
+?
+'s'
+:
+item.unit==='tray'
+?
+'s'
+:
+'')}
+</b>
+
+<button
+onclick="changeQuantity('${escapeJs(name)}',1)">
++
+</button>
+
+<button
+class="remove"
+onclick="removeFromCart('${escapeJs(name)}')">
+
+Remove
+
+</button>
+
+</div>
+`;
+
+
 box.appendChild(div);
+
 });
 
-document.getElementById("cartTotal").innerText=total.toFixed(2);
+
+document
+.getElementById("cartTotal")
+.innerText=
+total.toFixed(2);
+
 }
+
 
 function escapeHtml(value){
-return String(value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+
+return String(value)
+.replace(
+/[&<>"']/g,
+c=>({
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#039;"
+}[c])
+);
+
 }
+
 
 function escapeJs(value){
-return String(value).replace(/\\/g,"\\\\").replace(/'/g,"\\'");
+
+return String(value)
+.replace(/\\/g,"\\\\")
+.replace(/'/g,"\\'");
+
 }
+
 
 function getCartTotal(){
-return Object.values(cart).reduce((sum,item)=>sum+(item.price*item.quantity),0);
+
+return Object
+.values(cart)
+.reduce(
+(sum,item)=>
+sum+(item.price*item.quantity),
+0
+);
+
 }
+
 
 function getCartText(){
-return Object.entries(cart).map(([name,item])=>
-`${name} - ${item.quantity} kg x ₹${item.price} = ₹${(item.quantity*item.price).toFixed(2)}`
-).join("\n");
+
+return Object
+.entries(cart)
+.map(
+([name,item])=>
+
+`${name} - ${item.quantity} ${item.unit || 'kg'} x ₹${item.price} = ₹${(item.quantity*item.price).toFixed(2)}`
+
+)
+.join("\n");
+
 }
 
-function distanceKm(lat1,lon1,lat2,lon2){
+
+/* =========================
+   DISTANCE
+========================= */
+
+function distanceKm(
+lat1,
+lon1,
+lat2,
+lon2
+){
+
 const R=6371;
-const dLat=(lat2-lat1)*Math.PI/180;
-const dLon=(lon2-lon1)*Math.PI/180;
-const a=Math.sin(dLat/2)**2+
-Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
-return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+
+const dLat=
+(lat2-lat1)*Math.PI/180;
+
+const dLon=
+(lon2-lon1)*Math.PI/180;
+
+
+const a=
+Math.sin(dLat/2)**2+
+
+Math.cos(lat1*Math.PI/180)*
+Math.cos(lat2*Math.PI/180)*
+Math.sin(dLon/2)**2;
+
+
+return R*
+2*
+Math.atan2(
+Math.sqrt(a),
+Math.sqrt(1-a)
+);
+
 }
+
+
+/* =========================
+   LOCATION STATUS
+========================= */
 
 function locationMessage(text){
-document.getElementById("locationStatus").innerText=text;
+
+document
+.getElementById("locationStatus")
+.innerText=text;
+
 }
+
+
+/* =========================
+   CUSTOMER GPS
+   ONLY USED ONCE FOR
+   2 KM VALIDATION
+========================= */
 
 function getMyLocation(){
-return new Promise((resolve,reject)=>{
+
+return new Promise(
+(resolve,reject)=>{
+
 if(!navigator.geolocation){
-reject(new Error("GPS is not supported."));
-return;
-}
-locationMessage("📍 Getting your current location...");
-navigator.geolocation.getCurrentPosition(
-position=>resolve({
-lat:position.coords.latitude,
-lng:position.coords.longitude
-}),
-()=>reject(new Error("Please allow location permission.")),
-{enableHighAccuracy:true,timeout:15000,maximumAge:0}
+
+reject(
+new Error(
+"GPS is not supported."
+)
 );
-});
+
+return;
+
 }
+
+
+locationMessage(
+"📍 Getting your current location..."
+);
+
+
+navigator.geolocation.getCurrentPosition(
+
+position=>
+
+resolve({
+
+lat:
+position.coords.latitude,
+
+lng:
+position.coords.longitude
+
+}),
+
+()=>reject(
+new Error(
+"Please allow location permission."
+)
+),
+
+{
+enableHighAccuracy:true,
+timeout:15000,
+maximumAge:0
+}
+
+);
+
+});
+
+}
+
+
+/* =========================
+   OTHER PERSON LOCATION
+========================= */
 
 async function getOtherLocation(){
-const input=document.getElementById("address").value.trim();
 
-if(!input)throw new Error("Enter the delivery address.");
+const input=
+document
+.getElementById("address")
+.value
+.trim();
 
-locationMessage("📍 Checking delivery location...");
+
+if(!input){
+
+throw new Error(
+"Enter the delivery address."
+);
+
+}
+
+
+locationMessage(
+"📍 Checking delivery location..."
+);
+
 
 const url=
+
 "https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=in&q="+
+
 encodeURIComponent(input);
 
-const response=await fetch(url);
 
-if(!response.ok)throw new Error("Could not check this location.");
+const response=
+await fetch(url);
 
-const results=await response.json();
 
-if(!results.length)
-throw new Error("Location not found. Enter a more complete address.");
+if(!response.ok){
+
+throw new Error(
+"Could not check this location."
+);
+
+}
+
+
+const results=
+await response.json();
+
+
+if(!results.length){
+
+throw new Error(
+"Location not found. Enter a more complete address."
+);
+
+}
+
 
 return{
-lat:parseFloat(results[0].lat),
-lng:parseFloat(results[0].lon)
+
+lat:
+parseFloat(results[0].lat),
+
+lng:
+parseFloat(results[0].lon)
+
 };
+
 }
+
+
+/* =========================
+   SEND ORDER
+========================= */
 
 window.sendOrder=async function(){
-const name=document.getElementById("name").value.trim();
-const phone=document.getElementById("phone").value.trim();
-const deliveryType=document.getElementById("deliveryType").value;
-const address=document.getElementById("address").value.trim();
 
-if(Object.keys(cart).length===0){
-alert("Please add at least one product to your cart.");
+const name=
+document
+.getElementById("name")
+.value
+.trim();
+
+
+const phone=
+document
+.getElementById("phone")
+.value
+.trim();
+
+
+const deliveryType=
+document
+.getElementById("deliveryType")
+.value;
+
+
+const address=
+document
+.getElementById("address")
+.value
+.trim();
+
+
+if(
+Object.keys(cart).length===0
+){
+
+alert(
+"Please add at least one product to your cart."
+);
+
 return;
+
 }
 
-if(!name||!phone||!deliveryType||!address){
-alert("Please fill all order details.");
+
+if(
+!name ||
+!phone ||
+!deliveryType ||
+!address
+){
+
+alert(
+"Please fill all order details."
+);
+
 return;
+
 }
+
 
 try{
+
 let location;
 
-if(deliveryType==="me"){
-location=await getMyLocation();
-}else{
-location=await getOtherLocation();
+
+/* =========================
+   GET DELIVERY LOCATION
+========================= */
+
+if(
+deliveryType==="me"
+){
+
+location=
+await getMyLocation();
+
 }
 
-const distance=distanceKm(
-SHOP_LAT,SHOP_LNG,
-location.lat,location.lng
+else{
+
+location=
+await getOtherLocation();
+
+}
+
+
+/* =========================
+   CHECK 2 KM
+========================= */
+
+const distance=
+distanceKm(
+SHOP_LAT,
+SHOP_LNG,
+location.lat,
+location.lng
 );
 
-locationMessage("📍 Distance from shop: "+distance.toFixed(2)+" km");
 
-if(distance>MAX_DISTANCE_KM){
-alert("Sorry. Delivery is available only within 2 km of our Kondapur shop.");
+locationMessage(
+"📍 Distance from shop: "+
+distance.toFixed(2)+
+" km"
+);
+
+
+if(
+distance>MAX_DISTANCE_KM
+){
+
+alert(
+"Sorry. Delivery is available only within 2 km of our Kondapur shop."
+);
+
 return;
+
 }
 
-const total=getCartTotal();
 
-const products=Object.entries(cart).map(([name,item])=>({
+/* =========================
+   ORDER DATA
+========================= */
+
+const total=
+getCartTotal();
+
+
+const products=
+Object
+.entries(cart)
+.map(
+([name,item])=>({
+
 name:name,
+
 price:item.price,
+
 unit:item.unit || 'kg',
+
 quantity:item.quantity,
-subtotal:Number((item.price*item.quantity).toFixed(2))
-}));
+
+subtotal:
+Number(
+(item.price*item.quantity)
+.toFixed(2)
+)
+
+})
+);
+
 
 const customerMapLink=
-"https://www.google.com/maps?q="+location.lat+","+location.lng;
+
+"https://www.google.com/maps?q="+
+location.lat+
+","+
+location.lng;
+
 
 const directionsLink=
+
 "https://www.google.com/maps/dir/?api=1&origin="+
-SHOP_LAT+","+SHOP_LNG+
-"&destination="+location.lat+","+location.lng;
+
+SHOP_LAT+
+","+
+SHOP_LNG+
+
+"&destination="+
+location.lat+
+","+
+location.lng;
+
 
 const orderData={
+
 name:name,
+
 phone:phone,
-deliveryFor:deliveryType==="me"?"For Me":"For Someone Else",
+
+deliveryFor:
+deliveryType==="me"
+?
+"For Me"
+:
+"For Someone Else",
+
 products:products,
+
 address:address,
-customerLatitude:location.lat,
-customerLongitude:location.lng,
-customerMapLink:customerMapLink,
-directionsLink:directionsLink,
-distanceFromShop:Number(distance.toFixed(2)),
-total:Number(total.toFixed(2)),
-status:"new",
-liveLocationActive:false,
-createdAt:new Date().toISOString()
+
+customerLatitude:
+location.lat,
+
+customerLongitude:
+location.lng,
+
+customerMapLink:
+customerMapLink,
+
+directionsLink:
+directionsLink,
+
+distanceFromShop:
+Number(
+distance.toFixed(2)
+),
+
+total:
+Number(
+total.toFixed(2)
+),
+
+status:
+"new",
+
+liveLocationActive:
+false,
+
+createdAt:
+new Date().toISOString()
+
 };
 
-const newOrderRef=await push(ref(db,"orders"),orderData);
-const orderId=newOrderRef.key;
-await update(ref(db,"tracking/"+orderId),{status:"new",trackingActive:false,deliveryLatitude:null,deliveryLongitude:null,deliveryAccuracy:null,deliveryUpdatedAt:null,updatedAt:new Date().toISOString()});
 
+/* =========================
+   SAVE ORDER
+========================= */
 
-const message=
-"🍗 NEW ORDER\n\n"+
-"Name: "+name+"\n"+
-"Phone: "+phone+"\n\n"+
-"PRODUCTS:\n"+
-getCartText()+"\n\n"+
-"TOTAL: ₹"+total.toFixed(2)+"\n\n"+
-"Delivery: "+orderData.deliveryFor+"\n"+
-"Address: "+address+"\n\n"+
-"Distance: "+distance.toFixed(2)+" km\n\n"+
-"Customer Location:\n"+customerMapLink;
-
-locationMessage("✅ Order placed! 📡 Live location sharing is active.");
-
-alert("Order placed successfully!\n\nTotal: ₹"+total.toFixed(2)+"\n\n📡 Live location sharing is now active while this page remains open.");
-
-window.open(
-"https://wa.me/918121321120?text="+encodeURIComponent(message),
-"_blank"
+const newOrderRef=
+await push(
+ref(db,"orders"),
+orderData
 );
 
-}catch(error){
-console.error(error);
-alert(error.message||"Something went wrong. Please try again.");
+
+const orderId=
+newOrderRef.key;
+
+
+/* =========================
+   CREATE PUBLIC TRACKING
+========================= */
+
+await update(
+ref(
+db,
+"tracking/"+orderId
+),
+{
+
+status:"new",
+
+trackingActive:false,
+
+deliveryLatitude:null,
+
+deliveryLongitude:null,
+
+deliveryAccuracy:null,
+
+deliveryUpdatedAt:null,
+
+updatedAt:
+new Date().toISOString()
+
 }
+);
+
+
+/* =========================
+   CUSTOMER TRACKING LINK
+========================= */
+
+const trackingLink=
+
+"https://akulasreekaran.github.io/Fram-Fresh-Chicken-Market-/track.html?order="+
+
+encodeURIComponent(orderId);
+
+
+/* ==================================================
+   MESSAGE 1 — OWNER WHATSAPP
+================================================== */
+
+const ownerMessage=
+
+"🍗 NEW ORDER - FARM FRESH CHICKEN MARKET\n\n"+
+
+"Name: "+
+name+
+"\n"+
+
+"Phone: "+
+phone+
+"\n\n"+
+
+"PRODUCTS:\n"+
+
+getCartText()+
+
+"\n\n"+
+
+"TOTAL: ₹"+
+total.toFixed(2)+
+
+"\n\n"+
+
+"Delivery: "+
+orderData.deliveryFor+
+
+"\n"+
+
+"Address: "+
+address+
+
+"\n"+
+
+"Distance: "+
+distance.toFixed(2)+
+" km"+
+
+"\n\n"+
+
+"📍 CUSTOMER LOCATION:\n"+
+customerMapLink+
+
+"\n\n"+
+
+"🧭 GET DIRECTIONS:\n"+
+directionsLink+
+
+"\n\n"+
+
+"🖥️ OWNER DASHBOARD:\n"+
+
+"https://akulasreekaran.github.io/Fram-Fresh-Chicken-Market-/owner.html?order="+
+
+encodeURIComponent(orderId)+
+
+"\n\n"+
+
+"🆔 ORDER ID: "+
+orderId;
+
+
+/* ==================================================
+   MESSAGE 2 — CUSTOMER WHATSAPP
+================================================== */
+
+const customerMessage=
+
+"🍗 FARM FRESH CHICKEN MARKET\n\n"+
+
+"✅ Your order has been received successfully!\n\n"+
+
+"Order ID: "+
+orderId+
+
+"\n"+
+
+"Total: ₹"+
+total.toFixed(2)+
+
+"\n\n"+
+
+"🛒 ORDER DETAILS:\n"+
+
+getCartText()+
+
+"\n\n"+
+
+"📍 Delivery Address:\n"+
+address+
+
+"\n\n"+
+
+"🚚 LIVE ORDER TRACKING:\n"+
+trackingLink+
+
+"\n\n"+
+
+"You can use this link to track your delivery when it is out for delivery.";
+
+
+/* =========================
+   SUCCESS
+========================= */
+
+locationMessage(
+"✅ Order placed successfully!"
+);
+
+
+alert(
+
+"Order placed successfully!\n\n"+
+
+"Order ID: "+
+orderId+
+
+"\n\n"+
+
+"Total: ₹"+
+total.toFixed(2)
+
+);
+
+
+/* =========================
+   OPEN OWNER WHATSAPP
+========================= */
+
+window.open(
+
+"https://wa.me/918121321120?text="+
+
+encodeURIComponent(
+ownerMessage
+),
+
+"_blank"
+
+);
+
+
+/* =========================
+   CUSTOMER WHATSAPP LINK
+========================= */
+
+let customerWhatsAppNumber=
+phone.replace(
+/\D/g,
+""
+);
+
+
+if(
+customerWhatsAppNumber.length===10
+){
+
+customerWhatsAppNumber=
+"91"+
+customerWhatsAppNumber;
+
+}
+
+
+const customerWhatsAppLink=
+
+"https://wa.me/"+
+customerWhatsAppNumber+
+"?text="+
+encodeURIComponent(
+customerMessage
+);
+
+
+/* =========================
+   CUSTOMER TRACKING BUTTONS
+========================= */
+
+const oldStatus=
+document
+.getElementById("locationStatus");
+
+
+oldStatus.innerHTML=
+
+"✅ Order placed!<br><br>"+
+
+"<b>🆔 Order ID:</b> "+
+escapeHtml(orderId)+
+
+"<br><br>"+
+
+"<a class=\"btn\" href=\""+
+trackingLink+
+"\" target=\"_blank\">"+
+
+"🚚 Track My Delivery"+
+
+"</a>"+
+
+"<br><br>"+
+
+"<a class=\"btn\" href=\""+
+customerWhatsAppLink+
+"\" target=\"_blank\">"+
+
+"📲 Send Tracking Message to My WhatsApp"+
+
+"</a>";
+
+
+}
+catch(error){
+
+console.error(error);
+
+
+alert(
+error.message ||
+"Something went wrong. Please try again."
+);
+
+}
+
 };
 
-document.getElementById("deliveryType").addEventListener("change",function(){
-if(this.value==="me"){
-locationMessage("📍 Your GPS location will be checked when you order.");
-}else if(this.value==="someone"){
-locationMessage("👤 Enter the delivery address. We will check the 2 km distance.");
-}else{
-locationMessage("📍 Location will be checked before ordering.");
+
+/* =========================
+   DELIVERY TYPE CHANGE
+========================= */
+
+document
+.getElementById("deliveryType")
+.addEventListener(
+"change",
+function(){
+
+if(
+this.value==="me"
+){
+
+locationMessage(
+"📍 Your GPS location will be checked when you order."
+);
+
 }
+
+else if(
+this.value==="someone"
+){
+
+locationMessage(
+"👤 Enter the delivery address. We will check the 2 km distance."
+);
+
+}
+
+else{
+
+locationMessage(
+"📍 Location will be checked before ordering."
+);
+
+}
+
 });
 
+
 renderCart();
+
 </script>
+
 </body>
 </html>
