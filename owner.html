@@ -1073,14 +1073,10 @@ async function(orderId){
       {enableHighAccuracy:true,maximumAge:5000,timeout:15000}
     );
 
-    alert("🚚 Delivery started.
-
-📍 Your live location is now being shared with the customer.");
+    alert("🚚 Delivery started.\n\n📍 Your live location is now being shared with the customer.");
 
   }catch(error){
-    alert("❌ Could not start live delivery tracking.
-
-Please allow location permission and try again.");
+    alert("❌ Could not start live delivery tracking.\n\nPlease allow location permission and try again.");
   }
 
 };
@@ -1095,9 +1091,7 @@ window.markDelivered =
 async function(orderId){
 
   const confirmDelivery = confirm(
-    "Mark this order as DELIVERED?
-
-This will also STOP live delivery location sharing."
+    "Mark this order as DELIVERED?\n\nThis will also STOP live delivery location sharing."
   );
 
   if(!confirmDelivery) return;
@@ -1126,13 +1120,10 @@ This will also STOP live delivery location sharing."
       }
     );
 
-    alert("✅ Order marked as delivered.
-
-🛑 Live delivery location sharing has been stopped.");
+    alert("✅ Order marked as delivered.\n\n🛑 Live delivery location sharing has been stopped.");
 
   }catch(error){
-    alert("❌ Could not mark delivered:
-" + error.message);
+    alert("❌ Could not mark delivered:\n" + error.message);
   }
 
 };
@@ -1325,7 +1316,7 @@ function(){
     document
     .getElementById("soundStatus")
     .innerText =
-    "❌ Sound could not be enabled.";
+  "❌ Sound could not be enabled.";
 
   }
 
