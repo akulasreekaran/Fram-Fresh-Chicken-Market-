@@ -31,7 +31,6 @@ textarea{height:80px}
 .qty-controls button{border:0;border-radius:7px;padding:7px 12px;cursor:pointer}
 .remove{background:#d62828;color:#fff}
 .total{font-size:20px;font-weight:bold;text-align:right;margin-top:12px}
-.hidden{display:none;}
 .status{min-height:24px}
 .photos{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .photos img{width:100%;height:180px;object-fit:cover;border-radius:12px}
@@ -108,12 +107,6 @@ footer{text-align:center;background:#111;color:#fff;padding:20px}
 <p id="locationStatus" class="status">📍 Location will be checked before ordering.</p>
 
 <button class="btn" style="width:100%" onclick="sendOrder()">Confirm Order</button>
-
-<div id="trackingBox" class="hidden" style="margin-top:15px;padding:15px;background:#eef7ff;border-radius:12px;text-align:center;">
-  <b>🚚 Order placed!</b>
-  <p>You can track the delivery partner here after delivery starts.</p>
-  <a id="trackingLink" class="btn" href="#" target="_blank">📍 Track My Delivery</a>
-</div>
 </div>
 </section>
 
@@ -253,7 +246,7 @@ return Object.values(cart).reduce((sum,item)=>sum+(item.price*item.quantity),0);
 
 function getCartText(){
 return Object.entries(cart).map(([name,item])=>
-`${name} - ${item.quantity} ${item.unit || "kg"} x ₹${item.price} = ₹${(item.quantity*item.price).toFixed(2)}`
+`${name} - ${item.quantity} kg x ₹${item.price} = ₹${(item.quantity*item.price).toFixed(2)}`
 ).join("\n");
 }
 
@@ -382,11 +375,13 @@ directionsLink:directionsLink,
 distanceFromShop:Number(distance.toFixed(2)),
 total:Number(total.toFixed(2)),
 status:"new",
+liveLocationActive:false,
 createdAt:new Date().toISOString()
 };
 
 const newOrderRef=await push(ref(db,"orders"),orderData);
 const orderId=newOrderRef.key;
+await update(ref(db,"tracking/"+orderId),{status:"new",trackingActive:false,deliveryLatitude:null,deliveryLongitude:null,deliveryAccuracy:null,deliveryUpdatedAt:null,updatedAt:new Date().toISOString()});
 
 
 const message=
@@ -399,20 +394,11 @@ getCartText()+"\n\n"+
 "Delivery: "+orderData.deliveryFor+"\n"+
 "Address: "+address+"\n\n"+
 "Distance: "+distance.toFixed(2)+" km\n\n"+
-"CUSTOMER LOCATION:\n"+customerMapLink+"\n\n"+
-"OWNER DASHBOARD:\n"+"https://akulasreekaran.github.io/Fram-Fresh-Chicken-Market-/owner.html?order="+encodeURIComponent(orderId);;
+"Customer Location:\n"+customerMapLink;
 
-locationMessage("✅ Order placed successfully. Your delivery tracking link is ready below.");
+locationMessage("✅ Order placed! 📡 Live location sharing is active.");
 
-const trackingUrl="https://akulasreekaran.github.io/Fram-Fresh-Chicken-Market-/track.html?order="+encodeURIComponent(orderId);
-const trackingBox=document.getElementById("trackingBox");
-const trackingLink=document.getElementById("trackingLink");
-if(trackingBox && trackingLink){
-  trackingLink.href=trackingUrl;
-  trackingBox.classList.remove("hidden");
-}
-
-alert("Order placed successfully!\n\nTotal: ₹"+total.toFixed(2)+"\n\nUse the Track My Delivery button on this page to follow your delivery partner when delivery starts.");
+alert("Order placed successfully!\n\nTotal: ₹"+total.toFixed(2)+"\n\n📡 Live location sharing is now active while this page remains open.");
 
 window.open(
 "https://wa.me/918121321120?text="+encodeURIComponent(message),
@@ -427,9 +413,9 @@ alert(error.message||"Something went wrong. Please try again.");
 
 document.getElementById("deliveryType").addEventListener("change",function(){
 if(this.value==="me"){
-locationMessage("📍 Your location will be checked only to verify the 2 km delivery area.");
+locationMessage("📍 Your GPS location will be checked when you order.");
 }else if(this.value==="someone"){
-locationMessage("👤 Enter the delivery address. We will check the 2 km delivery area.");
+locationMessage("👤 Enter the delivery address. We will check the 2 km distance.");
 }else{
 locationMessage("📍 Location will be checked before ordering.");
 }
