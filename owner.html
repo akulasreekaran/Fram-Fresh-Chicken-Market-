@@ -294,7 +294,7 @@ import {
   initializeApp
 }
 from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+"https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 
 
 import {
@@ -305,17 +305,19 @@ import {
   update
 }
 from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+"https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 
 
 import {
   getAuth,
   signInWithEmailAndPassword,
   onAuthStateChanged,
-  signOut
+  signOut,
+  setPersistence,
+  browserLocalPersistence
 }
 from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+"https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 
 
 const firebaseConfig = {
@@ -353,6 +355,10 @@ getDatabase(app);
 const auth =
 getAuth(app);
 
+setPersistence(auth, browserLocalPersistence).catch(error => {
+  console.error("Auth persistence error:", error);
+});
+
 
 
 /* =========================
@@ -385,6 +391,8 @@ window.login = async function(){
   }
 
 
+  document.getElementById("loginStatus").innerText = "🔐 Signing in...";
+
   try{
 
     await signInWithEmailAndPassword(
@@ -396,16 +404,35 @@ window.login = async function(){
   }
   catch(error){
 
-    document
-    .getElementById("loginStatus")
-    .innerText =
-    "❌ Login failed: " +
-    error.message;
+    console.error("Owner login error:", error);
+
+    let message = "❌ Login failed.";
+
+    if(error.code === "auth/invalid-credential" || error.code === "auth/wrong-password" || error.code === "auth/user-not-found"){
+      message = "❌ Email or password is incorrect.";
+    }else if(error.code === "auth/invalid-email"){
+      message = "❌ Please enter a valid owner email address.";
+    }else if(error.code === "auth/too-many-requests"){
+      message = "⚠️ Too many login attempts. Please wait a few minutes and try again.";
+    }else if(error.code === "auth/operation-not-allowed"){
+      message = "❌ Firebase Email/Password sign-in is not enabled.";
+    }else if(error.code === "auth/network-request-failed"){
+      message = "❌ Network error. Check your internet connection.";
+    }else{
+      message = "❌ Login failed: " + (error.message || error.code || "Unknown error");
+    }
+
+    document.getElementById("loginStatus").innerText = message;
 
   }
 
 };
 
+
+
+document.getElementById("password").addEventListener("keydown", event => {
+  if(event.key === "Enter") window.login();
+});
 
 
 /* =========================
@@ -1389,7 +1416,15 @@ function playOrderSound(){
         body:
         "A new order has arrived."
       }
-    /* =========================
+    );
+
+  }
+
+}
+
+
+
+/* =========================
    HTML SECURITY
 ========================= */
 
