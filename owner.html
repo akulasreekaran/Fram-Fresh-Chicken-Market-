@@ -513,106 +513,177 @@ const requestedOrderId = new URLSearchParams(window.location.search).get("order"
    LOAD ORDERS
 ========================= */
 
+
 function loadOrders(){
 
-  const ordersRef =
-    ref(db,"orders");
+  const ordersRef = ref(db, "orders");
 
+  const ordersDiv = document.getElementById("orders");
+
+  ordersDiv.innerHTML = `
+    <div class="card empty">
+      🔄 Connecting to Firebase orders...
+    </div>
+  `;
 
   onValue(
     ordersRef,
+
     snapshot => {
 
-      const data =
-        snapshot.val() || {};
+      console.log("Firebase orders snapshot received:", snapshot.val());
 
+      const data = snapshot.val() || {};
 
-      const ordersDiv =
-        document.getElementById("orders");
+      const orderIds = Object.keys(data).sort(
+        (a,b) => {
 
+          const timeA =
+            data[a].createdAt
+            ? new Date(data[a].createdAt).getTime()
+            : 0;
 
-      const orderIds =
-        Object.keys(data).reverse();
+          const timeB =
+            data[b].createdAt
+            ? new Date(data[b].createdAt).getTime()
+            : 0;
+
+          return timeB - timeA;
+        }
+      );
 
 
       if(orderIds.length === 0){
 
         ordersDiv.innerHTML = `
-
           <div class="card empty">
-
-            📭 No orders yet.
-
+            📭 No orders found in Firebase.
           </div>
-
         `;
 
         firstLoad = false;
-
         return;
-
       }
 
 
       let html = "";
 
 
-      orderIds.forEach(
-        orderId => {
+      orderIds.forEach(orderId => {
 
-          const order =
-            data[orderId];
+        const order = data[orderId];
 
 
-          html +=
-            displayOrder(
-              orderId,
-              order
-            );
+        html += displayOrder(
+          orderId,
+          order
+        );
 
 
-          /* NEW ORDER */
+        if(
+          !firstLoad &&
+          !knownOrderIds.has(orderId) &&
+          order.status === "new"
+        ){
 
-          if(
-            !firstLoad &&
-            !knownOrderIds.has(orderId) &&
-            order.status === "new"
-          ){
-
-            playOrderSound();
-
-          }
+          playOrderSound();
 
         }
-      );
+
+      });
 
 
       knownOrderIds =
         new Set(orderIds);
 
-
       firstLoad = false;
 
+      ordersDiv.innerHTML = html;
 
-      ordersDiv.innerHTML =
-        html;
 
       if(requestedOrderId){
-        const card = document.querySelector('[data-order-id="'+CSS.escape(requestedOrderId)+'"]');
+
+        const card =
+          document.querySelector(
+            '[data-order-id="' +
+            CSS.escape(requestedOrderId) +
+            '"]'
+          );
+
         if(card){
-          const note=document.createElement("div");
-          note.className="direct-order-title";
-          note.textContent="🔗 Direct order opened from WhatsApp";
+
+          const note =
+            document.createElement("div");
+
+          note.className =
+            "direct-order-title";
+
+          note.textContent =
+            "🔗 Direct order opened from WhatsApp";
+
           ordersDiv.prepend(note);
-          setTimeout(()=>card.scrollIntoView({behavior:"smooth",block:"center"}),100);
+
+          setTimeout(
+            () => card.scrollIntoView({
+              behavior:"smooth",
+              block:"center"
+            }),
+            100
+          );
+
         }
+
       }
 
+    },
+
+    error => {
+
+      console.error(
+        "Firebase orders error:",
+        error
+      );
+
+
+      ordersDiv.innerHTML = `
+
+        <div class="card"
+             style="
+               border:2px solid #d62828;
+               background:#fff0f0;
+             ">
+
+          <h3>
+            ❌ Could not load orders
+          </h3>
+
+          <p>
+            Firebase returned an error.
+          </p>
+
+          <p>
+            <b>Error:</b>
+            ${escapeHTML(
+              error.message ||
+              error.code ||
+              "Unknown Firebase error"
+            )}
+          </p>
+
+          <p class="small">
+            Check Firebase Realtime Database Rules
+            and make sure the owner is logged in.
+          </p>
+
+        </div>
+
+      `;
+
     }
+
   );
 
 }
-
 
 
 async function resumeActiveDelivery(){
