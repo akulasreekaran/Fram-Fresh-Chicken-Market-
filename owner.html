@@ -2484,7 +2484,19 @@ function playOrderSound(){
   }
 
 }
+function stopOrderSound(){
 
+  if(window.orderSoundInterval){
+
+    clearInterval(
+      window.orderSoundInterval
+    );
+
+    window.orderSoundInterval = null;
+
+  }
+
+}
 
 /* =====================================================
    HTML SECURITY
