@@ -1084,6 +1084,43 @@ parseFloat(results[0].lon)
 
 window.sendOrder=async function(){
 
+  // SHOP TIMING: 8:00 AM to 9:00 PM (India time)
+  const now = new Date();
+
+  const indiaTime = new Intl.DateTimeFormat("en-IN", {
+    timeZone: "Asia/Kolkata",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false
+  }).formatToParts(now);
+
+  const currentHour = Number(
+    indiaTime.find(p => p.type === "hour").value
+  );
+
+  const currentMinute = Number(
+    indiaTime.find(p => p.type === "minute").value
+  );
+
+  const currentMinutes = currentHour * 60 + currentMinute;
+
+  const shopOpeningTime = 8 * 60;   // 8:00 AM
+  const shopClosingTime = 21 * 60;  // 9:00 PM
+
+  if (
+    currentMinutes < shopOpeningTime ||
+    currentMinutes >= shopClosingTime
+  ) {
+    alert(
+      "🕐 Sorry! Our shop is currently closed.\n\n" +
+      "🍗 Order timings: 8:00 AM - 9:00 PM\n\n" +
+      "Please place your order during shop timings."
+    );
+    return;
+  }
+
+  // Your existing sendOrder code continues below...
+
 const name=
 document
 .getElementById("name")
