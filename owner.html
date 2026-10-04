@@ -1559,7 +1559,6 @@ function displayOrder(
 /* =====================================================
    ACTION BUTTONS
 ===================================================== */
-
 function getActionButtons(
   orderId,
   order
@@ -1633,8 +1632,7 @@ function getActionButtons(
 
 
   if(
-    currentStatus ===
-    "out_for_delivery"
+    currentStatus === "out_for_delivery"
   ){
 
     return `
@@ -1674,22 +1672,32 @@ function getActionButtons(
       </button>
 
 
+      ${paymentSection(orderId, order)}
+
+
       ${mapButtons(order)}
 
     `;
 
   }
-if(currentStatus === "delivered"){
-  return `
-    ${paymentSection(orderId, order)}
-    ${mapButtons(order)}
-  `;
-}
+
+
+  if(
+    currentStatus === "delivered"
+  ){
+
+    return `
+      ${paymentSection(orderId, order)}
+      ${mapButtons(order)}
+    `;
+
+  }
+
 
   return mapButtons(order);
 
 }
-/* ================= PAYMENT FUNCTIONS ================= */
+  /* ================= PAYMENT FUNCTIONS ================= */
 
 function getOrderTotalNumber(order){
 
@@ -1778,9 +1786,8 @@ function paymentSection(orderId, order){
     </div>
   `;
 }
-
-
-window.showPaymentQR = async function showPaymentQR(orderId){
+  window.showPaymentQR = window.showPaymentQR =
+async function showPaymentQR(orderId){
 
   try{
 
@@ -1877,11 +1884,8 @@ window.showPaymentQR = async function showPaymentQR(orderId){
     );
 
   }
-
-}
-
-
-window.confirmCashPayment = async function confirmCashPayment(orderId){
+  window.confirmCashPayment = window.confirmCashPayment =
+async function confirmCashPayment(orderId){
 
   const confirmed =
     confirm(
@@ -1924,7 +1928,8 @@ window.confirmCashPayment = async function confirmCashPayment(orderId){
 }
 
 
-window.confirmQRPayment = async function confirmQRPayment(orderId){
+window.confirmQRPayment = window.confirmQRPayment =
+async function confirmQRPayment(orderId){
 
   const confirmed =
     confirm(
@@ -1966,7 +1971,8 @@ window.confirmQRPayment = async function confirmQRPayment(orderId){
 
   }
 
-/* =====================================================
+/*
+  ====================================================
    START DELIVERY
 ===================================================== */
 
@@ -2101,8 +2107,6 @@ async function(orderId){
 
       }
     );
-
-
     activeDeliveryOrderId =
       orderId;
 
@@ -2267,11 +2271,10 @@ async function updateDeliveryLocation(
 
         deliveryAccuracy:
           accuracy,
-
-        deliveryUpdatedAt:
-          updatedAt,
+updatedAt,
 
         updatedAt:
+        
           updatedAt
 
       }
@@ -2434,9 +2437,7 @@ async function(orderId){
 
       }
     );
-
-
-    alert(
+  alert(
       "✅ Order marked as delivered.\n\n🛑 Live delivery location sharing has been stopped."
     );
 
@@ -2535,7 +2536,8 @@ async function(
 };
 
 
-/* =====================================================
+/*
+=====================================================
    CUSTOMER TRACKING LINK
 ===================================================== */
 
@@ -2637,25 +2639,27 @@ function mapButtons(
 }
 
 
-/* =====================================================
+/*
+        :
+  =====================================================
    ORDER SOUND
 ===================================================== */
 
-let audioContext =
-null;
+let audioContext = null;
 let sirenInterval = null;
+let activeSirenNodes = [];
 
 window.enableSound =
 function(){
 
   try{
 
-    audioContext =
-      new (
+    if(!audioContext){
+      audioContext = new (
         window.AudioContext ||
         window.webkitAudioContext
       )();
-
+    }
 
     const resumePromise =
       audioContext.state === "suspended"
@@ -2663,48 +2667,39 @@ function(){
         : Promise.resolve();
 
     resumePromise.then(() => {
-
       playBeep();
-
     }).catch(error => {
-
       console.error("Audio resume error:", error);
-
     });
 
+    const statusEl =
+      document.getElementById("soundStatus");
 
-    document
-    .getElementById("soundStatus")
-    .innerText =
-      "🔊 Order sound enabled.";
-
+    if(statusEl){
+      statusEl.innerText =
+        "🔊 Order siren enabled.";
+    }
 
     if(
       "Notification" in window &&
-      Notification.permission ===
-      "default"
+      Notification.permission === "default"
     ){
-
       Notification.requestPermission();
+    }
 
+  }catch(error){
+
+    console.error(error);
+
+    const statusEl =
+      document.getElementById("soundStatus");
+
+    if(statusEl){
+      statusEl.innerText =
+        "❌ Sound could not be enabled.";
     }
 
   }
-
-  catch(error){
-
-    console.error(
-      error
-    );
-
-
-    document
-    .getElementById("soundStatus")
-    .innerText =
-      "❌ Sound could not be enabled.";
-
-  }
-
 };
 
 
@@ -2714,217 +2709,148 @@ function(){
 
 function playBeep(){
 
-  if(
-    !audioContext
-  ){
-
-    return;
-
-  }
-
+  if(!audioContext) return;
 
   const oscillator =
-    audioContext
-    .createOscillator();
-
+    audioContext.createOscillator();
 
   const gain =
-    audioContext
-    .createGain();
+    audioContext.createGain();
 
+  oscillator.type = "square";
+  oscillator.frequency.value = 1100;
 
-  oscillator.type =
-    "square";
+  const now = audioContext.currentTime;
 
+  gain.gain.setValueAtTime(0.001, now);
+  gain.gain.exponentialRampToValueAtTime(0.85, now + 0.03);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
 
-  oscillator.frequency.value =
-    1000;
+  oscillator.connect(gain);
+  gain.connect(audioContext.destination);
 
-
-  gain.gain.setValueAtTime(
-    0.001,
-    audioContext.currentTime
-  );
-
-
-  gain.gain.exponentialRampToValueAtTime(
-    0.9,
-    audioContext.currentTime +
-    0.03
-  );
-
-
-  gain.gain.exponentialRampToValueAtTime(
-    0.001,
-    audioContext.currentTime +
-    0.6
-  );
-
-
-  oscillator.connect(
-    gain
-  );
-
-
-  gain.connect(
-    audioContext.destination
-  );
-
-
-  oscillator.start();
-
-
-  oscillator.stop(
-    audioContext.currentTime +
-    0.6
-  );
-
+  oscillator.start(now);
+  oscillator.stop(now + 0.55);
 }
 
 
-/* =====================================================
-   NEW ORDER ALERT
+/*
+  =====================================================
+   NEW ORDER EMERGENCY SIREN
 ===================================================== */
 
 function playOrderSound(){
 
   if(!audioContext){
-
-    audioContext =
-      new (window.AudioContext ||
-           window.webkitAudioContext)();
-
+    audioContext = new (
+      window.AudioContext ||
+      window.webkitAudioContext
+    )();
   }
 
-  if(audioContext.state === "suspended"){
+  const startSiren = () => {
 
-    audioContext.resume().catch(error => {
-      console.error("Audio resume error:", error);
-    });
+    stopOrderSound();
 
+    function emergencySiren(){
+
+      if(!audioContext) return;
+
+      const oscillator =
+        audioContext.createOscillator();
+
+      const gain =
+        audioContext.createGain();
+
+      const now = audioContext.currentTime;
+
+      oscillator.type = "square";
+
+      // Strong WEE-OO-WEE emergency pattern
+      oscillator.frequency.setValueAtTime(500, now);
+      oscillator.frequency.linearRampToValueAtTime(1500, now + 0.42);
+      oscillator.frequency.linearRampToValueAtTime(500, now + 0.84);
+
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.linearRampToValueAtTime(0.95, now + 0.06);
+      gain.gain.setValueAtTime(0.95, now + 0.70);
+      gain.gain.linearRampToValueAtTime(0.001, now + 0.84);
+
+      oscillator.connect(gain);
+      gain.connect(audioContext.destination);
+
+      activeSirenNodes.push({ oscillator, gain });
+
+      oscillator.onended = () => {
+        activeSirenNodes =
+          activeSirenNodes.filter(
+            node => node.oscillator !== oscillator
+          );
+      };
+
+      oscillator.start(now);
+      oscillator.stop(now + 0.84);
+    }
+
+    emergencySiren();
+
+    sirenInterval = setInterval(
+      emergencySiren,
+      900
+    );
+
+    if(
+      "Notification" in window &&
+      Notification.permission === "granted"
+    ){
+      new Notification(
+        "🍗 NEW CHICKEN ORDER!",
+        {
+          body: "Emergency siren — Accept or Reject the order."
+        }
+      );
+    }
+  };
+
+  if(audioContext.state === "suspended") {
+    audioContext.resume()
+      .then(startSiren)
+      .catch(error => {
+        console.error("Audio resume error:", error);
+      });
+  } else {
+    startSiren();
   }
-
-  // Stop any previous siren
-  stopOrderSound();
-
-
-  function emergencyBuzzer(){
-
-    if(!audioContext) return;
-
-
-    const oscillator =
-      audioContext.createOscillator();
-
-    const gain =
-      audioContext.createGain();
-
-
-    // Emergency buzzer tone
-    oscillator.type = "sawtooth";
-
-
-    const now =
-      audioContext.currentTime;
-
-
-    // WEE → OO → WEE
-    oscillator.frequency.setValueAtTime(
-      550,
-      now
-    );
-
-    oscillator.frequency.linearRampToValueAtTime(
-      1400,
-      now + 0.45
-    );
-
-    oscillator.frequency.linearRampToValueAtTime(
-      550,
-      now + 0.9
-    );
-
-
-    // Volume envelope
-    gain.gain.setValueAtTime(
-      0.001,
-      now
-    );
-
-    gain.gain.linearRampToValueAtTime(
-      0.9,
-      now + 0.08
-    );
-
-    gain.gain.setValueAtTime(
-      0.9,
-      now + 0.75
-    );
-
-    gain.gain.linearRampToValueAtTime(
-      0.001,
-      now + 0.9
-    );
-
-
-    oscillator.connect(gain);
-
-    gain.connect(
-      audioContext.destination
-    );
-
-
-    oscillator.start(now);
-
-    oscillator.stop(
-      now + 0.9
-    );
-
-  }
-
-
-  // Start immediately
-  emergencyBuzzer();
-
-
-  // Repeat continuously
-  sirenInterval =
-    setInterval(
-      emergencyBuzzer,
-      950
-    );
-
-
-  // Browser notification
-  if(
-    "Notification" in window &&
-    Notification.permission === "granted"
-  ){
-
-    new Notification(
-      "🍗 NEW CHICKEN ORDER!",
-      {
-        body:
-          "Emergency order buzzer — accept or reject the order."
-      }
-    );
-
-  }
-
 }
-  function stopOrderSound(){
+
+
+function stopOrderSound(){
 
   if(sirenInterval){
-
     clearInterval(sirenInterval);
-
     sirenInterval = null;
-
   }
 
-  }
+  activeSirenNodes.forEach(node => {
+    try{
+      node.gain.gain.cancelScheduledValues(
+        audioContext.currentTime
+      );
+      node.gain.gain.setValueAtTime(
+        0.001,
+        audioContext.currentTime
+      );
+      node.oscillator.stop();
+    }catch(error){
+      // Already stopped.
+    }
+  });
 
-/* =====================================================
+  activeSirenNodes = [];
+}
+
+/*
+  =====================================================
    HTML SECURITY
 ===================================================== */
 
