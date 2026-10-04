@@ -2468,6 +2468,15 @@ async function(
   newStatus
 ){
 
+  if(
+    newStatus === "accepted" ||
+    newStatus === "rejected"
+  ){
+
+    stopOrderSound();
+
+  }
+
   try{
 
     await update(
@@ -2896,6 +2905,17 @@ function playOrderSound(){
   }
 
 }
+  function stopOrderSound(){
+
+  if(sirenInterval){
+
+    clearInterval(sirenInterval);
+
+    sirenInterval = null;
+
+  }
+
+  }
 
 /* =====================================================
    HTML SECURITY
