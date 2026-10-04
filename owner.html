@@ -970,7 +970,7 @@ function renderOrders(
       if(
         !firstLoad &&
         !knownOrderIds.has(orderId) &&
-        order.status === "new"
+        String(order.status || "new").toLowerCase() === "new"
       ){
 
         playOrderSound();
@@ -1335,8 +1335,7 @@ function displayOrder(
 
 
   const status =
-    order.status ||
-    "new";
+    String(order.status || "new").toLowerCase();
 
 
   let statusClass =
@@ -1566,8 +1565,11 @@ function getActionButtons(
   order
 ){
 
+  const currentStatus =
+    String(order.status || "new").toLowerCase();
+
   if(
-    order.status === "new"
+    currentStatus === "new"
   ){
 
     return `
@@ -1606,7 +1608,7 @@ function getActionButtons(
 
 
   if(
-    order.status === "accepted"
+    currentStatus === "accepted"
   ){
 
     return `
@@ -1631,7 +1633,7 @@ function getActionButtons(
 
 
   if(
-    order.status ===
+    currentStatus ===
     "out_for_delivery"
   ){
 
@@ -1677,7 +1679,7 @@ function getActionButtons(
     `;
 
   }
-if(order.status === "delivered"){
+if(currentStatus === "delivered"){
   return `
     ${paymentSection(orderId, order)}
     ${mapButtons(order)}
@@ -1778,7 +1780,7 @@ function paymentSection(orderId, order){
 }
 
 
-async function showPaymentQR(orderId){
+window.showPaymentQR = async function showPaymentQR(orderId){
 
   try{
 
@@ -1879,7 +1881,7 @@ async function showPaymentQR(orderId){
 }
 
 
-async function confirmCashPayment(orderId){
+window.confirmCashPayment = async function confirmCashPayment(orderId){
 
   const confirmed =
     confirm(
@@ -1922,7 +1924,7 @@ async function confirmCashPayment(orderId){
 }
 
 
-async function confirmQRPayment(orderId){
+window.confirmQRPayment = async function confirmQRPayment(orderId){
 
   const confirmed =
     confirm(
@@ -2655,17 +2657,20 @@ function(){
       )();
 
 
-    if(
-      audioContext.state ===
-      "suspended"
-    ){
+    const resumePromise =
+      audioContext.state === "suspended"
+        ? audioContext.resume()
+        : Promise.resolve();
 
-      audioContext.resume();
+    resumePromise.then(() => {
 
-    }
+      playBeep();
 
+    }).catch(error => {
 
-    playBeep();
+      console.error("Audio resume error:", error);
+
+    });
 
 
     document
@@ -2793,7 +2798,9 @@ function playOrderSound(){
 
   if(audioContext.state === "suspended"){
 
-    audioContext.resume();
+    audioContext.resume().catch(error => {
+      console.error("Audio resume error:", error);
+    });
 
   }
 
