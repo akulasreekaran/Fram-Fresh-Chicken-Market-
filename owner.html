@@ -221,6 +221,54 @@ button,
 }
 
 </style>
+  /* ================= PAYMENT SECTION ================= */
+
+.payment-box{
+  background:#fff8e8;
+  border:2px solid #f0a500;
+  border-radius:12px;
+  padding:15px;
+  margin-top:12px;
+  text-align:center;
+}
+
+.payment-box h3{
+  margin:0 0 8px;
+}
+
+.payment-total{
+  font-size:24px;
+  font-weight:800;
+  margin:8px 0 14px;
+}
+
+.payment-btn{
+  min-width:130px;
+  margin:5px;
+}
+
+.qr-area{
+  background:white;
+  border-radius:12px;
+  padding:14px;
+  margin-top:12px;
+}
+
+#qrCode img,
+#qrCode canvas{
+  margin:auto;
+  display:block;
+}
+
+.cash-confirmed{
+  background:#e8f7e8;
+  border:2px solid #168a35;
+  color:#166534;
+  padding:12px;
+  border-radius:10px;
+  margin-top:10px;
+  font-weight:bold;
+}
 
 </head>
 
@@ -314,7 +362,7 @@ Loading orders...
 </div>
 
 </div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <script type="module">
   /* =====================================================
@@ -1629,12 +1677,292 @@ function getActionButtons(
     `;
 
   }
-
+if(order.status === "delivered"){
+  return `
+    ${paymentSection(orderId, order)}
+    ${mapButtons(order)}
+  `;
+}
 
   return mapButtons(order);
 
 }
+/* ================= PAYMENT FUNCTIONS ================= */
 
+function getOrderTotalNumber(order){
+
+  const raw = String(order.total || 0)
+    .replace(/[₹,\s]/g,"");
+
+  const amount = Number(raw);
+
+  return Number.isFinite(amount) && amount >= 0
+    ? amount
+    : 0;
+}
+
+
+function paymentSection(orderId, order){
+
+  const amount = getOrderTotalNumber(order);
+
+  if(order.paymentStatus === "cash_paid"){
+
+    return `
+      <div class="payment-box">
+
+        <h3>💰 Payment</h3>
+
+        <div class="payment-total">
+          ₹${amount.toFixed(2)}
+        </div>
+
+        <div class="cash-confirmed">
+          ✅ Cash payment received
+        </div>
+
+      </div>
+    `;
+
+  }
+
+
+  if(order.paymentStatus === "qr_paid"){
+
+    return `
+      <div class="payment-box">
+
+        <h3>💰 Payment</h3>
+
+        <div class="payment-total">
+          ₹${amount.toFixed(2)}
+        </div>
+
+        <div class="cash-confirmed">
+          ✅ QR payment received
+        </div>
+
+      </div>
+    `;
+
+  }
+
+
+  return `
+    <div class="payment-box">
+
+      <h3>💰 Collect Payment</h3>
+
+      <div class="payment-total">
+        ₹${amount.toFixed(2)}
+      </div>
+
+      <button
+        class="payment-btn"
+        onclick="showPaymentQR('${orderId}')"
+      >
+        📱 QR
+      </button>
+
+      <button
+        class="payment-btn"
+        onclick="confirmCashPayment('${orderId}')"
+      >
+        💵 Cash
+      </button>
+
+      <div id="paymentArea-${orderId}"></div>
+
+    </div>
+  `;
+}
+
+
+async function showPaymentQR(orderId){
+
+  try{
+
+    const orderRef = ref(db, "orders/" + orderId);
+
+    const snapshot = await get(orderRef);
+
+    if(!snapshot.exists()){
+
+      alert("Order not found.");
+
+      return;
+    }
+
+
+    const order = snapshot.val();
+
+    const amount = getOrderTotalNumber(order);
+
+
+    if(amount <= 0){
+
+      alert("Invalid order amount.");
+
+      return;
+    }
+
+
+    const paymentArea =
+      document.getElementById(
+        "paymentArea-" + orderId
+      );
+
+    if(!paymentArea) return;
+
+
+    paymentArea.innerHTML = `
+      <div class="qr-area">
+
+        <strong>Scan to Pay</strong>
+
+        <div
+          style="margin-top:8px;"
+        >
+          Amount: ₹${amount.toFixed(2)}
+        </div>
+
+        <div
+          id="qrCode-${orderId}"
+          style="margin-top:12px;"
+        ></div>
+
+        <button
+          class="payment-btn"
+          onclick="confirmQRPayment('${orderId}')"
+          style="margin-top:12px;"
+        >
+          ✅ Payment Received
+        </button>
+
+      </div>
+    `;
+
+
+    const qrText =
+      "upi://pay" +
+      "?pa=8121321120-3@ibl" +
+      "&pn=Farm%20Fresh%20Chicken%20Market" +
+      "&am=" + encodeURIComponent(amount.toFixed(2)) +
+      "&cu=INR";
+
+
+    new QRCode(
+      document.getElementById(
+        "qrCode-" + orderId
+      ),
+      {
+        text: qrText,
+        width: 220,
+        height: 220,
+        correctLevel: QRCode.CorrectLevel.H
+      }
+    );
+
+  }catch(error){
+
+    console.error(
+      "QR payment error:",
+      error
+    );
+
+    alert(
+      "Unable to generate payment QR."
+    );
+
+  }
+
+}
+
+
+async function confirmCashPayment(orderId){
+
+  const confirmed =
+    confirm(
+      "Confirm that cash payment has been received?"
+    );
+
+  if(!confirmed) return;
+
+
+  try{
+
+    await update(
+      ref(db, "orders/" + orderId),
+      {
+        paymentMethod:"cash",
+        paymentStatus:"cash_paid",
+        paymentReceivedAt:
+          new Date().toISOString()
+      }
+    );
+
+
+    alert(
+      "✅ Cash payment recorded."
+    );
+
+
+    await loadOrders();
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "Unable to record cash payment."
+    );
+
+  }
+
+}
+
+
+async function confirmQRPayment(orderId){
+
+  const confirmed =
+    confirm(
+      "Confirm that the QR payment has been received?"
+    );
+
+  if(!confirmed) return;
+
+
+  try{
+
+    await update(
+      ref(db, "orders/" + orderId),
+      {
+        paymentMethod:"qr",
+        paymentStatus:"qr_paid",
+        paymentReceivedAt:
+          new Date().toISOString()
+      }
+    );
+
+
+    alert(
+      "✅ QR payment recorded."
+    );
+
+
+    await loadOrders();
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "Unable to record QR payment."
+    );
+
+  }
+
+  }
 
 /* =====================================================
    START DELIVERY
