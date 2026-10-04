@@ -477,7 +477,11 @@ async function getOtherLocation(){
 /* SEND ORDER */
 
 window.sendOrder = async function(){
+const confirmOrder = confirm("Confirm Order?");
 
+if(!confirmOrder){
+  return;
+}
   const name =
     document.getElementById("name")
       .value.trim();
@@ -697,14 +701,6 @@ window.sendOrder = async function(){
 
     locationMessage(
       "✅ Location verified: " +
-      distance.toFixed(2) +
-      " km"
-    );
-
-
-    alert(
-      "Order accepted for delivery area!\n\n" +
-      "Distance: " +
       distance.toFixed(2) +
       " km"
     );
