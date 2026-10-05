@@ -63,6 +63,8 @@ footer{text-align:center;background:#111;color:white;padding:20px}
 
 
 .product-unavailable{opacity:.55 !important;cursor:not-allowed !important;filter:grayscale(.4)}
+.small{font-size:13px;color:#666}
+.card.item-off{opacity:.65}
 </style>
 </head>
 
@@ -91,6 +93,7 @@ footer{text-align:center;background:#111;color:white;padding:20px}
 
 <section id="products">
 <h2>🐔 Our Products</h2>
+<p class="small" id="itemAvailabilityNote">🟢 Products marked available can be ordered.</p>
 
 <div class="grid">
 
@@ -629,6 +632,8 @@ function renderItemAvailability(data){
       button.disabled = !available;
       button.classList.toggle("product-unavailable", !available);
       button.innerText = available ? "Add" : "🚫 Unavailable";
+      const card = button.closest(".card");
+      if(card) card.classList.toggle("item-off", !available);
     }
 
     const option = Array.from(document.querySelectorAll("#product option"))
