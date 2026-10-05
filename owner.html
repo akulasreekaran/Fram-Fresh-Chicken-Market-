@@ -258,6 +258,65 @@ button,
   display:block;
 }
 
+
+/* ================= SHOP AVAILABILITY ================= */
+.shop-control{
+  background:#f3f7ff;
+  border:2px solid #d8e4ff;
+  border-radius:12px;
+  padding:15px;
+  margin:0 0 14px;
+}
+
+.shop-control h3{
+  margin:0 0 8px;
+}
+
+.shop-status-buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.shop-toggle{
+  flex:1;
+  min-width:170px;
+  padding:12px 14px;
+  border-radius:10px;
+  font-weight:800;
+  cursor:pointer;
+  border:2px solid transparent;
+}
+
+.shop-open{background:#e8f7e8 !important; color:#166534 !important;}
+.shop-closed{background:#fde8e8 !important; color:#991b1b !important;}
+.shop-stock{background:#fff4e5 !important; color:#9a4d00 !important;}
+
+.shop-toggle.active{
+  border-color:#111 !important;
+  box-shadow:0 0 0 2px rgba(0,0,0,.08);
+}
+
+.toggle-state{
+  display:inline-block;
+  margin-left:8px;
+  padding:3px 8px;
+  border-radius:20px;
+  background:#ddd;
+  color:#555;
+  font-size:12px;
+}
+
+.shop-toggle.active .toggle-state{
+  background:#111;
+  color:#fff;
+}
+
+.shop-current{
+  font-weight:bold;
+  margin-top:10px;
+}
+
 .cash-confirmed{
   background:#e8f7e8;
   border:2px solid #168a35;
@@ -323,6 +382,27 @@ Login
   class="hidden"
 >
 
+<div class="shop-control">
+
+  <h3>🏪 Shop Availability</h3>
+  <p class="small">Only one status can be ON at a time.</p>
+
+  <div class="shop-status-buttons">
+    <button id="shopOpenBtn" class="shop-toggle shop-open" onclick="setShopStatus('open')">
+      🟢 OPEN <span class="toggle-state">OFF</span>
+    </button>
+    <button id="shopClosedBtn" class="shop-toggle shop-closed" onclick="setShopStatus('closed')">
+      🔴 CLOSED <span class="toggle-state">OFF</span>
+    </button>
+    <button id="shopStockBtn" class="shop-toggle shop-stock" onclick="setShopStatus('out_of_stock')">
+      📦 OUT OF STOCK <span class="toggle-state">OFF</span>
+    </button>
+  </div>
+
+  <p id="shopStatusText" class="shop-current">Checking shop status...</p>
+
+</div>
+
 
 <div class="card">
 
@@ -337,6 +417,8 @@ Login
 <p id="soundStatus">
 🔕 Order sound is not enabled.
 </p>
+
+</div>
 
 </div>
 
@@ -464,6 +546,8 @@ let deliveryWatchId = null;
 let activeDeliveryOrderId = null;
 
 let ordersListenerStarted = false;
+
+let shopStatusListenerStarted = false;
 
 const requestedOrderId =
 new URLSearchParams(
@@ -745,6 +829,9 @@ onAuthStateChanged(
         await loadOrders();
 
 
+        startShopStatusListener();
+
+
         resumeActiveDelivery();
 
       }
@@ -903,6 +990,88 @@ async function loadOrders(){
 
   }
 
+}
+
+
+/* =====================================================
+   SHOP AVAILABILITY
+===================================================== */
+
+function shopStatusMessage(status){
+
+  if(status === "closed"){
+    return "🔴 Shop is CLOSED — new orders are blocked.";
+  }
+
+  if(status === "out_of_stock"){
+    return "📦 OUT OF STOCK — new orders are blocked.";
+  }
+
+  return "🟢 Shop is OPEN — customers can place orders.";
+}
+
+function renderShopStatusControls(status){
+
+  status = String(status || "open").toLowerCase();
+
+  const buttons = {
+    open: document.getElementById("shopOpenBtn"),
+    closed: document.getElementById("shopClosedBtn"),
+    out_of_stock: document.getElementById("shopStockBtn")
+  };
+
+  Object.keys(buttons).forEach(key => {
+    const button = buttons[key];
+    if(!button) return;
+    const active = key === status;
+    button.classList.toggle("active", active);
+    const state = button.querySelector(".toggle-state");
+    if(state) state.innerText = active ? "ON" : "OFF";
+  });
+
+  const text = document.getElementById("shopStatusText");
+  if(text) text.innerText = shopStatusMessage(status);
+}
+
+window.setShopStatus = async function(status){
+
+  const labels = {
+    open:"🟢 Turn SHOP OPEN ON?",
+    closed:"🔴 Turn SHOP CLOSED ON?",
+    out_of_stock:"📦 Turn OUT OF STOCK ON?"
+  };
+
+  if(!confirm(labels[status] || "Change shop availability?")) return;
+
+  try{
+    await update(
+      ref(db,"shopStatus"),
+      {
+        status:status,
+        message:shopStatusMessage(status),
+        updatedAt:new Date().toISOString()
+      }
+    );
+    renderShopStatusControls(status);
+  }catch(error){
+    console.error("Shop status update error:",error);
+    alert("❌ Could not change shop availability.\n\n" + (error.message || "Firebase error"));
+  }
+};
+
+function startShopStatusListener(){
+
+  if(shopStatusListenerStarted) return;
+  shopStatusListenerStarted = true;
+
+  onValue(
+    ref(db,"shopStatus"),
+    snapshot => {
+      const data = snapshot.val() || {};
+      renderShopStatusControls(String(data.status || "open").toLowerCase());
+    },
+    error => console.error("Shop status listener error:",error)
+  );
 }
 
 
@@ -1556,9 +1725,11 @@ function displayOrder(
 }
 
 
-/* =====================================================
+/*
+  ================================================
    ACTION BUTTONS
 ===================================================== */
+
 function getActionButtons(
   orderId,
   order
@@ -1697,7 +1868,8 @@ function getActionButtons(
   return mapButtons(order);
 
 }
-  /* ================= PAYMENT FUNCTIONS ================= */
+
+/* ================= PAYMENT FUNCTIONS ================= */
 
 function getOrderTotalNumber(order){
 
@@ -1786,6 +1958,7 @@ function paymentSection(orderId, order){
     </div>
   `;
 }
+
   window.showPaymentQR = window.showPaymentQR =
 async function showPaymentQR(orderId){
 
@@ -1884,7 +2057,11 @@ async function showPaymentQR(orderId){
     );
 
   }
-  window.confirmCashPayment = window.confirmCashPayment =
+
+}
+
+
+window.confirmCashPayment = window.confirmCashPayment =
 async function confirmCashPayment(orderId){
 
   const confirmed =
@@ -2107,6 +2284,8 @@ async function(orderId){
 
       }
     );
+
+
     activeDeliveryOrderId =
       orderId;
 
@@ -2187,7 +2366,8 @@ async function(orderId){
 };
 
 
-/* =====================================================
+/*
+  ====================================================
    UPDATE DELIVERY LOCATION
 ===================================================== */
 
@@ -2271,10 +2451,11 @@ async function updateDeliveryLocation(
 
         deliveryAccuracy:
           accuracy,
-updatedAt,
+
+        deliveryUpdatedAt:
+          updatedAt,
 
         updatedAt:
-        
           updatedAt
 
       }
@@ -2437,7 +2618,9 @@ async function(orderId){
 
       }
     );
-  alert(
+
+
+    alert(
       "✅ Order marked as delivered.\n\n🛑 Live delivery location sharing has been stopped."
     );
 
@@ -2536,8 +2719,7 @@ async function(
 };
 
 
-/*
-=====================================================
+/* =====================================================
    CUSTOMER TRACKING LINK
 ===================================================== */
 
@@ -2555,7 +2737,8 @@ function getTrackingLink(
   );
 
   }
-  /* =====================================================
+  /*
+  ====================================================
    MAP / DIRECTIONS / CALL
 ===================================================== */
 
@@ -2639,9 +2822,7 @@ function mapButtons(
 }
 
 
-/*
-        :
-  =====================================================
+/* =====================================================
    ORDER SOUND
 ===================================================== */
 
@@ -2734,8 +2915,7 @@ function playBeep(){
 }
 
 
-/*
-  =====================================================
+/* =====================================================
    NEW ORDER EMERGENCY SIREN
 ===================================================== */
 
@@ -2849,8 +3029,7 @@ function stopOrderSound(){
   activeSirenNodes = [];
 }
 
-/*
-  =====================================================
+/* =====================================================
    HTML SECURITY
 ===================================================== */
 
