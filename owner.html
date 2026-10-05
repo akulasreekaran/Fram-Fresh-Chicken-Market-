@@ -326,6 +326,15 @@ button,
   margin-top:10px;
   font-weight:bold;
 }
+
+.product-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}
+.item-toggle{width:100%;padding:12px;border:2px solid #ddd;border-radius:10px;background:#f4f4f4;color:#222;display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:800;cursor:pointer}
+.item-toggle.on{background:#e8f7e8;color:#166534;border-color:#168a35}
+.item-toggle.off{background:#ffecec;color:#991b1b;border-color:#d62828}
+.item-state{padding:4px 9px;border-radius:20px;background:#fff;color:#555;font-size:12px}
+.item-toggle.on .item-state{background:#168a35;color:#fff}
+.item-toggle.off .item-state{background:#d62828;color:#fff}
+@media(max-width:600px){.product-controls{grid-template-columns:1fr}}
 </style>
  
 
@@ -403,6 +412,14 @@ Login
 
 </div>
 
+
+<div class="shop-control">
+
+<h3>🛒 Product Availability</h3>
+<p class="small">Turn an item OFF when it is unavailable. Customers cannot order items that are OFF.</p>
+<div id="productControls" class="product-controls"></div>
+
+</div>
 
 <div class="card">
 
@@ -830,7 +847,7 @@ onAuthStateChanged(
 
 
         startShopStatusListener();
-
+        startItemStatusListener();
 
         resumeActiveDelivery();
 
@@ -1059,6 +1076,43 @@ window.setShopStatus = async function(status){
   }
 };
 
+const PRODUCT_STATUS_KEYS = {
+  "Live Chicken":"live",
+  "Dressed Chicken":"dressed",
+  "Skinless Chicken":"skinless",
+  "Boneless Chicken":"boneless",
+  "Drumsticks":"drumsticks",
+  "Chicken Lollipops":"lollipops",
+  "Legs & Breast":"legs",
+  "Chicken Liver":"liver"
+};
+
+function renderProductControls(data){
+  const box=document.getElementById("productControls");
+  if(!box) return;
+  const status=data||{};
+  box.innerHTML=Object.entries(PRODUCT_STATUS_KEYS).map(([name,key])=>{
+    const available=status[key] !== false;
+    return `<button class="item-toggle ${available?'on':'off'}" onclick="setItemStatus('${key}',${available})">
+      <span>${available?'🟢':'🔴'} ${name}</span><span class="item-state">${available?'ON':'OFF'}</span>
+    </button>`;
+  }).join("");
+}
+
+window.setItemStatus=async function(key,current){
+  const next=!current;
+  try{
+    await update(ref(db,"itemStatus"),{[key]:next,updatedAt:new Date().toISOString()});
+  }catch(error){
+    console.error("Item status update error:",error);
+    alert("❌ Could not change item availability.\n\n"+(error.message||"Firebase error"));
+  }
+};
+
+function startItemStatusListener(){
+  onValue(ref(db,"itemStatus"),snapshot=>renderProductControls(snapshot.val()||{}),error=>console.error("Item status listener error:",error));
+}
+
 function startShopStatusListener(){
 
   if(shopStatusListenerStarted) return;
@@ -1225,7 +1279,7 @@ function showDatabaseError(
 ){
 
   const ordersDiv =
-    document.getElementById("orders");
+  document.getElementById("orders");
 
 
   const message =
@@ -1405,7 +1459,8 @@ async function resumeActiveDelivery(){
 }
 
 
-/* =====================================================
+/*
+  ===================================================
    DISPLAY ORDER
 ===================================================== */
 
@@ -1725,8 +1780,7 @@ function displayOrder(
 }
 
 
-/*
-  ================================================
+/* =====================================================
    ACTION BUTTONS
 ===================================================== */
 
@@ -2148,8 +2202,7 @@ async function confirmQRPayment(orderId){
 
   }
 
-/*
-  ====================================================
+/* =====================================================
    START DELIVERY
 ===================================================== */
 
@@ -2341,8 +2394,7 @@ async function(orderId){
 
       );
 
-
-    alert(
+  alert(
       "🚚 Delivery started.\n\n📍 Your live location is now being shared with the customer."
     );
 
@@ -2366,8 +2418,7 @@ async function(orderId){
 };
 
 
-/*
-  ====================================================
+/* =====================================================
    UPDATE DELIVERY LOCATION
 ===================================================== */
 
@@ -2719,7 +2770,8 @@ async function(
 };
 
 
-/* =====================================================
+/*
+  ===================================================
    CUSTOMER TRACKING LINK
 ===================================================== */
 
@@ -2737,8 +2789,7 @@ function getTrackingLink(
   );
 
   }
-  /*
-  ====================================================
+  /* =====================================================
    MAP / DIRECTIONS / CALL
 ===================================================== */
 
