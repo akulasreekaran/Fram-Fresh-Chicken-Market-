@@ -154,6 +154,28 @@ footer{text-align:center;background:#111;color:white;padding:20px}
 <div class="price">₹140/kg</div>
 <button class="btn" data-product="Chicken Liver" onclick="addProduct('Chicken Liver',140)">Add</button>
 </div>
+  <div class="card">
+  <img
+    class="product-image"
+    src="images/Eggs.jpg"
+    alt="Fresh Eggs"
+    onerror="this.style.display='none'"
+  >
+
+  <h3>🥚 Eggs</h3>
+
+  <div class="price">
+    70 Eggs / Dozen<br>
+    180 Eggs / Tray
+  </div>
+
+  <button
+    class="btn"
+    onclick="addToCart('Eggs')"
+  >
+    Add to Cart
+  </button>
+  </div>
 
 </div>
 </section>
@@ -181,6 +203,7 @@ footer{text-align:center;background:#111;color:white;padding:20px}
 <option>Chicken Lollipops</option>
 <option>Legs & Breast</option>
 <option>Chicken Liver</option>
+  <option>eggs</option>
 </select>
 
 <input id="qty" placeholder="Quantity">
