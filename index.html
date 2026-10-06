@@ -715,7 +715,8 @@ getDatabase,
 ref,
 push,
 get,
-onValue
+onValue,
+set
 }
 from
 "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
@@ -1196,158 +1197,65 @@ parseFloat(results[0].lon)
 }
 
 
-let shopStatus=
-"open";
-  function shopAvailabilityText(status){
+const SHOP_OPEN_MINUTES = 8 * 60;
+const SHOP_CLOSE_MINUTES = 21 * 60;
 
-if(status==="closed")
-return "🔴 Shop is currently CLOSED. New orders are not being accepted.";
+let shopStatus = "open";
+let manualShopStatus = "open";
 
-if(status==="out_of_stock")
-return "📦 We are currently OUT OF STOCK. New orders are not being accepted.";
-
-return "🟢 Shop is OPEN — you can place your order.";
-
+function isShopHoursOpen(){
+  const now = new Date();
+  const currentMinutes = now.getHours()*60 + now.getMinutes();
+  return currentMinutes >= SHOP_OPEN_MINUTES && currentMinutes < SHOP_CLOSE_MINUTES;
 }
 
-
-function renderShopAvailability(status){
-
-shopStatus=
-String(status||"open").toLowerCase();
-
-
-const box=
-document.getElementById(
-"shopAvailability"
-);
-
-
-const orderButton=
-document.querySelector(
-'#order button[onclick="sendOrder()"]'
-);
-
-
-if(!box)
-return;
-
-
-box.className=
-"shop-availability "+
-(
-shopStatus==="closed"
-?
-"closed"
-:
-shopStatus==="out_of_stock"
-?
-"out-of-stock"
-:
-"open"
-);
-
-
-box.innerText=
-shopAvailabilityText(
-shopStatus
-);
-
-
-if(orderButton){
-
-const blocked=
-shopStatus==="closed"||
-shopStatus==="out_of_stock";
-
-
-orderButton.disabled=
-blocked;
-
-
-orderButton.classList.toggle(
-"shop-blocked",
-blocked
-);
-
-
-orderButton.innerText=
-blocked
-?
-"🚫 Ordering Temporarily Unavailable"
-:
-"Confirm Order";
-
+function getEffectiveShopStatus(){
+  if(manualShopStatus === "out_of_stock") return "out_of_stock";
+  if(manualShopStatus === "closed") return "closed";
+  return isShopHoursOpen() ? "open" : "closed";
 }
 
+function shopAvailabilityText(){
+  if(manualShopStatus === "out_of_stock") return "📦 We are currently OUT OF STOCK. New orders are not being accepted.";
+  if(manualShopStatus === "closed") return "🔴 Shop is currently CLOSED. New orders are not being accepted.";
+  if(!isShopHoursOpen()) return "🔴 Shop is currently CLOSED. Ordering time is 8:00 AM – 9:00 PM.";
+  return "🟢 Shop is OPEN — you can place your order.";
 }
 
+function renderShopAvailability(){
+  shopStatus = getEffectiveShopStatus();
+  const box=document.getElementById("shopAvailability");
+  const orderButton=document.querySelector('#order button[onclick="sendOrder()"]');
+  if(!box)return;
+  box.className="shop-availability "+(shopStatus==="out_of_stock"?"out-of-stock":shopStatus==="closed"?"closed":"open");
+  box.innerText=shopAvailabilityText();
+  if(orderButton){
+    const blocked=shopStatus!=="open";
+    orderButton.disabled=blocked;
+    orderButton.classList.toggle("shop-blocked",blocked);
+    orderButton.innerText=blocked?"🚫 Ordering Temporarily Unavailable":"Confirm Order";
+  }
+}
 
 function startShopAvailabilityListener(){
-
-onValue(
-ref(db,"shopStatus"),
-
-snapshot=>{
-
-const data=
-snapshot.val()||{};
-
-
-renderShopAvailability(
-data.status||"open"
-);
-
-},
-
-error=>
-console.error(
-"Shop availability error:",
-error
-)
-
-);
-
+  onValue(ref(db,"shopStatus"),snapshot=>{
+    const data=snapshot.val()||{};
+    manualShopStatus=String(data.status||"open").toLowerCase();
+    renderShopAvailability();
+  },error=>console.error("Shop availability error:",error));
 }
-
 
 async function checkShopAvailability(){
-
-const snapshot=
-await get(
-ref(db,"shopStatus")
-);
-
-
-const data=
-snapshot.val()||{};
-
-
-const status=
-String(
-data.status||"open"
-).toLowerCase();
-
-
-renderShopAvailability(
-status
-);
-
-
-if(status==="closed")
-
-throw new Error(
-"🔴 Shop is currently closed. Please try again later."
-);
-
-
-if(status==="out_of_stock")
-
-throw new Error(
-"📦 We are currently out of stock. Please try again later."
-);
-
+  const snapshot=await get(ref(db,"shopStatus"));
+  const data=snapshot.val()||{};
+  manualShopStatus=String(data.status||"open").toLowerCase();
+  renderShopAvailability();
+  if(manualShopStatus==="closed") throw new Error("🔴 Shop is currently closed. Please try again later.");
+  if(manualShopStatus==="out_of_stock") throw new Error("📦 We are currently out of stock. Please try again later.");
+  if(!isShopHoursOpen()) throw new Error("🔴 Shop is closed. New orders are accepted only from 8:00 AM to 9:00 PM.");
 }
+
+setInterval(renderShopAvailability,30000);
 
 
 function renderItemAvailability(data){
@@ -1740,33 +1648,39 @@ new Date().toISOString()
 };
 
 
-await push(
-ref(db,"orders"),
-orderData
+const orderRef=await push(
+  ref(db,"orders"),
+  orderData
 );
+
+const orderId=orderRef.key;
+
+await set(
+  ref(db,"tracking/"+orderId),
+  {
+    orderId:orderId,
+    status:"new",
+    trackingActive:false,
+    createdAt:orderData.createdAt,
+    updatedAt:orderData.createdAt
+  }
+);
+
+const trackingLink=
+  "https://akulasreekaran.github.io/Fram-Fresh-Chicken-Market-/track.html?order="+
+  encodeURIComponent(orderId);
 
 
 const message=
 "🍗 NEW ORDER\n\n"+
-"Name: "+
-name+
-"\n"+
-"Phone: "+
-phone+
-"\n\n"+
-"PRODUCTS:\n"+
-productsText+
-"\nTOTAL: ₹"+
-total.toFixed(2)+
-"\n\nDelivery: "+
-orderData.deliveryFor+
-"\n\nAddress:\n"+
-address+
-"\n\nDistance: "+
-distance.toFixed(2)+
-" km"+
-"\n\nCustomer Location:\n"+
-customerMapLink;
+"Name: "+name+"\n"+
+"Phone: "+phone+"\n\n"+
+"PRODUCTS:\n"+productsText+
+"\nTOTAL: ₹"+total.toFixed(2)+
+"\n\nDelivery: "+orderData.deliveryFor+
+"\n\nAddress:\n"+address+
+"\n\nDistance from shop: "+distance.toFixed(2)+" km"+
+"\n\n📦 TRACK ORDER:\n"+trackingLink;
 
 
 const whatsapp=
@@ -1808,8 +1722,6 @@ error.message||
 }
 
 };
-
-
 document
 .getElementById("deliveryType")
 .addEventListener(
