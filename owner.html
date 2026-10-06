@@ -1459,6 +1459,14 @@ async function resumeActiveDelivery(){
 }
 
 
+function formatDateTime(value){
+  if(!value) return "--";
+  const d=new Date(value);
+  if(Number.isNaN(d.getTime())) return "--";
+  return d.toLocaleString("en-IN",{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit",second:"2-digit"});
+}
+
+
 /*
   ===================================================
    DISPLAY ORDER
@@ -1634,6 +1642,7 @@ function displayOrder(
         )}
 
       </p>
+      <p class="small">🕐 <b>Order Time:</b> ${escapeHTML(formatDateTime(order.createdAt))}</p>
 
 
       <p>
@@ -1824,7 +1833,7 @@ function getActionButtons(
       </button>
 
 
-      ${mapButtons(order)}
+      <div class="small" style="margin-top:10px;">📏 Customer distance: <b>${escapeHTML(order.distanceFromShop ?? "-")} km</b> from our shop.</div>
 
     `;
 
@@ -2202,7 +2211,8 @@ async function confirmQRPayment(orderId){
 
   }
 
-/* =====================================================
+/*
+  ====================================================
    START DELIVERY
 ===================================================== */
 
@@ -2675,8 +2685,7 @@ async function(orderId){
       "✅ Order marked as delivered.\n\n🛑 Live delivery location sharing has been stopped."
     );
 
-  }
-
+        }
   catch(error){
 
     console.error(
@@ -2724,7 +2733,9 @@ async function(
       ),
       {
         status:
-          newStatus
+          newStatus,
+        ...(newStatus === "accepted" ? {acceptedAt:new Date().toISOString()} : {}),
+        ...(newStatus === "rejected" ? {rejectedAt:new Date().toISOString()} : {})
       }
     );
 
@@ -2745,7 +2756,10 @@ async function(
           newStatus,
 
         updatedAt:
-          new Date().toISOString()
+          new Date().toISOString(),
+
+        ...(newStatus === "accepted" ? {acceptedAt:new Date().toISOString()} : {}),
+        ...(newStatus === "rejected" ? {rejectedAt:new Date().toISOString()} : {})
 
       }
     );
@@ -3080,7 +3094,8 @@ function stopOrderSound(){
   activeSirenNodes = [];
 }
 
-/* =====================================================
+/*
+  ====================================================
    HTML SECURITY
 ===================================================== */
 
