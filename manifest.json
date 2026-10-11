@@ -8,8 +8,8 @@
 "display": "standalone",
 "orientation": "any",
 "dir": "ltr",
-"background_color": "#2e7d32",
-"theme_color": "#2e7d32",
+"background_color": "#FFEB3B",
+"theme_color": "#FFEB3B"
 "icons": [
 {
 "src": "/Fram-Fresh-Chicken-Market-/farm-fresh-icon-192-4.png",
