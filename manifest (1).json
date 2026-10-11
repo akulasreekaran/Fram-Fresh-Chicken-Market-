@@ -1,0 +1,13 @@
+{
+  "background_color": "#2e7d32",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "Farm Fresh Chicken Market",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "Farm Fresh",
+  "start_url": "/",
+  "theme_color": "#2e7d32",
+  "id": "/",
+  "description": "Fresh chicken and eggs ordering in Kondapur, Hyderabad."
+}
