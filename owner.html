@@ -335,6 +335,12 @@ button,
 .item-toggle.on .item-state{background:#168a35;color:#fff}
 .item-toggle.off .item-state{background:#d62828;color:#fff}
 @media(max-width:600px){.product-controls{grid-template-columns:1fr}}
+.price-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}
+.price-edit{border:1px solid #eee;border-radius:10px;padding:12px;background:#fff}
+.price-edit label{display:block;font-weight:700;margin-bottom:5px}
+.price-edit input{margin:5px 0}
+@media(max-width:600px){.price-controls{grid-template-columns:1fr}}
+
 </style>
  
 
@@ -419,6 +425,14 @@ Login
 <p class="small">Turn an item OFF when it is unavailable. Customers cannot order items that are OFF.</p>
 <div id="productControls" class="product-controls"></div>
 
+</div>
+
+<div class="shop-control">
+  <h3>💰 Product Rates</h3>
+  <p class="small">Change prices here and press Save Prices. New customer orders will use the latest saved rates.</p>
+  <div id="priceControls" class="price-controls"></div>
+  <button onclick="saveProductPrices()">💾 Save Prices</button>
+  <p id="priceSaveStatus" class="small" role="status"></p>
 </div>
 
 <div class="card">
@@ -848,6 +862,7 @@ onAuthStateChanged(
 
         startShopStatusListener();
         startItemStatusListener();
+        startProductPricesListener();
 
         resumeActiveDelivery();
 
@@ -1075,6 +1090,60 @@ window.setShopStatus = async function(status){
     alert("❌ Could not change shop availability.\n\n" + (error.message || "Firebase error"));
   }
 };
+
+/* ================= EDITABLE PRODUCT PRICES ================= */
+const PRICE_PRODUCTS = {
+  liveChicken:{name:"Live Chicken",unit:"per kg",defaultPrice:160},
+  dressedChicken:{name:"Dressed Chicken",unit:"per kg",defaultPrice:220},
+  skinlessChicken:{name:"Skinless Chicken",unit:"per kg",defaultPrice:240},
+  bonelessChicken:{name:"Boneless Chicken",unit:"per kg",defaultPrice:420},
+  drumsticks:{name:"Drumsticks",unit:"per kg",defaultPrice:300},
+  chickenLollipops:{name:"Chicken Lollipops",unit:"per kg",defaultPrice:300},
+  legsBreast:{name:"Legs & Breast",unit:"per kg",defaultPrice:280},
+  chickenLiver:{name:"Chicken Liver",unit:"per kg",defaultPrice:140},
+  eggsDozen:{name:"Eggs - Dozen",unit:"per dozen",defaultPrice:70},
+  eggsTray:{name:"Eggs - Tray",unit:"per tray",defaultPrice:180}
+};
+
+function renderPriceControls(prices = {}) {
+  const box = document.getElementById("priceControls");
+  if (!box) return;
+  box.innerHTML = Object.entries(PRICE_PRODUCTS).map(([key,item]) => {
+    const value = Number(prices[key] ?? item.defaultPrice);
+    return `<div class="price-edit"><label for="price-${key}">${item.name} (${item.unit})</label>
+      <input id="price-${key}" type="number" min="0" step="1" inputmode="decimal" value="${Number.isFinite(value) ? value : item.defaultPrice}"></div>`;
+  }).join("");
+}
+
+window.saveProductPrices = async function() {
+  const status = document.getElementById("priceSaveStatus");
+  const prices = {};
+  for (const [key,item] of Object.entries(PRICE_PRODUCTS)) {
+    const field = document.getElementById("price-" + key);
+    const value = Number(field?.value);
+    if (!field || !Number.isFinite(value) || value < 0) {
+      if (status) status.textContent = "Please enter a valid price for every product.";
+      return;
+    }
+    prices[key] = value;
+  }
+  try {
+    if (!auth.currentUser) throw new Error("Please log in as the owner again.");
+    await update(ref(db,"productPrices"), {...prices, updatedAt:new Date().toISOString()});
+    if (status) status.textContent = "✅ Prices saved. The customer page will update automatically.";
+  } catch(error) {
+    console.error("Saving product prices failed:",error);
+    if (status) status.textContent = "❌ Could not save prices: " + (error.message || "Firebase error");
+  }
+};
+
+function startProductPricesListener() {
+  onValue(ref(db,"productPrices"), snapshot => renderPriceControls(snapshot.val() || {}), error => {
+    console.error("Product prices listener error:",error);
+    const status = document.getElementById("priceSaveStatus");
+    if (status) status.textContent = "Could not load saved prices. Check Firebase permissions.";
+  });
+}
 
 const PRODUCT_STATUS_KEYS = {
   "Live Chicken":"live",
@@ -1419,8 +1488,6 @@ async function resumeActiveDelivery(){
             return;
 
           }
-
-
           await updateDeliveryLocation(
             savedOrderId,
             position
@@ -1478,93 +1545,38 @@ function displayOrder(
 ){
 
   let productsHTML = "";
+  const products = order.products;
 
-
-  /*
-    MULTI PRODUCT ORDER
-  */
-
-  if(
-    Array.isArray(
-      order.products
-    )
-  ){
-
-    order.products.forEach(
-      item => {
-
-        productsHTML += `
-
-          <div class="product">
-
-            <b>
-              ${escapeHTML(
-                item.name
-              )}
-            </b>
-
-            <br>
-
-            ${escapeHTML(
-              item.quantity
-            )}
-            ${escapeHTML(
-              item.unit || "kg"
-            )}
-
-            × ₹${escapeHTML(
-              item.price
-            )}
-
-            =
-
-            <b>
-              ₹${escapeHTML(
-                item.subtotal
-              )}
-            </b>
-
-          </div>
-
-        `;
-
-      }
-    );
-
+  // Current customer page saves products as an object keyed by product name.
+  if (products && !Array.isArray(products) && typeof products === "object") {
+    Object.entries(products).forEach(([name, item]) => {
+      if (!item || typeof item !== "object") return;
+      const quantity = Number(item.quantity || 0);
+      const price = Number(item.price || 0);
+      const subtotal = Number(item.subtotal ?? price * quantity);
+      productsHTML += `<div class="product"><b>${escapeHTML(name)}</b><br>
+        Quantity: ${escapeHTML(quantity)}<br>
+        Unit price: ₹${escapeHTML(price.toFixed(2))}<br>
+        Subtotal: <b>₹${escapeHTML(subtotal.toFixed(2))}</b></div>`;
+    });
+  } else if (Array.isArray(products)) {
+    products.forEach(item => {
+      if (!item || typeof item !== "object") return;
+      const quantity = Number(item.quantity || 0);
+      const price = Number(item.price || 0);
+      const subtotal = Number(item.subtotal ?? price * quantity);
+      productsHTML += `<div class="product"><b>${escapeHTML(item.name || item.product || "Product")}</b><br>
+        Quantity: ${escapeHTML(quantity)} ${escapeHTML(item.unit || "")}<br>
+        Unit price: ₹${escapeHTML(price.toFixed(2))}<br>
+        Subtotal: <b>₹${escapeHTML(subtotal.toFixed(2))}</b></div>`;
+    });
+  } else if (order.product) {
+    productsHTML = `<div class="product"><b>${escapeHTML(order.product)}</b><br>Quantity: ${escapeHTML(order.quantity || "-")}</div>`;
   }
-
-
-  /*
-    OLD SINGLE PRODUCT ORDER
-  */
-
-  else if(
-    order.product
-  ){
-
-    productsHTML = `
-
-      <div class="product">
-
-        <b>
-          ${escapeHTML(
-            order.product
-          )}
-        </b>
-
-        <br>
-
-        Quantity:
-        ${escapeHTML(
-          order.quantity
-        )}
-
-      </div>
-
-    `;
-
+  if (!productsHTML && order.productList) {
+    productsHTML = `<div class="product">${escapeHTML(order.productList).replace(/\\n/g, "<br>")}</div>`;
   }
-
+  if (!productsHTML) productsHTML = `<div class="product">Product details were not saved with this order.</div>`;
 
   const status =
     String(order.status || "new").toLowerCase();
@@ -1845,8 +1857,7 @@ function getActionButtons(
   ){
 
     return `
-
-      <button
+    <button
         class="delivery"
         onclick="startDelivery(
           '${escapeJs(orderId)}'
@@ -2151,8 +2162,6 @@ async function confirmCashPayment(orderId){
     alert(
       "✅ Cash payment recorded."
     );
-
-
     await loadOrders();
 
   }catch(error){
@@ -2389,8 +2398,7 @@ async function(orderId){
             error
           );
 
-
-          alert(
+  alert(
             "⚠️ Delivery started, but live GPS could not be updated.\n\nPlease allow location permission."
           );
 
@@ -2684,7 +2692,7 @@ async function(orderId){
     alert(
       "✅ Order marked as delivered.\n\n🛑 Live delivery location sharing has been stopped."
     );
-
+  
         }
   catch(error){
 
@@ -3043,8 +3051,7 @@ function playOrderSound(){
       emergencySiren,
       900
     );
-
-    if(
+  if(
       "Notification" in window &&
       Notification.permission === "granted"
     ){
