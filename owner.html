@@ -1137,6 +1137,10 @@ window.saveProductPrices = async function() {
   }
 };
 
+// Render default prices immediately so the fields are visible even if Firebase
+// has not returned saved prices yet or the price read is temporarily denied.
+renderPriceControls();
+
 function startProductPricesListener() {
   onValue(ref(db,"productPrices"), snapshot => renderPriceControls(snapshot.val() || {}), error => {
     console.error("Product prices listener error:",error);
@@ -1144,7 +1148,6 @@ function startProductPricesListener() {
     if (status) status.textContent = "Could not load saved prices. Check Firebase permissions.";
   });
 }
-
 const PRODUCT_STATUS_KEYS = {
   "Live Chicken":"live",
   "Dressed Chicken":"dressed",
@@ -1318,6 +1321,8 @@ function renderOrders(
       ordersDiv.prepend(
         note
       );
+
+
       setTimeout(
         () => {
 
@@ -1453,8 +1458,7 @@ async function resumeActiveDelivery(){
     ){
 
       return;
-
-    }
+  }
 
 
     if(
@@ -1942,10 +1946,10 @@ function getActionButtons(
 
   return mapButtons(order);
 
-}
-
+  }
 /* ================= PAYMENT FUNCTIONS ================= */
-  function getOrderTotalNumber(order){
+
+function getOrderTotalNumber(order){
 
   const raw = String(order.total || 0)
     .replace(/[₹,\s]/g,"");
@@ -2363,7 +2367,8 @@ async function(orderId){
     activeDeliveryOrderId =
       orderId;
 
-  localStorage.setItem(
+
+    localStorage.setItem(
       "farmFreshActiveDeliveryOrder",
       orderId
     );
@@ -2479,7 +2484,6 @@ async function updateDeliveryLocation(
 
         deliveryLatitude:
           latitude,
-
         deliveryLongitude:
           longitude,
 
@@ -2897,7 +2901,8 @@ function mapButtons(
 }
 
 
-/* =====================================================
+/*
+  ====================================================
    ORDER SOUND
 ===================================================== */
 
@@ -3002,6 +3007,7 @@ function playOrderSound(){
       window.webkitAudioContext
     )();
   }
+
   const startSiren = () => {
 
     stopOrderSound();
