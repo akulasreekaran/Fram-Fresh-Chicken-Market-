@@ -244,6 +244,37 @@ footer{
 #cartTotal{
   color:#d43d16
 }
+
+.main-nav{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:12px}
+.nav-button{border:2px solid #facc15;background:#b91c1c;color:#fff;border-radius:10px;padding:10px 20px;font-weight:bold;cursor:pointer}
+.nav-button.active{background:#7f1d1d;box-shadow:0 0 0 2px #fde047}
+#myOrders{display:none;max-width:900px;margin:auto;padding:25px 15px}
+body.my-orders-view #myOrders{display:block}
+body.my-orders-view section:not(#myOrders){display:none!important}
+body.my-orders-view #shopAvailability{display:none}
+.orders-help{font-size:14px;color:#555;line-height:1.5}
+.my-order-card{background:#fff;border:1px solid #facc15;border-radius:14px;padding:16px;margin:14px 0;box-shadow:0 2px 10px #ddd;overflow-wrap:anywhere}
+.my-order-card h3{margin:0 0 8px}
+.my-order-meta{font-size:14px;line-height:1.7}
+.my-order-status{display:inline-block;margin:8px 0;padding:7px 10px;border-radius:8px;background:#fff4d6;color:#805b00;font-weight:bold}
+.track-order-btn{display:block;text-align:center;text-decoration:none;background:#b91c1c;color:white;border:2px solid #facc15;border-radius:10px;padding:12px;margin-top:12px;font-weight:bold}
+.orders-action{background:#b91c1c;color:#fff;border:2px solid #facc15;border-radius:10px;padding:12px 16px;font-weight:bold;cursor:pointer}
+.orders-empty{padding:18px;background:#fff;border-radius:12px;text-align:center;color:#555}
+
+
+/* Customer phone OTP login */
+#customerLogin{max-width:700px;margin:14px auto;padding:16px;background:#fff;border:2px solid #facc15;border-radius:14px;box-shadow:0 2px 10px #ddd}
+#customerLogin h3{margin:0 0 8px;color:#7f1d1d}
+#customerLogin input{border:1px solid #ddd;margin:7px 0}
+#otpMessage{font-size:14px;line-height:1.5;margin-top:8px;color:#444}
+#loginStatus{font-weight:bold;color:#166534}
+.otp-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.otp-actions button{flex:1;min-width:140px}
+#verifyOtpButton{background:#b91c1c;color:#fff;border:2px solid #facc15;border-radius:10px;padding:12px;font-weight:bold}
+#sendOtpButton{background:#fff;color:#7f1d1d;border:2px solid #facc15;border-radius:10px;padding:12px;font-weight:bold}
+#recaptcha-container{margin:10px 0;overflow-x:auto}
+.auth-required{padding:12px;background:#fff4d6;border-radius:10px;color:#805b00;margin:12px 0}
+
 </style>
 </head>
 
@@ -258,15 +289,41 @@ footer{
 
 <h2>🍗 Farm Fresh Chicken Market</h2>
 
-<nav>
-<a href="#home">Home</a>
-<a href="#products">Products</a>
-<a href="#order">Order</a>
-<a href="#location">Location</a>
-<a href="#photos">Photos</a>
+<nav class="main-nav">
+<button type="button" id="homeNav" class="nav-button active">Home</button>
+<button type="button" id="myOrdersNav" class="nav-button">My Orders</button>
 </nav>
 
 </header>
+
+<div id="customerLogin" aria-labelledby="loginHeading">
+  <h3 id="loginHeading">🔐 Customer Login with OTP</h3>
+  <p class="small">Verify your mobile number with an SMS OTP to place orders and view your own orders.</p>
+  <label for="loginPhone"><b>Mobile number</b></label>
+  <input id="loginPhone" type="tel" inputmode="numeric" autocomplete="tel" maxlength="10" placeholder="10-digit Indian mobile number">
+  <div id="recaptcha-container"></div>
+  <div class="otp-actions">
+    <button type="button" id="sendOtpButton">Send OTP</button>
+  </div>
+  <div id="otpEntry" style="display:none">
+    <label for="loginOtp"><b>SMS OTP</b></label>
+    <input id="loginOtp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="Enter 6-digit OTP">
+    <div class="otp-actions"><button type="button" id="verifyOtpButton">Verify OTP & Login</button></div>
+  </div>
+  <p id="otpMessage" role="status" aria-live="polite">Please log in to place orders or view My Orders.</p>
+  <div id="loginStatus"></div>
+  <button type="button" id="logoutButton" class="orders-action" style="display:none;margin-top:8px">Logout</button>
+</div>
+
+<section id="myOrders">
+  <h2>📦 My Orders</h2>
+  <p class="orders-help">Log in with your verified mobile number above. Your orders will appear below, with a delivery-tracking option under each order.</p>
+  <label for="ordersPhone"><b>Phone Number</b></label>
+  <input id="ordersPhone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="Log in first" readonly>
+  <button type="button" id="findOrdersButton" class="orders-action">Refresh My Orders</button>
+  <div id="ordersMessage" class="orders-help" role="status" aria-live="polite" style="margin-top:12px"></div>
+  <div id="ordersList"></div>
+</section>
 
 <section class="hero" id="home">
 
@@ -710,6 +767,11 @@ initializeApp
 from
 "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 
+import {
+  getAuth, onAuthStateChanged, RecaptchaVerifier, signInWithPhoneNumber, signOut
+}
+from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+
 
 import {
 getDatabase,
@@ -717,7 +779,10 @@ ref,
 push,
 get,
 onValue,
-set
+set,
+query,
+orderByChild,
+equalTo
 }
 from
 "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
@@ -755,6 +820,92 @@ initializeApp(firebaseConfig);
 
 const db=
 getDatabase(app);
+
+const auth = getAuth(app);
+let confirmationResult = null;
+let recaptchaVerifier = null;
+let recaptchaWidgetReady = false;
+let verifiedCustomerPhone = "";
+
+function normalizeIndianPhone(value) {
+  let digits = String(value || "").replace(/\D/g, "");
+  if (digits.startsWith("91") && digits.length === 12) digits = digits.slice(2);
+  if (digits.startsWith("0") && digits.length === 11) digits = digits.slice(1);
+  return /^\d{10}$/.test(digits) ? digits : "";
+}
+function setOtpMessage(message) { document.getElementById("otpMessage").textContent = message; }
+function getOrCreateRecaptcha() {
+  if (recaptchaVerifier) return recaptchaVerifier;
+  recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
+    size: "normal",
+    callback: () => { recaptchaWidgetReady = true; },
+    "expired-callback": () => { recaptchaWidgetReady = false; setOtpMessage("reCAPTCHA expired. Please verify it again and resend OTP."); }
+  });
+  return recaptchaVerifier;
+}
+function showAuthenticatedCustomer(user) {
+  const phone = normalizeIndianPhone(user?.phoneNumber || "");
+  verifiedCustomerPhone = phone;
+  const loggedIn = Boolean(user && phone);
+  document.getElementById("loginStatus").textContent = loggedIn ? "✅ Logged in: +91 " + phone : "";
+  document.getElementById("sendOtpButton").style.display = loggedIn ? "none" : "inline-block";
+  document.getElementById("otpEntry").style.display = loggedIn ? "none" : (confirmationResult ? "block" : "none");
+  document.getElementById("logoutButton").style.display = loggedIn ? "inline-block" : "none";
+  document.getElementById("loginPhone").readOnly = loggedIn;
+  document.getElementById("ordersPhone").value = loggedIn ? phone : "";
+  const orderPhone = document.getElementById("phone");
+  if (orderPhone) { orderPhone.value = loggedIn ? phone : ""; orderPhone.readOnly = loggedIn; orderPhone.placeholder = loggedIn ? "Verified mobile number" : "Login with OTP first"; }
+  if (loggedIn) {
+    try { localStorage.setItem("ffcm_customer_phone", phone); } catch(e) {}
+    setOtpMessage("Your mobile number is verified. You can place orders and view your orders.");
+    if (document.body.classList.contains("my-orders-view")) loadMyOrders();
+  } else {
+    setOtpMessage("Please log in to place orders or view My Orders.");
+    if (stopMyOrdersListener) { stopMyOrdersListener(); stopMyOrdersListener = null; }
+    document.getElementById("ordersList").innerHTML = "";
+    document.getElementById("ordersMessage").textContent = "Please log in with OTP to view your orders.";
+  }
+}
+
+document.getElementById("sendOtpButton").addEventListener("click", async () => {
+  const phone = normalizeIndianPhone(document.getElementById("loginPhone").value);
+  if (!phone) { setOtpMessage("Enter a valid 10-digit Indian mobile number."); return; }
+  try {
+    setOtpMessage("Preparing secure verification…");
+    const verifier = getOrCreateRecaptcha();
+    await verifier.render();
+    setOtpMessage("Sending OTP by SMS to +91 " + phone + "…");
+    confirmationResult = await signInWithPhoneNumber(auth, "+91" + phone, verifier);
+    document.getElementById("otpEntry").style.display = "block";
+    setOtpMessage("OTP sent. Check your SMS and enter the 6-digit code.");
+  } catch (error) {
+    console.error("OTP send error:", error);
+    setOtpMessage("Could not send OTP: " + (error.code === "auth/too-many-requests" ? "Too many attempts. Try again later." : (error.message || "Please check Firebase Phone sign-in and authorized domains.")));
+    if (recaptchaVerifier) { try { await recaptchaVerifier.clear(); } catch(e) {} recaptchaVerifier = null; }
+  }
+});
+
+document.getElementById("verifyOtpButton").addEventListener("click", async () => {
+  const code = document.getElementById("loginOtp").value.trim();
+  if (!confirmationResult) { setOtpMessage("Please request an OTP first."); return; }
+  if (!/^\d{6}$/.test(code)) { setOtpMessage("Enter the 6-digit OTP from your SMS."); return; }
+  try {
+    setOtpMessage("Verifying OTP…");
+    await confirmationResult.confirm(code);
+    confirmationResult = null;
+    document.getElementById("loginOtp").value = "";
+    showAuthenticatedCustomer(auth.currentUser);
+  } catch (error) {
+    console.error("OTP verify error:", error);
+    setOtpMessage(error.code === "auth/invalid-verification-code" ? "Incorrect OTP. Please check and try again." : (error.message || "OTP verification failed."));
+  }
+});
+
+document.getElementById("logoutButton").addEventListener("click", async () => {
+  try { await signOut(auth); confirmationResult = null; setOtpMessage("You have logged out."); }
+  catch (error) { console.error(error); setOtpMessage("Could not log out. Please try again."); }
+});
+onAuthStateChanged(auth, user => showAuthenticatedCustomer(user));
 
 
 const SHOP_LAT=
@@ -1111,7 +1262,7 @@ lng:
 position.coords.longitude
 
 });
-
+  
 },
 
 ()=>{
@@ -1236,9 +1387,8 @@ function renderShopAvailability(){
     orderButton.classList.toggle("shop-blocked",blocked);
     orderButton.innerText=blocked?"🚫 Ordering Temporarily Unavailable":"Confirm Order";
   }
-}
-
-function startShopAvailabilityListener(){
+      }
+  function startShopAvailabilityListener(){
   onValue(ref(db,"shopStatus"),snapshot=>{
     const data=snapshot.val()||{};
     manualShopStatus=String(data.status||"open").toLowerCase();
@@ -1405,6 +1555,11 @@ startItemAvailabilityListener();
 
 window.sendOrder=
 async function(){
+  if (!auth.currentUser || !verifiedCustomerPhone) {
+  alert("🔐 Please log in with your mobile OTP before placing an order.");
+  document.getElementById("customerLogin").scrollIntoView({behavior:"smooth"});
+  return;
+}
 
 try{
 
@@ -1446,11 +1601,7 @@ document
 .trim();
 
 
-const phone=
-document
-.getElementById("phone")
-.value
-.trim();
+const phone = verifiedCustomerPhone;
 
 
 const deliveryType=
@@ -1504,8 +1655,7 @@ try{
 
 let location;
 
-
-if(
+  if(
 deliveryType==="me"
 ){
 
@@ -1684,11 +1834,13 @@ const message=
 "\n\n📦 TRACK ORDER:\n"+trackingLink;
 
 
+// Remember the customer's order phone number for the My Orders page.
+try { localStorage.setItem("ffcm_customer_phone", phone); } catch (e) {}
+
 const whatsapp=
 "https://wa.me/918121321120?text="+
 encodeURIComponent(message);
-
-
+  
 locationMessage(
 "✅ Location verified: "+
 distance.toFixed(2)+
@@ -1723,6 +1875,135 @@ error.message||
 }
 
 };
+
+// ---------------- MY ORDERS PAGE ----------------
+const TRACK_PAGE_URL = "https://akulasreekaran.github.io/Fram-Fresh-Chicken-Market-/track.html?order=";
+let stopMyOrdersListener = null;
+
+function escapeOrderText(value) {
+  return String(value == null ? "" : value).replace(/[&<>"']/g, ch => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+  }[ch]));
+}
+
+function readableOrderStatus(status) {
+  const labels = {
+    new: "⏳ Pending",
+    accepted: "✅ Accepted",
+    preparing: "🍗 Preparing",
+    out_for_delivery: "🚚 Out for delivery",
+    delivered: "🏠 Delivered",
+    rejected: "❌ Rejected"
+  };
+  return labels[String(status || "new").toLowerCase()] || String(status || "Pending").replaceAll("_", " ");
+}
+
+function formatOrderDate(value) {
+  if (!value) return "Not available";
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? "Not available" :
+    date.toLocaleString("en-IN", {dateStyle:"medium", timeStyle:"short"});
+}
+
+function renderMyOrders(data) {
+  const list = document.getElementById("ordersList");
+  const message = document.getElementById("ordersMessage");
+  list.innerHTML = "";
+  const orders = Object.entries(data || {}).sort((a,b) => {
+    const da = new Date(a[1]?.createdAt || 0).getTime() || 0;
+    const dbb = new Date(b[1]?.createdAt || 0).getTime() || 0;
+    return dbb - da;
+  });
+
+  if (!orders.length) {
+    message.textContent = "No orders found for this phone number yet. Check the number and try again.";
+    return;
+  }
+
+  message.textContent = "Showing " + orders.length + (orders.length === 1 ? " order." : " orders.");
+
+  for (const [id, order] of orders) {
+    const products = order.products && typeof order.products === "object" ? order.products : {};
+    let productLines = "";
+    for (const [productName, item] of Object.entries(products)) {
+      if (!item || typeof item !== "object") continue;
+      const qty = Number(item.quantity || 0);
+      const price = Number(item.price || 0);
+      productLines += `<div>• ${escapeOrderText(productName)} × ${qty} — ₹${(price * qty).toFixed(2)}</div>`;
+    }
+    if (!productLines && order.productList) productLines = `<div>${escapeOrderText(order.productList).replace(/\n/g,"<br>")}</div>`;
+    if (!productLines) productLines = "<div>Product details are not available for this order.</div>";
+
+    const card = document.createElement("article");
+    card.className = "my-order-card";
+    card.innerHTML = `
+      <h3>Order #${escapeOrderText(id)}</h3>
+      <div class="my-order-meta">
+        <b>Order time:</b> ${escapeOrderText(formatOrderDate(order.createdAt))}<br>
+        <b>Products:</b><br>${productLines}
+        <b>Total:</b> ₹${Number(order.total || 0).toFixed(2)}<br>
+        <b>Delivery address:</b> ${escapeOrderText(order.address || "Not provided")}<br>
+        <b>Status:</b><br><span class="my-order-status">${escapeOrderText(readableOrderStatus(order.status))}</span>
+      </div>
+      <a class="track-order-btn" href="${TRACK_PAGE_URL}${encodeURIComponent(id)}">📍 Track Delivery Location</a>
+    `;
+    list.appendChild(card);
+  }
+}
+
+function loadMyOrders() {
+  const phone = verifiedCustomerPhone;
+  const message = document.getElementById("ordersMessage");
+  const list = document.getElementById("ordersList");
+
+  if (!auth.currentUser || !phone) {
+    message.textContent = "Please log in with OTP to view your orders.";
+    list.innerHTML = "";
+    return;
+  }
+  document.getElementById("ordersPhone").value = phone;
+  try { localStorage.setItem("ffcm_customer_phone", phone); } catch (e) {}
+
+  message.textContent = "Loading your orders…";
+  list.innerHTML = "";
+  if (stopMyOrdersListener) {
+    stopMyOrdersListener();
+    stopMyOrdersListener = null;
+  }
+
+  const customerOrdersQuery = query(ref(db, "orders"), orderByChild("phone"), equalTo(phone));
+  stopMyOrdersListener = onValue(customerOrdersQuery, snapshot => {
+    renderMyOrders(snapshot.val() || {});
+  }, error => {
+    console.error("My Orders error:", error);
+    message.textContent = "Could not load orders. Please check your connection and try again.";
+  });
+}
+
+document.getElementById("findOrdersButton").addEventListener("click", loadMyOrders);
+document.getElementById("ordersPhone").addEventListener("keydown", event => {
+  if (event.key === "Enter") loadMyOrders();
+});
+
+document.getElementById("homeNav").addEventListener("click", () => {
+  document.body.classList.remove("my-orders-view");
+  document.getElementById("homeNav").classList.add("active");
+  document.getElementById("myOrdersNav").classList.remove("active");
+  window.scrollTo({top:0, behavior:"smooth"});
+});
+
+document.getElementById("myOrdersNav").addEventListener("click", () => {
+  document.body.classList.add("my-orders-view");
+  document.getElementById("homeNav").classList.remove("active");
+  document.getElementById("myOrdersNav").classList.add("active");
+  window.scrollTo({top:0, behavior:"smooth"});
+  if (auth.currentUser && verifiedCustomerPhone) loadMyOrders();
+  else { document.getElementById("ordersMessage").textContent = "Please log in with OTP above to view your orders."; document.getElementById("ordersList").innerHTML = ""; }
+});
+
+// A saved phone number is not authentication; OTP login is required to access orders.
+// ------------------------------------------------
+
 document
 .getElementById("deliveryType")
 .addEventListener(
