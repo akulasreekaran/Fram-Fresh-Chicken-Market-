@@ -275,6 +275,14 @@ body.my-orders-view #shopAvailability{display:none}
 #recaptcha-container{margin:10px 0;overflow-x:auto}
 .auth-required{padding:12px;background:#fff4d6;border-radius:10px;color:#805b00;margin:12px 0}
 
+
+/* Button tap reliability on mobile */
+button, a.btn, input, select, textarea {
+  pointer-events: auto !important;
+  touch-action: manipulation;
+}
+button, a.btn { position: relative; z-index: 2; }
+
 </style>
 </head>
 
@@ -759,6 +767,43 @@ WhatsApp Us
 </section>
 
 
+
+<script>
+(function () {
+  window.addEventListener('error', function (event) {
+    console.error('Farm Fresh page error:', event.message, event.filename, event.lineno);
+  });
+  document.addEventListener('DOMContentLoaded', function () {
+    const home = document.getElementById('homeNav');
+    const orders = document.getElementById('myOrdersNav');
+    if (home) home.addEventListener('click', function () {
+      document.body.classList.remove('my-orders-view');
+      if (home) home.classList.add('active');
+      if (orders) orders.classList.remove('active');
+      window.scrollTo(0, 0);
+    });
+    if (orders) orders.addEventListener('click', function () {
+      document.body.classList.add('my-orders-view');
+      orders.classList.add('active');
+      if (home) home.classList.remove('active');
+      window.scrollTo(0, 0);
+      const msg = document.getElementById('ordersMessage');
+      if (msg && !window.auth) msg.textContent = 'Please log in with OTP to view your orders.';
+    });
+    document.querySelectorAll('button, a.btn').forEach(function (el) {
+      el.addEventListener('click', function () {
+        // If the main module failed to initialise, give a visible hint instead of a silent tap.
+        if (el.matches('[data-product]') && typeof window.addProduct !== 'function') {
+          alert('The ordering script did not load. Please refresh the page; if it continues, send a screenshot of the browser console error.');
+        } else if (el.getAttribute('onclick') === 'sendOrder()' && typeof window.sendOrder !== 'function') {
+          alert('The ordering script did not load. Please refresh the page; if it continues, send a screenshot of the browser console error.');
+        }
+      }, true);
+    });
+  });
+})();
+</script>
+
 <script type="module">
 
 import {
@@ -995,6 +1040,12 @@ function applyCustomerPrices(prices) {
       priceBox.innerHTML = `₹${currentProductPrices.eggsDozen} / Dozen<br>₹${currentProductPrices.eggsTray} / Tray`;
     } else {
       const key = CUSTOMER_PRICE_KEYS[title];
+      if (key) priceBox.textContent = `₹${currentProductPrices[key]}/kg`;
+    }
+  });
+
+  Object.keys(cart).forEach(name => {
+    const key = CUSTOMER_PRICE_KEYS[name];
     if (key) cart[name].price = currentProductPrices[key];
   });
   renderCart();
@@ -1162,7 +1213,9 @@ Remove
 `;
 
 });
-  cartItems.innerHTML=
+
+
+cartItems.innerHTML=
 html;
 
 
@@ -1234,13 +1287,7 @@ const R=6371;
 const dLat=
 (lat2-lat1)*
 Math.PI/180;
-
-
-const dLon=
-(lon2-lon1)*
-Math.PI/180;
-
-
+  
 const a=
 Math.sin(dLat/2)**2+
 Math.cos(lat1*Math.PI/180)*
@@ -1438,9 +1485,8 @@ function renderShopAvailability(){
     manualShopStatus=String(data.status||"open").toLowerCase();
     renderShopAvailability();
   },error=>console.error("Shop availability error:",error));
-}
-
-async function checkShopAvailability(){
+  }
+  async function checkShopAvailability(){
   const snapshot=await get(ref(db,"shopStatus"));
   const data=snapshot.val()||{};
   manualShopStatus=String(data.status||"open").toLowerCase();
@@ -1474,7 +1520,9 @@ document.querySelectorAll(
 CSS.escape(name)+
 '"]'
 );
-  buttons.forEach(button=>{
+
+
+buttons.forEach(button=>{
 
 button.disabled=
 !available;
@@ -1679,9 +1727,8 @@ try{
 
 await checkCartAvailability();
 
-}
-
-catch(error){
+  }
+  catch(error){
 
 alert(
 error.message||
@@ -1715,14 +1762,6 @@ await getOtherLocation();
 
 
 const distance=
-distanceKm(
-SHOP_LAT,
-SHOP_LNG,
-location.lat,
-location.lng
-);
-
-  const distance=
 distanceKm(
 SHOP_LAT,
 SHOP_LNG,
@@ -1925,7 +1964,8 @@ error.message||
 }
 
 };
-  // ---------------- MY ORDERS PAGE ----------------
+
+// ---------------- MY ORDERS PAGE ----------------
 const TRACK_PAGE_URL = "https://akulasreekaran.github.io/Fram-Fresh-Chicken-Market-/track.html?order=";
 let stopMyOrdersListener = null;
 
@@ -1952,9 +1992,8 @@ function formatOrderDate(value) {
   const date = new Date(value);
   return Number.isNaN(date.getTime()) ? "Not available" :
     date.toLocaleString("en-IN", {dateStyle:"medium", timeStyle:"short"});
-}
-
-function renderMyOrders(data) {
+  }
+  function renderMyOrders(data) {
   const list = document.getElementById("ordersList");
   const message = document.getElementById("ordersMessage");
   list.innerHTML = "";
@@ -2052,8 +2091,7 @@ document.getElementById("myOrdersNav").addEventListener("click", () => {
 
 // A saved phone number is not authentication; OTP login is required to access orders.
 // ------------------------------------------------
-
-document
+  document
 .getElementById("deliveryType")
 .addEventListener(
 "change",
