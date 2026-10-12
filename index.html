@@ -305,29 +305,23 @@ button, a.btn { position: relative; z-index: 2; }
 </header>
 
 <div id="customerLogin" aria-labelledby="loginHeading">
-  <h3 id="loginHeading">🔐 Customer Login with OTP</h3>
-  <p class="small">Verify your mobile number with an SMS OTP to place orders and view your own orders.</p>
+  <h3 id="loginHeading">📱 Customer Login with Mobile Number</h3>
+  <p class="small">Enter your mobile number to continue without SMS OTP.</p>
   <label for="loginPhone"><b>Mobile number</b></label>
   <input id="loginPhone" type="tel" inputmode="numeric" autocomplete="tel" maxlength="10" placeholder="10-digit Indian mobile number">
-  <div id="recaptcha-container"></div>
   <div class="otp-actions">
-    <button type="button" id="sendOtpButton">Send OTP</button>
+    <button type="button" id="sendOtpButton">Continue</button>
+    <button type="button" id="logoutButton" class="orders-action" style="display:none">Change Number</button>
   </div>
-  <div id="otpEntry" style="display:none">
-    <label for="loginOtp"><b>SMS OTP</b></label>
-    <input id="loginOtp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="Enter 6-digit OTP">
-    <div class="otp-actions"><button type="button" id="verifyOtpButton">Verify OTP & Login</button></div>
-  </div>
-  <p id="otpMessage" role="status" aria-live="polite">Please log in to place orders or view My Orders.</p>
+  <p id="otpMessage" role="status" aria-live="polite">Enter your mobile number and tap Continue.</p>
   <div id="loginStatus"></div>
-  <button type="button" id="logoutButton" class="orders-action" style="display:none;margin-top:8px">Logout</button>
 </div>
 
 <section id="myOrders">
   <h2>📦 My Orders</h2>
-  <p class="orders-help">Log in with your verified mobile number above. Your orders will appear below, with a delivery-tracking option under each order.</p>
+  <p class="orders-help">Enter the same mobile number used when placing the order. Orders will be searched by that number.</p>
   <label for="ordersPhone"><b>Phone Number</b></label>
-  <input id="ordersPhone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="Log in first" readonly>
+  <input id="ordersPhone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="Enter your mobile number">
   <button type="button" id="findOrdersButton" class="orders-action">Refresh My Orders</button>
   <div id="ordersMessage" class="orders-help" role="status" aria-live="polite" style="margin-top:12px"></div>
   <div id="ordersList"></div>
@@ -813,12 +807,6 @@ from
 "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 
 import {
-  getAuth, onAuthStateChanged, RecaptchaVerifier, signInWithPhoneNumber, signOut
-}
-from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
-
-
-import {
 getDatabase,
 ref,
 push,
@@ -866,92 +854,61 @@ initializeApp(firebaseConfig);
 const db=
 getDatabase(app);
 
-const auth = getAuth(app);
-let confirmationResult = null;
-let recaptchaVerifier = null;
-let recaptchaWidgetReady = false;
 let verifiedCustomerPhone = "";
+let stopMyOrdersListener = null;
 
 function normalizeIndianPhone(value) {
-  let digits = String(value || "").replace(/\D/g, "");
+  let digits = String(value || "").replace(/\\D/g, "");
   if (digits.startsWith("91") && digits.length === 12) digits = digits.slice(2);
   if (digits.startsWith("0") && digits.length === 11) digits = digits.slice(1);
-  return /^\d{10}$/.test(digits) ? digits : "";
+  return /^\\d{10}$/.test(digits) ? digits : "";
 }
-function setOtpMessage(message) { document.getElementById("otpMessage").textContent = message; }
-function getOrCreateRecaptcha() {
-  if (recaptchaVerifier) return recaptchaVerifier;
-  recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
-    size: "normal",
-    callback: () => { recaptchaWidgetReady = true; },
-    "expired-callback": () => { recaptchaWidgetReady = false; setOtpMessage("reCAPTCHA expired. Please verify it again and resend OTP."); }
-  });
-  return recaptchaVerifier;
+function setOtpMessage(message) {
+  document.getElementById("otpMessage").textContent = message;
 }
-function showAuthenticatedCustomer(user) {
-  const phone = normalizeIndianPhone(user?.phoneNumber || "");
-  verifiedCustomerPhone = phone;
-  const loggedIn = Boolean(user && phone);
-  document.getElementById("loginStatus").textContent = loggedIn ? "✅ Logged in: +91 " + phone : "";
-  document.getElementById("sendOtpButton").style.display = loggedIn ? "none" : "inline-block";
-  document.getElementById("otpEntry").style.display = loggedIn ? "none" : (confirmationResult ? "block" : "none");
+function showPhoneLogin(phone) {
+  verifiedCustomerPhone = phone || "";
+  const loggedIn = Boolean(verifiedCustomerPhone);
+  document.getElementById("loginStatus").textContent = loggedIn ? "Number selected: +91 " + verifiedCustomerPhone : "";
+  document.getElementById("sendOtpButton").textContent = loggedIn ? "Update Number" : "Continue";
   document.getElementById("logoutButton").style.display = loggedIn ? "inline-block" : "none";
-  document.getElementById("loginPhone").readOnly = loggedIn;
-  document.getElementById("ordersPhone").value = loggedIn ? phone : "";
+  document.getElementById("ordersPhone").value = verifiedCustomerPhone;
   const orderPhone = document.getElementById("phone");
-  if (orderPhone) { orderPhone.value = loggedIn ? phone : ""; orderPhone.readOnly = loggedIn; orderPhone.placeholder = loggedIn ? "Verified mobile number" : "Login with OTP first"; }
-  if (loggedIn) {
-    try { localStorage.setItem("ffcm_customer_phone", phone); } catch(e) {}
-    setOtpMessage("Your mobile number is verified. You can place orders and view your orders.");
-    if (document.body.classList.contains("my-orders-view")) loadMyOrders();
-  } else {
-    setOtpMessage("Please log in to place orders or view My Orders.");
-    if (stopMyOrdersListener) { stopMyOrdersListener(); stopMyOrdersListener = null; }
-    document.getElementById("ordersList").innerHTML = "";
-    document.getElementById("ordersMessage").textContent = "Please log in with OTP to view your orders.";
+  if (orderPhone) {
+    orderPhone.value = verifiedCustomerPhone;
+    orderPhone.readOnly = loggedIn;
+    orderPhone.placeholder = loggedIn ? "Mobile number" : "Enter mobile number";
   }
 }
-
-document.getElementById("sendOtpButton").addEventListener("click", async () => {
+document.getElementById("sendOtpButton").addEventListener("click", () => {
   const phone = normalizeIndianPhone(document.getElementById("loginPhone").value);
-  if (!phone) { setOtpMessage("Enter a valid 10-digit Indian mobile number."); return; }
-  try {
-    setOtpMessage("Preparing secure verification…");
-    const verifier = getOrCreateRecaptcha();
-    await verifier.render();
-    setOtpMessage("Sending OTP by SMS to +91 " + phone + "…");
-    confirmationResult = await signInWithPhoneNumber(auth, "+91" + phone, verifier);
-    document.getElementById("otpEntry").style.display = "block";
-    setOtpMessage("OTP sent. Check your SMS and enter the 6-digit code.");
-  } catch (error) {
-    console.error("OTP send error:", error);
-    setOtpMessage("Could not send OTP: " + (error.code === "auth/too-many-requests" ? "Too many attempts. Try again later." : (error.message || "Please check Firebase Phone sign-in and authorized domains.")));
-    if (recaptchaVerifier) { try { await recaptchaVerifier.clear(); } catch(e) {} recaptchaVerifier = null; }
+  if (!phone) {
+    setOtpMessage("Enter a valid 10-digit Indian mobile number.");
+    return;
   }
+  verifiedCustomerPhone = phone;
+  try { localStorage.setItem("ffcm_customer_phone", phone); } catch (e) {}
+  showPhoneLogin(phone);
+  setOtpMessage("Number saved for this session. No SMS was sent.");
+  if (document.body.classList.contains("my-orders-view")) loadMyOrders();
 });
-
-document.getElementById("verifyOtpButton").addEventListener("click", async () => {
-  const code = document.getElementById("loginOtp").value.trim();
-  if (!confirmationResult) { setOtpMessage("Please request an OTP first."); return; }
-  if (!/^\d{6}$/.test(code)) { setOtpMessage("Enter the 6-digit OTP from your SMS."); return; }
-  try {
-    setOtpMessage("Verifying OTP…");
-    await confirmationResult.confirm(code);
-    confirmationResult = null;
-    document.getElementById("loginOtp").value = "";
-    showAuthenticatedCustomer(auth.currentUser);
-  } catch (error) {
-    console.error("OTP verify error:", error);
-    setOtpMessage(error.code === "auth/invalid-verification-code" ? "Incorrect OTP. Please check and try again." : (error.message || "OTP verification failed."));
+document.getElementById("logoutButton").addEventListener("click", () => {
+  verifiedCustomerPhone = "";
+  document.getElementById("loginPhone").value = "";
+  try { localStorage.removeItem("ffcm_customer_phone"); } catch (e) {}
+  showPhoneLogin("");
+  setOtpMessage("Enter your mobile number and tap Continue.");
+  document.getElementById("ordersList").innerHTML = "";
+  document.getElementById("ordersMessage").textContent = "Enter your mobile number to look up orders.";
+});
+try {
+  const savedPhone = normalizeIndianPhone(localStorage.getItem("ffcm_customer_phone"));
+  if (savedPhone) {
+    document.getElementById("loginPhone").value = savedPhone;
+    showPhoneLogin(savedPhone);
+    setOtpMessage("Previously entered number loaded. Tap Continue to use it.");
   }
-});
-
-document.getElementById("logoutButton").addEventListener("click", async () => {
-  try { await signOut(auth); confirmationResult = null; setOtpMessage("You have logged out."); }
-  catch (error) { console.error(error); setOtpMessage("Could not log out. Please try again."); }
-});
-onAuthStateChanged(auth, user => showAuthenticatedCustomer(user));
-
+} catch (e) {}
 
 const SHOP_LAT=
 17.470028;
@@ -1107,7 +1064,7 @@ name+
 
 
 document
-.getElementById("order")
+getElementById("order")
 .scrollIntoView({
 behavior:"smooth"
 });
@@ -1287,7 +1244,13 @@ const R=6371;
 const dLat=
 (lat2-lat1)*
 Math.PI/180;
-  
+
+
+const dLon=
+(lon2-lon1)*
+Math.PI/180;
+
+
 const a=
 Math.sin(dLat/2)**2+
 Math.cos(lat1*Math.PI/180)*
@@ -1311,8 +1274,7 @@ document
 .getElementById("locationStatus")
 .innerText=
 text;
-
-}
+  }
 
 
 function getMyLocation(){
@@ -1485,8 +1447,9 @@ function renderShopAvailability(){
     manualShopStatus=String(data.status||"open").toLowerCase();
     renderShopAvailability();
   },error=>console.error("Shop availability error:",error));
-  }
-  async function checkShopAvailability(){
+}
+
+async function checkShopAvailability(){
   const snapshot=await get(ref(db,"shopStatus"));
   const data=snapshot.val()||{};
   manualShopStatus=String(data.status||"open").toLowerCase();
@@ -1498,8 +1461,7 @@ function renderShopAvailability(){
 
 setInterval(renderShopAvailability,30000);
 
-
-function renderItemAvailability(data){
+  function renderItemAvailability(data){
 
 itemAvailability=
 data||{};
@@ -1645,8 +1607,8 @@ startItemAvailabilityListener();
 
 window.sendOrder=
 async function(){
-  if (!auth.currentUser || !verifiedCustomerPhone) {
-  alert("🔐 Please log in with your mobile OTP before placing an order.");
+  if (!verifiedCustomerPhone) {
+  alert("📱 Enter your mobile number in Customer Login and tap Continue first.");
   document.getElementById("customerLogin").scrollIntoView({behavior:"smooth"});
   return;
 }
@@ -1691,7 +1653,7 @@ document
 .trim();
 
 
-const phone = verifiedCustomerPhone;
+const phone = verifiedCustomerPhone || normalizeIndianPhone(document.getElementById("phone").value);
 
 
 const deliveryType=
@@ -1705,9 +1667,7 @@ document
 .getElementById("address")
 .value
 .trim();
-
-
-if(
+  if(
 !name||
 !phone||
 !deliveryType||
@@ -1727,8 +1687,9 @@ try{
 
 await checkCartAvailability();
 
-  }
-  catch(error){
+}
+
+catch(error){
 
 alert(
 error.message||
@@ -1909,9 +1870,7 @@ await set(
 const trackingLink=
   "https://akulasreekaran.github.io/Fram-Fresh-Chicken-Market-/track.html?order="+
   encodeURIComponent(orderId);
-
-
-const message=
+  const message=
 "🍗 NEW ORDER\n\n"+
 "Name: "+name+"\n"+
 "Phone: "+phone+"\n\n"+
@@ -1967,7 +1926,6 @@ error.message||
 
 // ---------------- MY ORDERS PAGE ----------------
 const TRACK_PAGE_URL = "https://akulasreekaran.github.io/Fram-Fresh-Chicken-Market-/track.html?order=";
-let stopMyOrdersListener = null;
 
 function escapeOrderText(value) {
   return String(value == null ? "" : value).replace(/[&<>"']/g, ch => ({
@@ -1992,8 +1950,9 @@ function formatOrderDate(value) {
   const date = new Date(value);
   return Number.isNaN(date.getTime()) ? "Not available" :
     date.toLocaleString("en-IN", {dateStyle:"medium", timeStyle:"short"});
-  }
-  function renderMyOrders(data) {
+}
+
+function renderMyOrders(data) {
   const list = document.getElementById("ordersList");
   const message = document.getElementById("ordersMessage");
   list.innerHTML = "";
@@ -2040,17 +1999,21 @@ function formatOrderDate(value) {
 }
 
 function loadMyOrders() {
-  const phone = verifiedCustomerPhone;
+  const phone = verifiedCustomerPhone || normalizeIndianPhone(document.getElementById("phone").value);
   const message = document.getElementById("ordersMessage");
   const list = document.getElementById("ordersList");
 
-  if (!auth.currentUser || !phone) {
-    message.textContent = "Please log in with OTP to view your orders.";
+  const lookupPhone = phone || normalizeIndianPhone(document.getElementById("ordersPhone").value);
+  if (!lookupPhone) {
+    message.textContent = "Enter a valid 10-digit mobile number to look up orders.";
     list.innerHTML = "";
     return;
   }
-  document.getElementById("ordersPhone").value = phone;
-  try { localStorage.setItem("ffcm_customer_phone", phone); } catch (e) {}
+  verifiedCustomerPhone = lookupPhone;
+  document.getElementById("ordersPhone").value = lookupPhone;
+  document.getElementById("loginPhone").value = lookupPhone;
+  showPhoneLogin(lookupPhone);
+  try { localStorage.setItem("ffcm_customer_phone", lookupPhone); } catch (e) {}
 
   message.textContent = "Loading your orders…";
   list.innerHTML = "";
@@ -2059,7 +2022,7 @@ function loadMyOrders() {
     stopMyOrdersListener = null;
   }
 
-  const customerOrdersQuery = query(ref(db, "orders"), orderByChild("phone"), equalTo(phone));
+  const customerOrdersQuery = query(ref(db, "orders"), orderByChild("phone"), equalTo(lookupPhone));
   stopMyOrdersListener = onValue(customerOrdersQuery, snapshot => {
     renderMyOrders(snapshot.val() || {});
   }, error => {
@@ -2085,13 +2048,14 @@ document.getElementById("myOrdersNav").addEventListener("click", () => {
   document.getElementById("homeNav").classList.remove("active");
   document.getElementById("myOrdersNav").classList.add("active");
   window.scrollTo({top:0, behavior:"smooth"});
-  if (auth.currentUser && verifiedCustomerPhone) loadMyOrders();
-  else { document.getElementById("ordersMessage").textContent = "Please log in with OTP above to view your orders."; document.getElementById("ordersList").innerHTML = ""; }
+  if (verifiedCustomerPhone) loadMyOrders();
+  else { document.getElementById("ordersMessage").textContent = "Enter your mobile number above or below to look up orders."; document.getElementById("ordersList").innerHTML = ""; }
 });
 
-// A saved phone number is not authentication; OTP login is required to access orders.
+// Note: mobile-number-only access is not identity verification.
 // ------------------------------------------------
-  document
+
+document
 .getElementById("deliveryType")
 .addEventListener(
 "change",
