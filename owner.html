@@ -1318,8 +1318,6 @@ function renderOrders(
       ordersDiv.prepend(
         note
       );
-
-
       setTimeout(
         () => {
 
@@ -1488,6 +1486,8 @@ async function resumeActiveDelivery(){
             return;
 
           }
+
+
           await updateDeliveryLocation(
             savedOrderId,
             position
@@ -1857,7 +1857,8 @@ function getActionButtons(
   ){
 
     return `
-    <button
+
+      <button
         class="delivery"
         onclick="startDelivery(
           '${escapeJs(orderId)}'
@@ -1944,8 +1945,7 @@ function getActionButtons(
 }
 
 /* ================= PAYMENT FUNCTIONS ================= */
-
-function getOrderTotalNumber(order){
+  function getOrderTotalNumber(order){
 
   const raw = String(order.total || 0)
     .replace(/[₹,\s]/g,"");
@@ -2162,6 +2162,8 @@ async function confirmCashPayment(orderId){
     alert(
       "✅ Cash payment recorded."
     );
+
+
     await loadOrders();
 
   }catch(error){
@@ -2361,8 +2363,7 @@ async function(orderId){
     activeDeliveryOrderId =
       orderId;
 
-
-    localStorage.setItem(
+  localStorage.setItem(
       "farmFreshActiveDeliveryOrder",
       orderId
     );
@@ -2398,7 +2399,8 @@ async function(orderId){
             error
           );
 
-  alert(
+
+          alert(
             "⚠️ Delivery started, but live GPS could not be updated.\n\nPlease allow location permission."
           );
 
@@ -2692,7 +2694,7 @@ async function(orderId){
     alert(
       "✅ Order marked as delivered.\n\n🛑 Live delivery location sharing has been stopped."
     );
-  
+
         }
   catch(error){
 
@@ -3000,7 +3002,6 @@ function playOrderSound(){
       window.webkitAudioContext
     )();
   }
-
   const startSiren = () => {
 
     stopOrderSound();
@@ -3051,7 +3052,8 @@ function playOrderSound(){
       emergencySiren,
       900
     );
-  if(
+
+    if(
       "Notification" in window &&
       Notification.permission === "granted"
     ){
