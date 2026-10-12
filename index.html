@@ -961,8 +961,54 @@ let itemAvailability={};
 let cart={};
 
 
+const CUSTOMER_PRICE_DEFAULTS = {
+  liveChicken:160, dressedChicken:220, skinlessChicken:240, bonelessChicken:420,
+  drumsticks:300, chickenLollipops:300, legsBreast:280, chickenLiver:140,
+  eggsDozen:70, eggsTray:180
+};
+const CUSTOMER_PRICE_KEYS = {
+  "Live Chicken":"liveChicken",
+  "Dressed Chicken":"dressedChicken",
+  "Skinless Chicken":"skinlessChicken",
+  "Boneless Chicken":"bonelessChicken",
+  "Drumsticks":"drumsticks",
+  "Chicken Lollipops":"chickenLollipops",
+  "Legs & Breast":"legsBreast",
+  "Chicken Liver":"chickenLiver",
+  "Eggs - Dozen":"eggsDozen",
+  "Eggs - Tray":"eggsTray"
+};
+let currentProductPrices = {...CUSTOMER_PRICE_DEFAULTS};
+
+function applyCustomerPrices(prices) {
+  currentProductPrices = {...CUSTOMER_PRICE_DEFAULTS};
+  Object.keys(CUSTOMER_PRICE_DEFAULTS).forEach(key => {
+    const value = Number(prices?.[key]);
+    if (Number.isFinite(value) && value >= 0) currentProductPrices[key] = value;
+  });
+
+  document.querySelectorAll("#products .card").forEach(card => {
+    const title = card.querySelector("h3")?.textContent?.trim() || "";
+    const priceBox = card.querySelector(".price");
+    if (!priceBox) return;
+    if (title.includes("Eggs")) {
+      priceBox.innerHTML = `₹${currentProductPrices.eggsDozen} / Dozen<br>₹${currentProductPrices.eggsTray} / Tray`;
+    } else {
+      const key = CUSTOMER_PRICE_KEYS[title];
+    if (key) cart[name].price = currentProductPrices[key];
+  });
+  renderCart();
+}
+
+onValue(ref(db,"productPrices"), snapshot => {
+  applyCustomerPrices(snapshot.val() || {});
+}, error => console.error("Could not load product prices:", error));
+
 window.addProduct=
 function(name,price){
+
+const priceKey = CUSTOMER_PRICE_KEYS[name];
+if (priceKey) price = currentProductPrices[priceKey];
 
 const key=
 ITEM_KEYS[name];
@@ -1116,9 +1162,7 @@ Remove
 `;
 
 });
-
-
-cartItems.innerHTML=
+  cartItems.innerHTML=
 html;
 
 
@@ -1430,9 +1474,7 @@ document.querySelectorAll(
 CSS.escape(name)+
 '"]'
 );
-
-
-buttons.forEach(button=>{
+  buttons.forEach(button=>{
 
 button.disabled=
 !available;
@@ -1680,6 +1722,14 @@ location.lat,
 location.lng
 );
 
+  const distance=
+distanceKm(
+SHOP_LAT,
+SHOP_LNG,
+location.lat,
+location.lng
+);
+
 
 locationMessage(
 "📍 Distance from shop: "+
@@ -1875,8 +1925,7 @@ error.message||
 }
 
 };
-
-// ---------------- MY ORDERS PAGE ----------------
+  // ---------------- MY ORDERS PAGE ----------------
 const TRACK_PAGE_URL = "https://akulasreekaran.github.io/Fram-Fresh-Chicken-Market-/track.html?order=";
 let stopMyOrdersListener = null;
 
