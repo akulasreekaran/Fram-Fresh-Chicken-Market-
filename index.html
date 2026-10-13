@@ -167,9 +167,9 @@ footer{
 }
 
 .shop-availability.open{
-  background:#e8f7e8;
-  color:#166534;
-  border:2px solid #168a35
+  background:#fff3a3;
+  color:#6b4f00;
+  border:2px solid #facc15
 }
 
 .shop-availability.closed{
@@ -267,7 +267,7 @@ body.my-orders-view #shopAvailability{display:none}
 #customerLogin h3{margin:0 0 8px;color:#7f1d1d}
 #customerLogin input{border:1px solid #ddd;margin:7px 0}
 #otpMessage{font-size:14px;line-height:1.5;margin-top:8px;color:#444}
-#loginStatus{font-weight:bold;color:#166534}
+#loginStatus{font-weight:bold;color:#8a6500}
 .otp-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
 .otp-actions button{flex:1;min-width:140px}
 #verifyOtpButton{background:#b91c1c;color:#fff;border:2px solid #facc15;border-radius:10px;padding:12px;font-weight:bold}
@@ -283,6 +283,35 @@ button, a.btn, input, select, textarea {
 }
 button, a.btn { position: relative; z-index: 2; }
 
+
+/* Farm Fresh colour update: yellow accents, red action buttons, no green theme */
+body { background:#fffaf0 !important; }
+header { background:#fff !important; border-bottom:2px solid #facc15 !important; }
+.hero { background:#fff3a3 !important; border-bottom:2px solid #facc15 !important; }
+.shop-availability.open,
+#itemAvailabilityNote,
+#loginStatus { background:#fff3a3 !important; color:#6b4f00 !important; border-color:#facc15 !important; }
+.nav-button,
+.btn,
+button.btn,
+.card button,
+.card .btn,
+.product-card button,
+.product button,
+button[data-product],
+#sendOtpButton,
+#verifyOtpButton,
+#findOrdersButton,
+.orders-action,
+.track-order-btn,
+button[onclick="sendOrder()"] {
+  background:#b91c1c !important;
+  color:#fff !important;
+  border:2px solid #facc15 !important;
+}
+.nav-button.active { background:#b91c1c !important; box-shadow:0 0 0 2px #fde047 !important; }
+.card, .my-order-card, #customerLogin { border-color:#facc15 !important; }
+
 </style>
 </head>
 
@@ -290,7 +319,7 @@ button, a.btn { position: relative; z-index: 2; }
 
 <div id="shopAvailability"
      class="shop-availability open">
-  🟢 Shop is open — orders are available.
+  🟡 Shop is open — orders are available.
 </div>
 
 <header>
@@ -353,7 +382,7 @@ Order Now
 <h2>🐔 Our Products</h2>
 
 <p class="small" id="itemAvailabilityNote">
-🟢 Products marked available can be ordered.
+🟡 Products marked available can be ordered.
 </p>
 
 <div class="grid">
@@ -991,7 +1020,7 @@ function applyCustomerPrices(prices) {
   currentProductPrices = {...CUSTOMER_PRICE_DEFAULTS};
   Object.keys(CUSTOMER_PRICE_DEFAULTS).forEach(key => {
     const value = Number(prices?.[key]);
-    if (Number.isFinite(value) && value >= 0) currentProductPrices[key] = value;
+if (Number.isFinite(value) && value >= 0) currentProductPrices[key] = value;
   });
 
   document.querySelectorAll("#products .card").forEach(card => {
@@ -1021,7 +1050,7 @@ window.addProduct=
 function(name,price){
 
 const priceKey = CUSTOMER_PRICE_KEYS[name];
-  if (priceKey) price = currentProductPrices[priceKey];
+if (priceKey) price = currentProductPrices[priceKey];
 
 const key=
 ITEM_KEYS[name];
@@ -1123,8 +1152,7 @@ item.quantity;
 
 total+=itemTotal;
 
-
-html+=`
+  html+=`
 
 <div class="cart-item">
 
@@ -1291,7 +1319,8 @@ return new Promise(
 if(
 !navigator.geolocation
 ){
-  reject(
+
+reject(
 new Error(
 "GPS is not supported."
 )
@@ -1344,8 +1373,6 @@ maximumAge:0
 });
 
 }
-
-
 async function getOtherLocation(){
 
 const input=
@@ -1582,7 +1609,8 @@ data
 for(
 const product of Object.keys(cart)
 ){
-  const key=
+
+const key=
 ITEM_KEYS[product];
 
 
@@ -1648,10 +1676,8 @@ alert(
 
 return;
 
-}
-
-
-const name=
+  }
+  const name=
 document
 .getElementById("name")
 .value
@@ -1821,8 +1847,7 @@ deliveryType==="me"
 "For Me"
 :
 "For Someone Else",
-
-products:cart,
+  products:cart,
 
 productList:
 productsText,
@@ -1904,8 +1929,7 @@ distance.toFixed(2)+
 " km"
 );
 
-
-alert(
+  alert(
 "Order accepted for delivery area!\n\n"+
 "Distance: "+
 distance.toFixed(2)+
@@ -1913,15 +1937,31 @@ distance.toFixed(2)+
 );
 
 
-window.location.href=
-whatsapp;
+// Open the shop WhatsApp message separately, then return the customer to My Orders.
+try { window.open(whatsapp, "_blank"); } catch (e) {}
 
+// Clear the cart and refresh its display after the order is saved.
+for (const key of Object.keys(cart)) delete cart[key];
+renderCart();
+
+// Keep the phone saved so the new order can be found immediately.
+verifiedCustomerPhone = phone;
+try { localStorage.setItem("ffcm_customer_phone", phone); } catch (e) {}
+showPhoneLogin(phone);
+
+document.body.classList.add("my-orders-view");
+document.getElementById("homeNav").classList.remove("active");
+document.getElementById("myOrdersNav").classList.add("active");
+window.scrollTo({top:0, behavior:"smooth"});
+loadMyOrders();
 
 }
 
 catch(error){
 
 console.error(error);
+
+
 alert(
 error.message||
 "Something went wrong. Please try again."
@@ -1996,7 +2036,7 @@ function renderMyOrders(data) {
         <b>Order time:</b> ${escapeOrderText(formatOrderDate(order.createdAt))}<br>
         <b>Products:</b><br>${productLines}
         <b>Total:</b> ₹${Number(order.total || 0).toFixed(2)}<br>
-        <b>Delivery address:</b> ${escapeOrderText(order.address || "Not provided")}<br>
+           <b>Delivery address:</b> ${escapeOrderText(order.address || "Not provided")}<br>
         <b>Status:</b><br><span class="my-order-status">${escapeOrderText(readableOrderStatus(order.status))}</span>
       </div>
       <a class="track-order-btn" href="${TRACK_PAGE_URL}${encodeURIComponent(id)}">📍 Track Delivery Location</a>
@@ -2006,7 +2046,9 @@ function renderMyOrders(data) {
 }
 
 function loadMyOrders() {
-  const phone = verifiedCustomerPhone || normalizeIndianPhone(document.getElementById("phone").value);
+  let savedPhone = "";
+  try { savedPhone = normalizeIndianPhone(localStorage.getItem("ffcm_customer_phone")); } catch (e) {}
+  const phone = verifiedCustomerPhone || savedPhone || normalizeIndianPhone(document.getElementById("phone").value);
   const message = document.getElementById("ordersMessage");
   const list = document.getElementById("ordersList");
 
@@ -2029,9 +2071,15 @@ function loadMyOrders() {
     stopMyOrdersListener = null;
   }
 
-  const customerOrdersQuery = query(ref(db, "orders"), orderByChild("phone"), equalTo(lookupPhone));
-  stopMyOrdersListener = onValue(customerOrdersQuery, snapshot => {
-    renderMyOrders(snapshot.val() || {});
+  // Read the orders and normalize phone formats so older orders saved as +91XXXXXXXXXX
+  // or 0XXXXXXXXXX also appear for the same customer.
+  stopMyOrdersListener = onValue(ref(db, "orders"), snapshot => {
+    const allOrders = snapshot.val() || {};
+    const matchingOrders = {};
+    for (const [id, order] of Object.entries(allOrders)) {
+      if (normalizeIndianPhone(order && order.phone) === lookupPhone) matchingOrders[id] = order;
+    }
+    renderMyOrders(matchingOrders);
   }, error => {
     console.error("My Orders error:", error);
     message.textContent = "Could not load orders. Please check your connection and try again.";
@@ -2058,6 +2106,13 @@ document.getElementById("myOrdersNav").addEventListener("click", () => {
   if (verifiedCustomerPhone) loadMyOrders();
   else { document.getElementById("ordersMessage").textContent = "Enter your mobile number above or below to look up orders."; document.getElementById("ordersList").innerHTML = ""; }
 });
+
+// Restore the customer's previously entered number after a page refresh.
+try {
+  const savedPhone = normalizeIndianPhone(localStorage.getItem("ffcm_customer_phone"));
+  if (savedPhone) showPhoneLogin(savedPhone);
+} catch (e) {}
+
 
 // Note: mobile-number-only access is not identity verification.
 // ------------------------------------------------
@@ -2095,3 +2150,5 @@ locationMessage(
 
 </body>
 </html>
+
+  
