@@ -308,7 +308,12 @@ button, a.btn { position: relative; z-index: 2; }
   <h3 id="loginHeading">📱 Customer Login with Mobile Number</h3>
   <p class="small">Enter your mobile number to continue without SMS OTP.</p>
   <label for="loginPhone"><b>Mobile number</b></label>
-  <input id="loginPhone" type="tel" inputmode="numeric" autocomplete="tel" maxlength="10" placeholder="10-digit Indian mobile number">
+  <div class="phone-entry-row" style="display:flex;gap:8px;align-items:stretch;width:100%;">
+    <select id="loginCountryCode" aria-label="Country code" style="width:108px;flex:0 0 108px;min-width:0;">
+      <option value="+91" selected>🇮🇳 +91</option>
+    </select>
+    <input id="loginPhone" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="10" placeholder="10-digit mobile number" style="flex:1;min-width:0;">
+  </div>
   <div class="otp-actions">
     <button type="button" id="sendOtpButton">Continue</button>
     <button type="button" id="logoutButton" class="orders-action" style="display:none">Change Number</button>
@@ -858,10 +863,10 @@ let verifiedCustomerPhone = "";
 let stopMyOrdersListener = null;
 
 function normalizeIndianPhone(value) {
-  let digits = String(value || "").replace(/\\D/g, "");
+  let digits = String(value || "").replace(/\D/g, "");
   if (digits.startsWith("91") && digits.length === 12) digits = digits.slice(2);
   if (digits.startsWith("0") && digits.length === 11) digits = digits.slice(1);
-  return /^\\d{10}$/.test(digits) ? digits : "";
+  return /^\d{10}$/.test(digits) ? digits : "";
 }
 function setOtpMessage(message) {
   document.getElementById("otpMessage").textContent = message;
@@ -869,7 +874,7 @@ function setOtpMessage(message) {
 function showPhoneLogin(phone) {
   verifiedCustomerPhone = phone || "";
   const loggedIn = Boolean(verifiedCustomerPhone);
-  document.getElementById("loginStatus").textContent = loggedIn ? "Number selected: +91 " + verifiedCustomerPhone : "";
+  document.getElementById("loginStatus").textContent = loggedIn ? "Number selected: " + (document.getElementById("loginCountryCode").value || "+91") + " " + verifiedCustomerPhone : "";
   document.getElementById("sendOtpButton").textContent = loggedIn ? "Update Number" : "Continue";
   document.getElementById("logoutButton").style.display = loggedIn ? "inline-block" : "none";
   document.getElementById("ordersPhone").value = verifiedCustomerPhone;
@@ -883,7 +888,7 @@ function showPhoneLogin(phone) {
 document.getElementById("sendOtpButton").addEventListener("click", () => {
   const phone = normalizeIndianPhone(document.getElementById("loginPhone").value);
   if (!phone) {
-    setOtpMessage("Enter a valid 10-digit Indian mobile number.");
+    setOtpMessage("Enter a valid 10-digit mobile number.");
     return;
   }
   verifiedCustomerPhone = phone;
@@ -1016,7 +1021,7 @@ window.addProduct=
 function(name,price){
 
 const priceKey = CUSTOMER_PRICE_KEYS[name];
-if (priceKey) price = currentProductPrices[priceKey];
+  if (priceKey) price = currentProductPrices[priceKey];
 
 const key=
 ITEM_KEYS[name];
@@ -1064,7 +1069,7 @@ name+
 
 
 document
-getElementById("order")
+.getElementById("order")
 .scrollIntoView({
 behavior:"smooth"
 });
@@ -1274,7 +1279,8 @@ document
 .getElementById("locationStatus")
 .innerText=
 text;
-  }
+
+}
 
 
 function getMyLocation(){
@@ -1285,8 +1291,7 @@ return new Promise(
 if(
 !navigator.geolocation
 ){
-
-reject(
+  reject(
 new Error(
 "GPS is not supported."
 )
@@ -1461,7 +1466,8 @@ async function checkShopAvailability(){
 
 setInterval(renderShopAvailability,30000);
 
-  function renderItemAvailability(data){
+
+function renderItemAvailability(data){
 
 itemAvailability=
 data||{};
@@ -1576,8 +1582,7 @@ data
 for(
 const product of Object.keys(cart)
 ){
-
-const key=
+  const key=
 ITEM_KEYS[product];
 
 
@@ -1667,7 +1672,9 @@ document
 .getElementById("address")
 .value
 .trim();
-  if(
+
+
+if(
 !name||
 !phone||
 !deliveryType||
@@ -1870,7 +1877,9 @@ await set(
 const trackingLink=
   "https://akulasreekaran.github.io/Fram-Fresh-Chicken-Market-/track.html?order="+
   encodeURIComponent(orderId);
-  const message=
+
+
+const message=
 "🍗 NEW ORDER\n\n"+
 "Name: "+name+"\n"+
 "Phone: "+phone+"\n\n"+
@@ -1913,8 +1922,6 @@ whatsapp;
 catch(error){
 
 console.error(error);
-
-
 alert(
 error.message||
 "Something went wrong. Please try again."
