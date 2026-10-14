@@ -1022,7 +1022,7 @@ let cart={};
 
 
 const CUSTOMER_PRICE_DEFAULTS = {
-liveChicken:160, dressedChicken:220, skinlessChicken:240, bonelessChicken:420,
+  liveChicken:160, dressedChicken:220, skinlessChicken:240, bonelessChicken:420,
   drumsticks:300, chickenLollipops:300, legsBreast:280, chickenLiver:140,
   eggsDozen:70, eggsTray:180
 };
@@ -1307,7 +1307,9 @@ Math.PI/180;
 const dLon=
 (lon2-lon1)*
 Math.PI/180;
-  const a=
+
+
+const a=
 Math.sin(dLat/2)**2+
 Math.cos(lat1*Math.PI/180)*
 Math.cos(lat2*Math.PI/180)*
@@ -1348,8 +1350,7 @@ new Error(
 "GPS is not supported."
 )
 );
-
-return;
+  return;
 
 }
 
@@ -1523,9 +1524,7 @@ function renderItemAvailability(data){
 
 itemAvailability=
 data||{};
-
-
-Object.keys(ITEM_KEYS)
+  Object.keys(ITEM_KEYS)
 .forEach(name=>{
 
 const available=
@@ -1747,8 +1746,9 @@ try{
 
 await checkCartAvailability();
 
-  }
-  catch(error){
+}
+
+catch(error){
 
 alert(
 error.message||
@@ -1788,9 +1788,7 @@ SHOP_LNG,
 location.lat,
 location.lng
 );
-
-
-locationMessage(
+  locationMessage(
 "📍 Distance from shop: "+
 distance.toFixed(2)+
 " km"
@@ -2013,10 +2011,13 @@ function escapeOrderText(value) {
 function readableOrderStatus(status) {
   const labels = {
     new: "⏳ Pending",
+    pending: "⏳ Pending",
     accepted: "✅ Accepted",
     preparing: "🍗 Preparing",
-    out_for_delivery: "🚚 Out for delivery",
-    delivered: "🏠 Delivered",
+    out_for_delivery: "🚚 Delivery Started",
+    delivery_started: "🚚 Delivery Started",
+    delivered: "🎉 Completed",
+    completed: "🎉 Completed",
     rejected: "❌ Rejected"
   };
   return labels[String(status || "new").toLowerCase()] || String(status || "Pending").replaceAll("_", " ");
