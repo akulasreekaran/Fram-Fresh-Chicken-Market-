@@ -897,6 +897,30 @@ function normalizeIndianPhone(value) {
   if (digits.startsWith("0") && digits.length === 11) digits = digits.slice(1);
   return /^\d{10}$/.test(digits) ? digits : "";
 }
+
+// Keep a small same-device copy so a newly placed order can still appear
+// in My Orders if Firebase read permission is unavailable.
+const LOCAL_ORDERS_KEY = "ffcm_local_orders_v1";
+function readLocalOrders(phone) {
+  try {
+    const saved = JSON.parse(localStorage.getItem(LOCAL_ORDERS_KEY) || "{}");
+    const result = {};
+    Object.entries(saved).forEach(([id, order]) => {
+      if (normalizeIndianPhone(order && order.phone) === phone) result[id] = order;
+    });
+    return result;
+  } catch (e) { return {}; }
+}
+function saveLocalOrder(id, order) {
+  try {
+    const saved = JSON.parse(localStorage.getItem(LOCAL_ORDERS_KEY) || "{}");
+    saved[id] = order;
+    localStorage.setItem(LOCAL_ORDERS_KEY, JSON.stringify(saved));
+  } catch (e) {}
+}
+function mergeOrderSets(remoteOrders, localOrders) {
+  return Object.assign({}, localOrders || {}, remoteOrders || {});
+}
 function setOtpMessage(message) {
   document.getElementById("otpMessage").textContent = message;
 }
@@ -998,7 +1022,7 @@ let cart={};
 
 
 const CUSTOMER_PRICE_DEFAULTS = {
-  liveChicken:160, dressedChicken:220, skinlessChicken:240, bonelessChicken:420,
+liveChicken:160, dressedChicken:220, skinlessChicken:240, bonelessChicken:420,
   drumsticks:300, chickenLollipops:300, legsBreast:280, chickenLiver:140,
   eggsDozen:70, eggsTray:180
 };
@@ -1020,7 +1044,7 @@ function applyCustomerPrices(prices) {
   currentProductPrices = {...CUSTOMER_PRICE_DEFAULTS};
   Object.keys(CUSTOMER_PRICE_DEFAULTS).forEach(key => {
     const value = Number(prices?.[key]);
-if (Number.isFinite(value) && value >= 0) currentProductPrices[key] = value;
+    if (Number.isFinite(value) && value >= 0) currentProductPrices[key] = value;
   });
 
   document.querySelectorAll("#products .card").forEach(card => {
@@ -1152,7 +1176,8 @@ item.quantity;
 
 total+=itemTotal;
 
-  html+=`
+
+html+=`
 
 <div class="cart-item">
 
@@ -1282,9 +1307,7 @@ Math.PI/180;
 const dLon=
 (lon2-lon1)*
 Math.PI/180;
-
-
-const a=
+  const a=
 Math.sin(dLat/2)**2+
 Math.cos(lat1*Math.PI/180)*
 Math.cos(lat2*Math.PI/180)*
@@ -1373,6 +1396,8 @@ maximumAge:0
 });
 
 }
+
+
 async function getOtherLocation(){
 
 const input=
@@ -1676,8 +1701,10 @@ alert(
 
 return;
 
-  }
-  const name=
+}
+
+
+const name=
 document
 .getElementById("name")
 .value
@@ -1720,9 +1747,8 @@ try{
 
 await checkCartAvailability();
 
-}
-
-catch(error){
+  }
+  catch(error){
 
 alert(
 error.message||
@@ -1847,7 +1873,8 @@ deliveryType==="me"
 "For Me"
 :
 "For Someone Else",
-  products:cart,
+
+products:cart,
 
 productList:
 productsText,
@@ -1887,6 +1914,8 @@ const orderRef=await push(
 );
 
 const orderId=orderRef.key;
+// Cache this customer's order on this device as a fallback for My Orders.
+saveLocalOrder(orderId, orderData);
 
 await set(
   ref(db,"tracking/"+orderId),
@@ -1929,7 +1958,8 @@ distance.toFixed(2)+
 " km"
 );
 
-  alert(
+
+alert(
 "Order accepted for delivery area!\n\n"+
 "Distance: "+
 distance.toFixed(2)+
@@ -2036,7 +2066,7 @@ function renderMyOrders(data) {
         <b>Order time:</b> ${escapeOrderText(formatOrderDate(order.createdAt))}<br>
         <b>Products:</b><br>${productLines}
         <b>Total:</b> ₹${Number(order.total || 0).toFixed(2)}<br>
-           <b>Delivery address:</b> ${escapeOrderText(order.address || "Not provided")}<br>
+        <b>Delivery address:</b> ${escapeOrderText(order.address || "Not provided")}<br>
         <b>Status:</b><br><span class="my-order-status">${escapeOrderText(readableOrderStatus(order.status))}</span>
       </div>
       <a class="track-order-btn" href="${TRACK_PAGE_URL}${encodeURIComponent(id)}">📍 Track Delivery Location</a>
@@ -2073,16 +2103,34 @@ function loadMyOrders() {
 
   // Read the orders and normalize phone formats so older orders saved as +91XXXXXXXXXX
   // or 0XXXXXXXXXX also appear for the same customer.
+  // Show locally cached orders immediately, then replace/merge them with cloud orders.
+  const localOrders = readLocalOrders(lookupPhone);
+  if (Object.keys(localOrders).length) renderMyOrders(localOrders);
+
   stopMyOrdersListener = onValue(ref(db, "orders"), snapshot => {
     const allOrders = snapshot.val() || {};
     const matchingOrders = {};
     for (const [id, order] of Object.entries(allOrders)) {
       if (normalizeIndianPhone(order && order.phone) === lookupPhone) matchingOrders[id] = order;
     }
-    renderMyOrders(matchingOrders);
+    const combined = mergeOrderSets(matchingOrders, readLocalOrders(lookupPhone));
+    renderMyOrders(combined);
+    message.textContent = Object.keys(matchingOrders).length
+      ? "Showing your orders."
+      :
+      (Object.keys(readLocalOrders(lookupPhone)).length
+          ? "Showing orders saved on this device. Cloud orders were not returned."
+          : "No orders found for this phone number yet. If you placed an order on another device, Firebase access may need to be fixed.");
   }, error => {
-    console.error("My Orders error:", error);
-    message.textContent = "Could not load orders. Please check your connection and try again.";
+    console.error("My Orders Firebase error:", error);
+    const fallbackOrders = readLocalOrders(lookupPhone);
+    if (Object.keys(fallbackOrders).length) {
+      renderMyOrders(fallbackOrders);
+      message.textContent = "Showing orders saved on this device. Firebase cloud access is blocked; older orders may not appear until database access is fixed.";
+    } else {
+      list.innerHTML = "";
+      message.textContent = "Firebase could not load cloud orders (" + (error && error.code ? error.code : "permission/network error") + "). Your database rules currently require authentication to read orders. Phone-number-only login does not authenticate with Firebase.";
+    }
   });
 }
 
@@ -2150,5 +2198,3 @@ locationMessage(
 
 </body>
 </html>
-
-  
